@@ -1,7 +1,7 @@
 package cz.cvut.fel.strobad1.XiangQi.Model.Board.Pieces;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board.Board;
-import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
+import cz.cvut.fel.strobad1.XiangQi.Model.Board.Piece;
 
 // == rook
 public class Chariot extends Piece {

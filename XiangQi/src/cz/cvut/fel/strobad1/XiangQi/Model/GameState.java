@@ -1,17 +1,18 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board.Board;
+import cz.cvut.fel.strobad1.XiangQi.Model.Board.Piece;
 import cz.cvut.fel.strobad1.XiangQi.Model.Board.Pieces.General;
 
 public class GameState {
 
-    private static Player redPlayer;
-    private static Player blackPlayer;
-    private static final boolean blackWins = false;
-    private static final boolean redWins = false;
+    private Player redPlayer;
+    private Player blackPlayer;
+    private final boolean blackWins = false;
+    private final boolean redWins = false;
     private Board gameBoard;
-    private static int turnCounter=-1;
-    private static boolean redTurn=false;
+    private int turnCounter=-1;
+    private boolean redTurn=false;
 
     public GameState() {
 
@@ -52,21 +53,9 @@ public class GameState {
     public void startTurn(){
         //if it was black's turn, it's red's turn now.
         turnCounter++;
-        if(!redTurn){
-            redTurn=true;
-            //it's red's turn;
-
-
-
-
-        }
-        else
-        {
-            //it's black's turn
-            redTurn=false;
-
-
-        }
+        //it's red's turn;
+        //it's black's turn
+        redTurn= !redTurn;
 
         //check if you have any legal moves ELSE game ends via stalemate
 
