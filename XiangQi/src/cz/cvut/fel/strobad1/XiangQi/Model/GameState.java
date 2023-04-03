@@ -24,33 +24,6 @@ public class GameState {
 
     private void newTurn() {
 
-        startTurn();
-
-
-        endTurnChecks();
-
-    }
-
-    private void endTurnChecks() {
-// CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.
-    }
-
-
-
-    public void startGame() {
-        turnCounter= -1;
-        // possibly add name selection, low importance
-        redPlayer = new Player("red");
-        blackPlayer = new Player("black");
-
-        gameBoard.resetBoard();
-
-
-
-
-    }
-
-    public void startTurn(){
         //if it was black's turn, it's red's turn now.
         turnCounter++;
         //it's red's turn;
@@ -60,18 +33,32 @@ public class GameState {
         //check if you have any legal moves ELSE game ends via stalemate
 
 
+        endTurnChecks();
+
+    }
+    private void endTurnChecks() {
+// CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.
+    }
+
+    public void startGame() {
+        turnCounter= -1;
+        // possibly add name selection, low importance
+        redPlayer = new Player("red");
+        blackPlayer = new Player("black");
+
+        gameBoard.resetBoard();
     }
 
     private Piece getRedGeneral() {
 
-        General redGeneral = null;
+        Piece redGeneral = null;
 
         return redGeneral;
     }
 
     private Piece getBlackGeneral() {
 
-        General blackGeneral = null;
+        Piece blackGeneral = null;
 
         return blackGeneral;
     }

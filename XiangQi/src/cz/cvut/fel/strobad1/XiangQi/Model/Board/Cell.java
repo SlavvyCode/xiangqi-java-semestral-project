@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.Model.Board;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board.Board;
 import cz.cvut.fel.strobad1.XiangQi.Model.Board.Piece;
@@ -24,5 +24,19 @@ public class Cell {
         this.pieceOnCell = null;
     }
 
+    public Piece getPieceOnCell() {
+        return pieceOnCell;
+    }
 
+    public void setPieceOnCell(Piece pieceOnCell) {
+        this.pieceOnCell = pieceOnCell;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
 }

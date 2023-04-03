@@ -1,7 +1,5 @@
 package cz.cvut.fel.strobad1.XiangQi.Model.Board;
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
-
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -45,7 +43,6 @@ public class Board {
     public Board() {
         cellMap = new LinkedHashMap<>();
         moveHistory = new LinkedHashMap<>();
-
     }
 
     public Board(Map<String, Cell> cellMap, Map<String, String> moveHistory) {
