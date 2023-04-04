@@ -1,18 +1,16 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Board.Board;
-import cz.cvut.fel.strobad1.XiangQi.Model.Board.Piece;
-import cz.cvut.fel.strobad1.XiangQi.Model.Board.Pieces.General;
+import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.General;
 
 public class GameState {
 
-    private Player redPlayer;
-    private Player blackPlayer;
-    private final boolean blackWins = false;
-    private final boolean redWins = false;
-    private Board gameBoard;
-    private int turnCounter=-1;
-    private boolean redTurn=false;
+    private static Player redPlayer;
+    private static Player blackPlayer;
+    private static final boolean blackWins = false;
+    private static final boolean redWins = false;
+    private static Board gameBoard;
+    private static int turnCounter=-1;
+    private static boolean redTurn=false;
 
     public GameState() {
 
@@ -24,23 +22,20 @@ public class GameState {
 
     private void newTurn() {
 
-        //if it was black's turn, it's red's turn now.
-        turnCounter++;
-        //it's red's turn;
-        //it's black's turn
-        redTurn= !redTurn;
-
-        //check if you have any legal moves ELSE game ends via stalemate
+        startTurn();
 
 
         endTurnChecks();
 
     }
+
     private void endTurnChecks() {
 // CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.
     }
 
-    public void startGame() {
+
+
+    public static void startGame() {
         turnCounter= -1;
         // possibly add name selection, low importance
         redPlayer = new Player("red");
@@ -49,27 +44,81 @@ public class GameState {
         gameBoard.resetBoard();
     }
 
-    private Piece getRedGeneral() {
+    public void startTurn(){
+        //if it was black's turn, it's red's turn now.
+        turnCounter++;
+        if(!redTurn){
+            redTurn=true;
+            //it's red's turn;
+        }
+        else
+        {
+            //it's black's turn
+            redTurn=false;
 
-        Piece redGeneral = null;
 
+        }
+
+        //check if you have any legal moves ELSE game ends via stalemate
+
+
+    }
+
+    private static Piece getRedGeneral() {
+
+        General redGeneral = null;
+
+        for (Piece piece : getGameBoard().getPieceList()) {
+            if (piece instanceof General && piece.getColor() == "red") {
+
+                redGeneral = (General) piece;
+
+
+            }
+
+        }
         return redGeneral;
     }
 
-    private Piece getBlackGeneral() {
+    private static Piece getBlackGeneral() {
 
-        Piece blackGeneral = null;
+        General blackGeneral = null;
 
+        for (Piece piece : getGameBoard().getPieceList()) {
+            if (piece instanceof General && piece.getColor() == "black") {
+
+                blackGeneral = (General) piece;
+
+
+            }
+
+        }
         return blackGeneral;
     }
 
-    public Board getGameBoard() {
+    public static Board getGameBoard() {
         return gameBoard;
     }
 
     //true if general in check
     private boolean checkIfGeneralInCheck() {
 
+        for (Piece piece : gameBoard.getPieceList()) {
+
+            if (piece.getColor()=="red"){
+                //look for black general
+            }
+            else{
+                // look for red general
+            }
+
+
+//            for each valid move
+//            piece.
+//
+//            check if the move can capture the general.
+
+        }
 
 
         return false;
@@ -83,6 +132,8 @@ public class GameState {
         checkIfGeneralInCheck();
 //        if(general1 or general2 checkamted)
 //            redWins or blackWins= true
+
+
         return true;
 
     }

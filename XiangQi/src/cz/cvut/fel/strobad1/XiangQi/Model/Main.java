@@ -1,12 +1,6 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
 public class Main {
-    private static GameState match;
-
-    public static GameState getMatch() {
-        return match;
-    }
-
     public static void main(String[] args) {
 
         //RED STARTS
@@ -14,11 +8,7 @@ public class Main {
         //start game method, switches sides of players
         //set default positions
 
-
-
-
-        match = new GameState();
-        match.startGame();
+        GameState.startGame();
 
 //        while()
 
