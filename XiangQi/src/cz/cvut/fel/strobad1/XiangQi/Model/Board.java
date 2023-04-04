@@ -40,6 +40,21 @@ public class Board {
 
     private Cell[][] cellList = new Cell[rows.length][cols.length];
 
+    public int[] getRows() {
+        return rows;
+    }
+
+    public int[] getCols() {
+        return cols;
+    }
+
+    public Cell[][] getCellList() {
+        return cellList;
+    }
+
+    public Cell getCell(int row, int col) {
+        return cellList[row][col];
+    }
     public Board() {
         for (int i = 0; i < 10; i++) {
             rows[i] = i;

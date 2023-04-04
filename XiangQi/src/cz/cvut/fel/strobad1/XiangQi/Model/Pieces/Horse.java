@@ -6,7 +6,10 @@ package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;
 import cz.cvut.fel.strobad1.XiangQi.Model.GameState;
+import cz.cvut.fel.strobad1.XiangQi.Model.Main;
 import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
+
+import java.util.ArrayList;
 
 import static cz.cvut.fel.strobad1.XiangQi.Model.GameState.gameBoard;
 import static cz.cvut.fel.strobad1.XiangQi.Model.GameState.getGameBoard;
@@ -14,21 +17,22 @@ import static cz.cvut.fel.strobad1.XiangQi.Model.GameState.getGameBoard;
 public class Horse extends Piece {
     private int row;
     private int col;
+    private final float value;
+    Board gameBoard = Main.getMatch().getGameBoard();
     public Horse(int row, int col, String color) {
+
         super(row, col, color);
     }
 
 
-    @Override
-    public boolean isValidMove(int newRow, int newCol) {
-        return false;
-    }
-
-
 
     @Override
-    public int[][] getValidMoves(){
-                //return valid moves for horse
+    public ArrayList<String> getValidMoves(){
+
+
+        ArrayList<String> validMoveList = new ArrayList<String>();
+
+        //return valid moves for horse
         int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
 
         for(int[] offset : offsets) {
@@ -38,7 +42,7 @@ public class Horse extends Piece {
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= gameBoard.ROWS || destCol < 0 || destCol >= gameBoard.COLS) {
+            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
                 continue;
             }
 
@@ -48,11 +52,8 @@ public class Horse extends Piece {
             int blockingCol = col + offset[1] / 2;
 
 
-            for (cell:
-                 GameState.getGameBoard()
-                 ) {
 
-            }
+
             Piece blockingPiece = gameBoard.getCell(blockingRow, blockingCol).getPieceOnCell();
 
 
@@ -61,8 +62,11 @@ public class Horse extends Piece {
             }
 
             // add valid move to list
-            possibleMoveList.add(destRow + "," + destCol);
+
+
+
+            validMoveList.add(destRow + "," + destCol);
         }
-        return possibleMoveList
+        return validMoveList;
     }
 }

@@ -6,7 +6,7 @@ import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
 
 public class Advisor extends Piece {
 
-    private int value = 2;
+    private final int value = 2;
     public Advisor(int row, int col, String color) {
         super(row, col, color);
     }

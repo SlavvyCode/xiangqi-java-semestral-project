@@ -6,42 +6,34 @@ public class GameState {
 
     private static Player redPlayer;
     private static Player blackPlayer;
+
     private static final boolean blackWins = false;
     private static final boolean redWins = false;
-    private static Board gameBoard;
-    private static int turnCounter=-1;
+
+    private Board gameBoard;
+    private static int turnCounter;
+
     private static boolean redTurn=false;
 
     public GameState() {
-
         startGame();
-
-        newTurn();
-
-    }
-
-    private void newTurn() {
-
-        startTurn();
-
-
-        endTurnChecks();
-
     }
 
     private void endTurnChecks() {
-// CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.
+// CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.**************
+        ///TODO
     }
-
-
-
-    public static void startGame() {
+    public void startGame() {
         turnCounter= -1;
         // possibly add name selection, low importance
         redPlayer = new Player("red");
         blackPlayer = new Player("black");
 
         gameBoard.resetBoard();
+
+        while (!blackWins && !redWins){
+            startTurn();
+        }
     }
 
     public void startTurn(){
@@ -56,7 +48,6 @@ public class GameState {
             //it's black's turn
             redTurn=false;
 
-
         }
 
         //check if you have any legal moves ELSE game ends via stalemate
@@ -64,11 +55,11 @@ public class GameState {
 
     }
 
-    private static Piece getRedGeneral() {
+    private Piece getRedGeneral() {
 
         General redGeneral = null;
 
-        for (Piece piece : getGameBoard().getPieceList()) {
+        for (Piece piece : gameBoard.getPieceList()) {
             if (piece instanceof General && piece.getColor() == "red") {
 
                 redGeneral = (General) piece;
@@ -80,11 +71,11 @@ public class GameState {
         return redGeneral;
     }
 
-    private static Piece getBlackGeneral() {
+    private Piece getBlackGeneral() {
 
         General blackGeneral = null;
 
-        for (Piece piece : getGameBoard().getPieceList()) {
+        for (Piece piece : gameBoard.getPieceList()) {
             if (piece instanceof General && piece.getColor() == "black") {
 
                 blackGeneral = (General) piece;
@@ -96,7 +87,7 @@ public class GameState {
         return blackGeneral;
     }
 
-    public static Board getGameBoard() {
+    public Board getGameBoard() {
         return gameBoard;
     }
 

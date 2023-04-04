@@ -7,7 +7,7 @@ import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
 // the cannon can ONLY jump over pieces WHEN capturing, otherwise it moves like a chariot.
 public class Cannon extends Piece {
 
-    private float value = 4.5f;
+    private final float value = 4.5f;
     public Cannon(int row, int col, String color) {
         super(row, col, color);
     }
