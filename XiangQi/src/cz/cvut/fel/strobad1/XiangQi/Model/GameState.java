@@ -2,6 +2,8 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.General;
 
+import java.util.ArrayList;
+
 public class GameState {
 
     private static Player redPlayer;
@@ -11,6 +13,7 @@ public class GameState {
     private static final boolean redWins = false;
 
     private Board gameBoard;
+    private ArrayList<Board> moveHistory;
     private static int turnCounter;
 
     private static boolean redTurn=false;

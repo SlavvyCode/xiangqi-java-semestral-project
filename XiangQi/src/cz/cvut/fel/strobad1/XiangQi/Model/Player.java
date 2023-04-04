@@ -2,10 +2,14 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.Soldier;
 
+import java.util.ArrayList;
+
 
 public class Player {
 
-    String color;
+    private String color;
+    private ArrayList<Piece> piecesCaptured;
+    private float score;
     public Player(String color) {
         this.color = color;
         //maybe add pieces Captured / pieces lost
