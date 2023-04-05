@@ -4,10 +4,7 @@ package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 //       O
 //       X     knight=horse=X
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Board;
-import cz.cvut.fel.strobad1.XiangQi.Model.GameState;
-import cz.cvut.fel.strobad1.XiangQi.Model.Main;
-import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
+import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
 import java.util.ArrayList;
 
@@ -27,10 +24,10 @@ public class Horse extends Piece {
 
 
     @Override
-    public ArrayList<String> getValidMoves(){
+    public ArrayList<Cell> getValidMoves(){
 
 
-        ArrayList<String> validMoveList = new ArrayList<String>();
+        ArrayList<Cell> validMoveList = new ArrayList<Cell>();
 
         //return valid moves for horse
         int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
@@ -65,8 +62,9 @@ public class Horse extends Piece {
 
 
 
-            validMoveList.add(destRow + "," + destCol);
+            validMoveList.add(gameBoard.getCell(destRow,destCol));
         }
         return validMoveList;
     }
+
 }

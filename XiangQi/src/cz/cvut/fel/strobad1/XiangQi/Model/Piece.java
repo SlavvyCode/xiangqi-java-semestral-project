@@ -20,8 +20,28 @@ public abstract class Piece {
         board.updateCell(row,col,this);
     }
 
-    public abstract ArrayList getValidMoves();
-    public abstract boolean isValidMove(int newRow, int newCol);
+
+    /**
+     * returns an arraylist of all of the piece's valid moves.
+     * @return an arraylist of all of the piece's valid moves.
+     */
+    public abstract ArrayList<Cell> getValidMoves();
+
+
+    /**
+     * checks if a given move is valid
+     * @param newRow the row of the move being checked
+     * @param newCol the col of the move being checked
+     * @return true if the move is valid, else false
+     */
+    public boolean isValidMove(int newRow, int newCol){
+
+        Cell newCell = board.getCell(newRow,newCol);
+
+        if(getValidMoves().contains(newCell)){
+            return true;
+        }
+    }
     public boolean move(int newRow,int newCol) {
 
     // A method that moves a piece to a new position if valid
@@ -39,6 +59,11 @@ public abstract class Piece {
             return false; // Move invalid
         }
     }
+
+    /**
+     * returns the color of the piece
+     * @return color of the piece
+     */
     public String getColor() {
         return color;
     }

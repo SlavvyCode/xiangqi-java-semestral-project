@@ -12,18 +12,38 @@ public class Cell {
         this.isPalace = isPalace;
     }
 
+
+    /**
+     * gets the color of the player who owns the piece
+     * @return color of the player who owns the piece
+     */
     public String getSideColor() {
         return sideColor;
     }
 
+
+    /**
+     * returns information about whether this cell is in the palace or not
+     * @return true if cell is in palace, false if not
+     */
     public Boolean getPalace() {
         return isPalace;
     }
+
+
+    /**
+     * returns the piece standing on the cell
+     * @return  piece standing on the cell
+     */
 
     public Piece getPieceOnCell() {
         return pieceOnCell;
     }
 
+    /**
+     * place a piece on this cell, this constitutes as removing a piece from play also.
+     * @param pieceOnCell the piece we want to set on this cell
+     */
     public void setPieceOnCell(Piece pieceOnCell) {
         this.pieceOnCell = pieceOnCell;
     }

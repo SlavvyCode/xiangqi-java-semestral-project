@@ -10,6 +10,9 @@ public class Player {
     private String color;
     private ArrayList<Piece> piecesCaptured;
     private float score;
+
+
+
     public Player(String color) {
         this.color = color;
         //maybe add pieces Captured / pieces lost

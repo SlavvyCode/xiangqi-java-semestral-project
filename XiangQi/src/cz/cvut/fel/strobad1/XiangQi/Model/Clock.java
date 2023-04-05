@@ -10,6 +10,11 @@ public class Clock {
     private Duration blackTime = Duration.ofMinutes(10);;
 
 
+/**
+ * keeps track of time
+ *
+  */
+
 
 // Define the Timer object and set its delay and interval
 

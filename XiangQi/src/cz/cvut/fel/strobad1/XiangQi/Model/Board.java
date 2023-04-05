@@ -79,8 +79,10 @@ public class Board {
         this.cellList = cellList;
     }
 
-
-    public void resetBoard() {
+    /**
+     * sets up piecs on the board.
+     */
+    public void setUpPieces() {
         pieceList.removeAll(pieceList);
         pieceList = new ArrayList<Piece>();
         Soldier soldierRed1 = new Soldier(0,0, "red");
@@ -96,11 +98,43 @@ public class Board {
 
     }
 
+    /**
+     * returns the cell which has a certain piece - for example, the red general, otherwise, throws a nullPointerException
+     * @param pieceToFind
+     * @return the cell of the piece we have.
+     */
+    public Cell getFirstCellWithPiece(Piece pieceToFind){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                // TODO MAKE BETTER if needed? This only finds the FIRST cell with a piece instead of all of them. but i dont need it?????
+                if(getCell(i,j).getPieceOnCell()==pieceToFind)
+                {
+                    return getCell(i,j);
+                }
+
+            }
+
+        }
+
+        throw new NullPointerException();
+    }
+
+    /**
+     * removes or sets a piece on a cell that we decide by its coordinates
+     * @param row the board's row
+     * @param col the board's col
+     * @param piece the piece or lack thereof that we want to put or remove from the cell.
+     */
     public void updateCell(int row, int col, Piece piece) {
         Cell selectedCell = cellList[row][col];
         selectedCell.setPieceOnCell(piece);
     }
 
+
+    /**
+     * returns the list of pieces on the board
+     * @return the list of pieces on the board
+     */
     public ArrayList<Piece> getPieceList() {
         return pieceList;
     }

@@ -1,7 +1,10 @@
 package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;
+import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
 import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
+
+import java.util.ArrayList;
 
 // == rook
 public class Chariot extends Piece {
@@ -13,8 +16,9 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public int[][] getValidMoves() {
-        return new int[0][];
+    public ArrayList<Cell> getValidMoves() {
+
+        return ;
     }
 
     @Override
