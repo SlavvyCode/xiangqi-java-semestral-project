@@ -9,7 +9,7 @@ public class SaveManager {
 
 
     /**
-     * loads game
+     * Loads game from file
      * @param board
      */
     public void loadGame(Board board){
@@ -18,7 +18,7 @@ public class SaveManager {
 
 
     /**
-     * saves game
+     * Saves game to file
      * @param board
      */
     public void saveGame(Board board){

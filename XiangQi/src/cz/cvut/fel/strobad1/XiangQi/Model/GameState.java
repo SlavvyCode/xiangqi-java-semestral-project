@@ -10,7 +10,7 @@ public class GameState {
     private static Player redPlayer;
     private static Player blackPlayer;
 
-    private static final boolean blackWins = false;
+    private static boolean blackWins = false;
     private static final boolean redWins = false;
 
     private Board gameBoard;
@@ -40,8 +40,8 @@ public class GameState {
 
 
     /**
+     * Starts the instance of the game
      *
-     * starts game
      */
     public void startGame() {
         turnCounter= -1;
@@ -58,7 +58,7 @@ public class GameState {
 
 
     /**
-     * turn start operation happens every turn
+     * Turn start operation that happens every turn.
      */
 
     public void startTurn(){
@@ -82,7 +82,7 @@ public class GameState {
 
 
     /**
-     * getter for the red general
+     * Get red general by looping through the pieceList of the board else throw NullPointerException
      * @return red general
      */
     private Piece getRedGeneral() {
@@ -101,8 +101,8 @@ public class GameState {
     }
 
     /**
-     * getter for the black general
-     * @return red general
+     * Get black general by looping through the pieceList of the board else throw NullPointerException
+     * @return black general
      */
     private Piece getBlackGeneral() {
 
@@ -143,7 +143,7 @@ public class GameState {
     }
 
     /**
-     *  loops through each of the pieces that can move to the red general's location and returns them as an arraylist
+     * Loops through each of the pieces that can move to the red general's location and returns them as an arraylist.
      * @return all pieces checking the red general
      */
     private ArrayList<Piece> getPiecesCheckingRedGeneral() {
@@ -161,14 +161,15 @@ public class GameState {
 
 
     /**
-     * it checks if the king is checked, checks if the player can get rid of them or block their path,
+     * Checks if the king is checked, then if the checked player can get rid of the checking pieces or block their path.
+     * if yes, returns false.
      * else returns true, since the general is checkmated
      * @return true if player whose turn it is won
      */
     private boolean checkMateCheck() {
         General blackGeneral =(General) getRedGeneral();
         General redGeneral = (General)getBlackGeneral();
-        ArrayList checkingPieces;
+        ArrayList<Piece> checkingPieces;
         if (redTurn){
 
             checkingPieces = getPiecesCheckingRedGeneral();
@@ -178,26 +179,26 @@ public class GameState {
                 return false;
             }
 
-            //// TODO IS THIS A BAD THING? INTELLIJ FORCES OBJECT
+            //TODO add a check for if player can block a piece's movement --> go make a new board and check things there
+
             // if defending side can take checking piece
             for (Piece checkingPiece : checkingPieces) {
-
                 for (Piece defendingPiece: gameBoard.getPieceList()) {
-
-
                     //TODO DESTROY THIS MONSTROSITY
-                    defendingPiece.getValidMoves().contains(gameBoard.getFirstCellWithPiece(checkingPiece))
+                    //a defending move can take checking piece
+                    if(defendingPiece.getValidMoves().contains(gameBoard.getFirstCellWithPiece(checkingPiece))){
+                        continue;
+                    }
+                    else{
+                        blackWins=true;
+                        return true;
+                    }
                 }
-                if (piece.getValidMoves().contains())
             }
-
         }
         else {
             getPiecesCheckingBlackGeneral();
         }
-
-        //        if(general1 or general2 checkamted)
-//            redWins or blackWins= true
 
 
         return true;

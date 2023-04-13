@@ -9,7 +9,6 @@ public abstract class Piece {
     private int row;
     private int col;
     private final String color;
-    int[][] offsets;
 
     Board board = Main.getMatch().getGameBoard();
 
@@ -22,14 +21,13 @@ public abstract class Piece {
 
 
     /**
-     * returns an arraylist of all of the piece's valid moves.
-     * @return an arraylist of all of the piece's valid moves.
+     * returns an arraylist of all the piece's valid moves.
      */
     public abstract ArrayList<Cell> getValidMoves();
 
 
     /**
-     * checks if a given move is valid
+     * Checks if a given move is valid.
      * @param newRow the row of the move being checked
      * @param newCol the col of the move being checked
      * @return true if the move is valid, else false
@@ -41,6 +39,7 @@ public abstract class Piece {
         if(getValidMoves().contains(newCell)){
             return true;
         }
+        return false;
     }
     public boolean move(int newRow,int newCol) {
 
@@ -60,10 +59,6 @@ public abstract class Piece {
         }
     }
 
-    /**
-     * returns the color of the piece
-     * @return color of the piece
-     */
     public String getColor() {
         return color;
     }

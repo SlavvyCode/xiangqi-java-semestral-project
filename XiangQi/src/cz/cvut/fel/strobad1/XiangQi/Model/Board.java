@@ -80,7 +80,7 @@ public class Board {
     }
 
     /**
-     * sets up piecs on the board.
+     * Sets up piecs on the board.
      */
     public void setUpPieces() {
         pieceList.removeAll(pieceList);
@@ -99,7 +99,7 @@ public class Board {
     }
 
     /**
-     * returns the cell which has a certain piece - for example, the red general, otherwise, throws a nullPointerException
+     * Returns the cell which has a certain piece - for example, the red general, otherwise, throws a nullPointerException.
      * @param pieceToFind
      * @return the cell of the piece we have.
      */
@@ -120,7 +120,7 @@ public class Board {
     }
 
     /**
-     * removes or sets a piece on a cell that we decide by its coordinates
+     * Removes or sets a piece on a cell that we decide by its coordinates.
      * @param row the board's row
      * @param col the board's col
      * @param piece the piece or lack thereof that we want to put or remove from the cell.
@@ -129,12 +129,6 @@ public class Board {
         Cell selectedCell = cellList[row][col];
         selectedCell.setPieceOnCell(piece);
     }
-
-
-    /**
-     * returns the list of pieces on the board
-     * @return the list of pieces on the board
-     */
     public ArrayList<Piece> getPieceList() {
         return pieceList;
     }

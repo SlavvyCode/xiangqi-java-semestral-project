@@ -8,8 +8,6 @@ import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
 import java.util.ArrayList;
 
-import static cz.cvut.fel.strobad1.XiangQi.Model.GameState.gameBoard;
-import static cz.cvut.fel.strobad1.XiangQi.Model.GameState.getGameBoard;
 
 public class Horse extends Piece {
     private int row;

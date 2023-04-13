@@ -10,10 +10,22 @@ public class Clock {
     private Duration blackTime = Duration.ofMinutes(10);;
 
 
-/**
- * keeps track of time
- *
-  */
+    /**
+     * Starts the countdown of the timer
+     * @param playerTime
+     */
+    public void startCountdown(Duration playerTime){
+
+}
+
+    /**
+     * Stops the countdown of the timer
+     * @param playerTime
+     */
+    public void stopCountdown(Duration playerTime){
+
+}
+
 
 
 // Define the Timer object and set its delay and interval
