@@ -1,0 +1,8 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(’•Î™
+C
+java:S1170
+"!Make this final field static too.(‘¸»Üþÿÿÿÿ8°¾½Ùô0
+D
+java:S1068
+")Remove this unused "value" private field.(‘¸»Üþÿÿÿÿ
