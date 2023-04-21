@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;
 import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
@@ -18,7 +18,7 @@ public class Chariot extends Piece {
     @Override
     public ArrayList<Cell> getValidMoves() {
 
-        return ;
+        return null;
     }
 
     @Override

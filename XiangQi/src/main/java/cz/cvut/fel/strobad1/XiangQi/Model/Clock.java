@@ -1,8 +1,5 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.Duration;
 
 public class Clock {

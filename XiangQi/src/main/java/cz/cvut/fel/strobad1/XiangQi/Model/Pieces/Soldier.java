@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;

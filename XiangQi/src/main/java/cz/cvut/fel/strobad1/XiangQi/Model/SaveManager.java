@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SaveManager {
 
 
-    public ArrayList<GameState> saveFileList;
+    public ArrayList<Match> saveFileList;
 
 
     /**

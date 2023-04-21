@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;
 import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
 import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
@@ -19,7 +19,6 @@ public class Advisor extends Piece {
         return null;
     }
 
-    @Override
     public boolean isValidMove(Board board, int newRow, int newCol) {
         return false;
     }

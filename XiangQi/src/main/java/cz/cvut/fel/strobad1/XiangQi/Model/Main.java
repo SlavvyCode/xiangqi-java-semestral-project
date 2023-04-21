@@ -1,9 +1,9 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
 public class Main {
-    private static GameState match;
+    private static Match match;
 
-    public static GameState getMatch() {
+    public static Match getMatch() {
         return match;
     }
 
@@ -17,7 +17,7 @@ public class Main {
 
 
 
-        match = new GameState();
+        match = new Match();
         match.startGame();
 
 //        while()

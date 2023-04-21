@@ -17,3 +17,5 @@ j
 0src/cz/cvut/fel/strobad1/XiangQi/Model/Main.java,9\5\95a265801fd7bfa75c7e40a24ef42a17fa8b2adc
 h
 8src/cz/cvut/fel/strobad1/XiangQi/Model/Pieces/Horse.java,2\9\29193f8ac6e25eba3a4a2a7d740b19c1d0182063
+a
+1src/cz/cvut/fel/strobad1/XiangQi/Model/Clock.java,2\0\20d88581f3f6905c1f3a7b975a2f166c332432d2

@@ -1,7 +1,11 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
+
+import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
 import cz.cvut.fel.strobad1.XiangQi.Model.Board;
 import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
+
+import java.util.ArrayList;
 
 // moves like a chariot but captures only after jumping over another piece.
 // the cannon can ONLY jump over pieces WHEN capturing, otherwise it moves like a chariot.
@@ -13,6 +17,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public ArrayList<Cell> getValidMoves() {
+        return null;
+    }
+
+
     public boolean isValidMove(Board board, int newRow, int newCol) {
         return false;
     }

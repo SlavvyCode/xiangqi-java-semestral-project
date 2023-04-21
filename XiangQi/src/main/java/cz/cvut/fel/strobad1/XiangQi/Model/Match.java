@@ -2,10 +2,9 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class GameState {
+public class Match {
 
     private static Player redPlayer;
     private static Player blackPlayer;
@@ -24,7 +23,7 @@ public class GameState {
      * Constructor starts game
      *
      */
-    public GameState() {
+    public Match() {
         startGame();
     }
 
