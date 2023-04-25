@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Horse extends Piece {
     private int row;
     private int col;
-    private final float value;
+    private final float value = 4;
     Board gameBoard = Main.getMatch().getGameBoard();
     public Horse(int row, int col, String color) {
 

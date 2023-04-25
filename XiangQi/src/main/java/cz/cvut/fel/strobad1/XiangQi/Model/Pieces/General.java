@@ -3,6 +3,8 @@ package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
+import java.util.ArrayList;
+
 public class General extends Piece {
 
     private float value = 0;
@@ -11,7 +13,13 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isValidMove(Board board, int newRow, int newCol) {
+    public ArrayList<Cell> getValidMoves() {
+        return null;
+    }
+
+
+    @Override
+    public boolean isValidMove(int newRow, int newCol) {
         return false;
     }
 }

@@ -43,7 +43,6 @@ public abstract class Piece {
         return false;
     }
     public boolean move(int newRow,int newCol) {
-
     // A method that moves a piece to a new position if valid
         if(isValidMove(newRow,newCol)) {
             board.updateCell(this.row,this.col,null);
@@ -62,5 +61,13 @@ public abstract class Piece {
 
     public String getColor() {
         return color;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 }

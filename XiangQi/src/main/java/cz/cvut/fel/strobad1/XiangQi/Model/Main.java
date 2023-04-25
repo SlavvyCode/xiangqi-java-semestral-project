@@ -6,11 +6,11 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-//    private static Match match;
-//
-//    public static Match getMatch() {
-//        return match;
-//    }
+    private static Match match;
+
+    public static Match getMatch() {
+        return match;
+    }
 
 //    public static void main(String[] args) {
 

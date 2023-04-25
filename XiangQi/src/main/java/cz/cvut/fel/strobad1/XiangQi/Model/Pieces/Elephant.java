@@ -16,8 +16,9 @@ public class Elephant extends Piece {
         return null;
     }
 
-    @Override
     public boolean isValidMove(Board board, int newRow, int newCol) {
         return false;
     }
+
+
 }

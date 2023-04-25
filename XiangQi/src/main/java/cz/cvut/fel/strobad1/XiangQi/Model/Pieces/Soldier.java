@@ -16,22 +16,19 @@ public class Soldier extends Piece{
     }
 
     @Override
-    public void Move() {
+    public boolean isValidMove(int newRow, int newCol) {
 
         //like pawn but only forward, after river also side.
-        if(color=="red" && row>4){
+        if(this.getColor() =="red"&& this.getRow()>5){
             //moves up and L,R
 
         }
 
-        if(color=="black"&& row<5){
+        if(this.getColor() =="black"&& this.getRow()<5){
 //            moves down and LR
 
         }
-    }
 
-    @Override
-    public boolean isValidMove(Board board, int newRow, int newCol) {
         return false;
     }
 }

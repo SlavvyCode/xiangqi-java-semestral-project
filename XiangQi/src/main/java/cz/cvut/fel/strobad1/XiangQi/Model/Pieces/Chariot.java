@@ -24,8 +24,4 @@ public class Chariot extends Piece {
         return false;
     }
 
-    @Override
-    public boolean isValidMove(Board board, int newRow, int newCol) {
-        return false;
-    }
 }

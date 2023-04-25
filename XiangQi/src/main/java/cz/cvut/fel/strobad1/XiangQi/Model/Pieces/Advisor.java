@@ -21,7 +21,4 @@ public class Advisor extends Piece {
         return new ArrayList<Cell>();
     }
 
-    public boolean isValidMove(Board board, int newRow, int newCol) {
-        return false;
-    }
 }

@@ -8,6 +8,6 @@ public class MenuGUI {
      */
 
     public String getSelectedOption(){
-
+        return null;
     }
 }

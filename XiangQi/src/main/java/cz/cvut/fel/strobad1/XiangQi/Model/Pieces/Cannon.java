@@ -20,7 +20,4 @@ public class Cannon extends Piece {
     }
 
 
-    public boolean isValidMove(Board board, int newRow, int newCol) {
-        return false;
-    }
 }

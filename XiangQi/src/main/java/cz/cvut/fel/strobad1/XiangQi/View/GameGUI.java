@@ -2,7 +2,7 @@ package cz.cvut.fel.strobad1.XiangQi.View;
 
 
 import javafx.scene.layout.GridPane;
-
+import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
 public class GameGUI extends GridPane {
 
@@ -22,7 +22,7 @@ public class GameGUI extends GridPane {
      */
 
     public Piece getSelectedPiece(){
-
+        return null;
     }
 
     /**
@@ -51,6 +51,7 @@ public class GameGUI extends GridPane {
      */
     public Cell getSelectedCell(){
 
+        return null;
     }
 
     /**
