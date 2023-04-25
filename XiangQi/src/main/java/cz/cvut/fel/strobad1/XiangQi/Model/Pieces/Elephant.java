@@ -1,7 +1,7 @@
-package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 // moves in an X shape, two fields away. it cannot jump over units
 
-import main.java.cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
 import java.util.ArrayList;
 

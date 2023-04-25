@@ -1,8 +1,8 @@
-package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 
 
 
-import main.java.cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.Model.*;
 
 
 import java.util.ArrayList;

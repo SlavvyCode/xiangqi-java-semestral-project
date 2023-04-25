@@ -1,10 +1,10 @@
-package main.java.cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
 //like a knight in chess except:
 //      A_A       if O has target, cannot move.
 //       O
 //       X     knight=horse=X
 
-import main.java.cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.Model.*;
 import java.util.ArrayList;
 
 
