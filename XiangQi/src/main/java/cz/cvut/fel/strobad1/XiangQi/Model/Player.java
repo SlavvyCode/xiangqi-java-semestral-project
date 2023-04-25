@@ -1,6 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
-
-import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.Soldier;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model;
 
 import java.util.ArrayList;
 

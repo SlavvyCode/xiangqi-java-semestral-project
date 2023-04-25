@@ -1,5 +1,6 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 

@@ -1,10 +1,10 @@
 package cz.cvut.fel.strobad1.XiangQi.View;
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Cell;
-import cz.cvut.fel.strobad1.XiangQi.Model.Piece;
-import cz.cvut.fel.strobad1.XiangQi.Model.Player;
 
-public class GameGUI {
+import javafx.scene.layout.GridPane;
+
+
+public class GameGUI extends GridPane {
 
 
     /**

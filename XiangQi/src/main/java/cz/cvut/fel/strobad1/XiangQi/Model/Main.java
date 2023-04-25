@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package main.java.cz.cvut.fel.strobad1.XiangQi.Model;
 
 public class Main {
     private static Match match;

@@ -1,8 +1,0 @@
-
-{
-java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÒÃü‚şÿÿÿÿ8Æ…¡Úô0
-u	java:S135!"YReduce the total number of break and continue statements in this loop to use at most one.(ïßÎÃ8Ê¼ Úô0
-v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(’•Î™8Ë¼ Úô0
-X	java:S125#"<This block of commented-out lines of code should be removed.(±ö°8è¼ Úô0
-F
-java:S1068")Remove this unused "value" private field.(Á÷ìû8ê¼ Úô0
