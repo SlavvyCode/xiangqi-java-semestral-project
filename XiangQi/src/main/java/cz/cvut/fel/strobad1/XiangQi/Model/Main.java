@@ -5,6 +5,31 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.stage.Stage;
 
+
+
+
+import javafx.application.Application;
+
+import javafx.scene.Group;
+
+import javafx.scene.Scene;
+
+import javafx.scene.control.Accordion;
+
+import javafx.scene.control.Button;
+
+import javafx.scene.control.TitledPane;
+
+import javafx.scene.layout.*;
+
+import javafx.scene.paint.Color;
+
+import javafx.scene.transform.Scale;
+
+import javafx.stage.Stage;
+
+
+
 public class Main extends Application {
     private static Match match;
 
@@ -19,7 +44,7 @@ public class Main extends Application {
 //        //start game method, switches sides of players
 //        //set default positions
 //
-//
+//`
 //
 //
 //        match = new Match();
@@ -32,9 +57,12 @@ public class Main extends Application {
 //        System.out.println("x wins!");
 //
 
+
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/cvut/fel/strobad1/XiangQi/Model/LoadMenu.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -46,5 +74,9 @@ public class Main extends Application {
     }
 
 }
+
+
+
+
 
 
