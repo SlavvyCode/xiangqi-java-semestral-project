@@ -12,6 +12,7 @@ module cz.cvut.fel.strobad1.XiangQi {
     opens cz.cvut.fel.strobad1.XiangQi.controller to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
     opens cz.cvut.fel.strobad1.XiangQi.view to javafx.fxml, javafx.base, javafx.graphics, javafx.controls;
     exports cz.cvut.fel.strobad1.XiangQi.controller;
-    exports cz.cvut.fel.strobad1.XiangQi.Model to javafx.graphics;
+    exports cz.cvut.fel.strobad1.XiangQi.Model to javafx.graphics, javafx.fxml;
+
 }
 

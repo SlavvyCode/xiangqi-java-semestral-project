@@ -3,6 +3,8 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
+import javafx.scene.control.ListView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -61,16 +63,26 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/cvut/fel/strobad1/XiangQi/Model/LoadMenu.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage stage) throws Exception {
+
+
+        Parent root = FXMLLoader.load(getClass().getResource("/LoadMenu.fxml"));
+
+        Scene scene = new Scene(root, 800, 600);
+
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+
+
+
+        stage.setTitle("FXML Welcome");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
+
     }
 
 }
