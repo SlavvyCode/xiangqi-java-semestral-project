@@ -6,34 +6,31 @@ import java.util.ArrayList;
 
 public abstract class Piece {
 
+    protected final String color;
     //location of figure
     protected int row;
     protected int col;
-    protected final String color;
-
     protected Board board;
     Match match = Main.getMatch();
 
-
-
-    public abstract int[][] getOffsets();
 
     public Piece(int row, int col, String color, Board board) {
         this.row = row;
         this.col = col;
         this.color = color;
         this.board = board;
-        board.updateCell(row,col,this);
+        board.updateCell(row, col, this);
 
     }
 
+    public abstract int[][] getOffsets();
 
     /**
      * returns an arraylist of all the piece's valid moves.
      */
-    public ArrayList<Cell> getValidMoves(){
+    public ArrayList<Cell> getValidMoves() {
 
-        int[][]offsets = getOffsets();
+        int[][] offsets = getOffsets();
 
 
         Board board = Main.getMatch().getGameBoard();
@@ -43,7 +40,7 @@ public abstract class Piece {
         //example offsets for king
         //int[][] offsets = {{+1, 0},{-1,0},{0,+1},{0,-1}};
 
-        for(int[] offset : offsets) {
+        for (int[] offset : offsets) {
 
             //each offset is for example {1,2}
 
@@ -55,10 +52,10 @@ public abstract class Piece {
                 continue;
             }
 
-//            if the general can move to this new spot and not cause any checkmates, it's in the valid move list
+//            if the piece can move to this new spot and not let a checkmate happen, it's in the valid move list
 
-            Cell currentCell = board.getCell(this.getRow(),this.getCol());
-            Cell destCell = board.getCell(destRow,destCol);
+            Cell currentCell = board.getCell(this.getRow(), this.getCol());
+            Cell destCell = board.getCell(destRow, destCol);
 
 //            gets placed back if checkmates arise.
             Piece destCellOriginalPiece = destCell.getPieceOnCell();
@@ -69,41 +66,48 @@ public abstract class Piece {
 
             int amountOfCheckingPieces;
 
-            if(this.color=="red"){
-
-            amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
-            }
-            else
-            {
-             amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
+            if (this.color == "red") {
+                amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
+            } else {
+                amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
             }
 
 
             currentCell.setPieceOnCell(this);
             destCell.setPieceOnCell(destCellOriginalPiece);
 
-            if(amountOfCheckingPieces>0){
+            if (amountOfCheckingPieces > 0) {
                 continue;
             }
 
-            moveList.add(board.getCell(destRow,destCol));
+
+            if(match.flyingGeneralCheck() == true){
+                continue;
+            }
+
+
+
+            moveList.add(board.getCell(destRow, destCol));
 
         }
         return moveList;
-    };
+    }
+
+    ;
 
 
     /**
      * Checks if a given move is valid.
+     *
      * @param newRow the row of the move being checked
      * @param newCol the col of the move being checked
      * @return true if the move is valid, else false
      */
-    public boolean isValidMove(int newRow, int newCol){
+    public boolean isValidMove(int newRow, int newCol) {
 
-        Cell newCell = board.getCell(newRow,newCol);
+        Cell newCell = board.getCell(newRow, newCol);
 
-        if(getValidMoves().contains(newCell)){
+        if (getValidMoves().contains(newCell)) {
             return true;
         }
         return false;
@@ -118,19 +122,18 @@ public abstract class Piece {
     public abstract ArrayList<Cell> getMoveList();
 
 
-    public boolean move(int newRow,int newCol) {
-    // A method that moves a piece to a new position if valid
-        if(isValidMove(newRow,newCol)) {
-            board.updateCell(this.row,this.col,null);
-            this.row= newRow;
+    public boolean move(int newRow, int newCol) {
+        // A method that moves a piece to a new position if valid
+        if (isValidMove(newRow, newCol)) {
+            board.updateCell(this.row, this.col, null);
+            this.row = newRow;
             this.col = newCol;
-            board.updateCell(newRow,newCol,this);
+            board.updateCell(newRow, newCol, this);
             return true; // Move successful
 //        ([former rank][former file])-[new rank][new file] Thus,
 //        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
 //        this looks weird because the numbers dont have a line between them such as 3,2 - 3,5
-        }
-        else {
+        } else {
             return false; // Move invalid
         }
     }
@@ -150,7 +153,6 @@ public abstract class Piece {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
 
 
 }

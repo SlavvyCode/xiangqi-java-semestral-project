@@ -93,6 +93,51 @@ public class Match {
         checkMateCheck();
 
 
+
+        // the person whose turn it is when generals are revealed wins.
+        if(flyingGeneralCheck()==true){
+            if(redTurn){
+                redWins=true;
+            }
+            else{
+                blackWins=true;
+            }
+        }
+
+
+
+        staleMateCheck();
+    }
+
+
+    /**
+     *
+     * @return true if the generals can "see" each other
+     */
+    public boolean flyingGeneralCheck() {
+        General redGeneral = (General) getRedGeneral();
+        General blackGeneral = (General) getBlackGeneral();
+
+        ArrayList<Piece> blockingPieceList = new ArrayList<>();
+
+            //if the generals aren't in the same line
+        if(redGeneral.getCol() != blackGeneral.getCol()){
+            return false;
+        }
+
+        for (Piece piece: gameBoard.getPieceList() ) {
+
+            if((piece.getCol()==redGeneral.getCol()) &&(piece != blackGeneral && piece != redGeneral)){
+                blockingPieceList.add(piece);
+            }
+
+            if (blockingPieceList.size()>0){
+                return false;
+            }
+        }
+
+
+        return true;
     }
 
 

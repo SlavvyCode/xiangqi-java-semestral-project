@@ -24,8 +24,16 @@ public class Elephant extends Piece {
             int destRow = row + offset[0];
             int destCol = col + offset[1];
 
-            // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+
+
+            if (this.color =="red"){
+
+            }
+            // Check if destination is within the player's side
+            if (destRow < 0 || destRow >= 5 || destCol < 0 || destCol >= 9) {
+                continue;
+            }
+            else if (destRow < 5 || destRow >= 10 || destCol < 0 || destCol >= 9) {
                 continue;
             }
 
