@@ -6,7 +6,7 @@ import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Cloneable{
 
 
 //         10 +===X===X===X===X===X===X===X===+ BLACK SIDE
@@ -49,6 +49,10 @@ public class Board {
         return cellList[row][col];
     }
     public Board() {
+
+        pieceList = new ArrayList<Piece>();
+
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 //// make sure indexing here is right *********************
@@ -84,10 +88,25 @@ public class Board {
      * Sets up piecs on the board.
      */
     public void setUpPieces() {
+
         pieceList.removeAll(pieceList);
         pieceList = new ArrayList<Piece>();
-        Soldier soldierRed1 = new Soldier(0,0, "red");
+
+
+
+        //DummyFigures Below:
+
+        Soldier soldierRed1 = new Soldier(0,0, "red",this);
         pieceList.add(soldierRed1);
+
+
+
+        General redGeneral = new General(0,2, "red", this);
+        pieceList.add(redGeneral);
+
+
+        General blackGeneral = new General(8,8, "black", this);
+        pieceList.add(blackGeneral);
 
 
         //5 pawns soldiers
@@ -112,11 +131,8 @@ public class Board {
                 {
                     return getCell(i,j);
                 }
-
             }
-
         }
-
         throw new NullPointerException();
     }
 
@@ -133,6 +149,41 @@ public class Board {
     public ArrayList<Piece> getPieceList() {
         return pieceList;
     }
+
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+
+
+
+    public ArrayList<Piece> getPiecesCheckingRedGeneral(){
+        General redGeneral = (General) Main.getMatch().getRedGeneral();
+
+        ArrayList<Piece> checkingPieces = new ArrayList<>();
+        Cell generalLocation = this.getFirstCellWithPiece(redGeneral);
+
+        for (Piece enemyPiece: this.getPieceList()) {
+            if (enemyPiece.getColor()=="black" && enemyPiece.getMoveList().contains(generalLocation)){
+                checkingPieces.add(enemyPiece);
+            }
+        }
+        return checkingPieces;
+    }
+    public ArrayList<Piece> getPiecesCheckingBlackGeneral(){
+            ArrayList<Piece> checkingPieces = new ArrayList<>();
+            Cell generalLocation = this.getFirstCellWithPiece(Main.getMatch().getBlackGeneral());
+
+            for (Piece enemyPiece: this.getPieceList()) {
+                if (enemyPiece.getColor()=="red" && enemyPiece.getValidMoves().contains(generalLocation)){
+                    checkingPieces.add(enemyPiece);
+                }
+            }
+            return checkingPieces;
+
+    }
+
 }
 
 

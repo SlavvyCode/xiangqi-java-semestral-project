@@ -7,24 +7,90 @@ import java.util.ArrayList;
 public abstract class Piece {
 
     //location of figure
-    private int row;
-    private int col;
-    private final String color;
+    protected int row;
+    protected int col;
+    protected final String color;
 
-    Board board = Main.getMatch().getGameBoard();
+    protected Board board;
+    Match match = Main.getMatch();
 
-    public Piece(int row, int col, String color) {
+
+
+    public abstract int[][] getOffsets();
+
+    public Piece(int row, int col, String color, Board board) {
         this.row = row;
         this.col = col;
         this.color = color;
+        this.board = board;
         board.updateCell(row,col,this);
+
     }
 
 
     /**
      * returns an arraylist of all the piece's valid moves.
      */
-    public abstract ArrayList<Cell> getValidMoves();
+    public ArrayList<Cell> getValidMoves(){
+
+        int[][]offsets = getOffsets();
+
+
+        Board board = Main.getMatch().getGameBoard();
+
+        ArrayList<Cell> moveList = new ArrayList<Cell>();
+
+        //example offsets for king
+        //int[][] offsets = {{+1, 0},{-1,0},{0,+1},{0,-1}};
+
+        for(int[] offset : offsets) {
+
+            //each offset is for example {1,2}
+
+            int destRow = this.getRow() + offset[0];
+            int destCol = this.getCol() + offset[1];
+
+            // Check if destination is within the board, else move on to the next move
+            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+                continue;
+            }
+
+//            if the general can move to this new spot and not cause any checkmates, it's in the valid move list
+
+            Cell currentCell = board.getCell(this.getRow(),this.getCol());
+            Cell destCell = board.getCell(destRow,destCol);
+
+//            gets placed back if checkmates arise.
+            Piece destCellOriginalPiece = destCell.getPieceOnCell();
+
+            currentCell.setPieceOnCell(null);
+            destCell.setPieceOnCell(this);
+
+
+            int amountOfCheckingPieces;
+
+            if(this.color=="red"){
+
+            amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
+            }
+            else
+            {
+             amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
+            }
+
+
+            currentCell.setPieceOnCell(this);
+            destCell.setPieceOnCell(destCellOriginalPiece);
+
+            if(amountOfCheckingPieces>0){
+                continue;
+            }
+
+            moveList.add(board.getCell(destRow,destCol));
+
+        }
+        return moveList;
+    };
 
 
     /**
@@ -42,6 +108,16 @@ public abstract class Piece {
         }
         return false;
     }
+
+
+    /**
+     * gets the moves that are theoretically available while disregarding leaving your general unguarded
+     *
+     * @return
+     */
+    public abstract ArrayList<Cell> getMoveList();
+
+
     public boolean move(int newRow,int newCol) {
     // A method that moves a piece to a new position if valid
         if(isValidMove(newRow,newCol)) {
@@ -70,4 +146,11 @@ public abstract class Piece {
     public int getCol() {
         return col;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+
+
 }

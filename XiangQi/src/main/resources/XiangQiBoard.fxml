@@ -1,42 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.PrefixSelectionComboBox?>
+<?import com.sun.javafx.scene.control.ContextMenuContent.MenuBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.text.TextFlow?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+    <left>
+
+        <VBox spacing="100">
+            <Button>
+                PAUSE
+            </Button>
+
+            <Button>
+                FORFEIT MATCH
+            </Button>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <GridPane gridLinesVisible="true" layoutX="96.0" layoutY="44.0" prefHeight="312.0" prefWidth="408.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="149.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="32.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <Button layoutX="504.0" layoutY="344.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="548.0" layoutY="344.0" mnemonicParsing="false" text="Button" />
-      <Text layoutX="545.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-   </children>
-</Pane>
+            <Text>
+                CLOCK:
+            </Text>
+            <Text>
+                Red: 10:00
+                BLACK: 10:00
+
+                (static for  now)
+            </Text>
+        </VBox>
+
+
+
+    </left>
+    <center>
+
+
+
+        <GridPane>
+
+            <rowConstraints>
+
+                <RowConstraints percentHeight="10"/>
+                <RowConstraints percentHeight="80"/>
+                <RowConstraints percentHeight="10"/>
+            </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/> <!--0-->
+                <ColumnConstraints percentWidth="50"/> <!--1-->
+                <ColumnConstraints percentWidth="25"/> <!--2-->
+            </columnConstraints>
+
+
+
+
+
+            <!--            <GridPane gridLinesVisible="true" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
+            <!--                <rowConstraints>-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                    <RowConstraints percentHeight="10" />-->
+            <!--                </rowConstraints>-->
+            <!--                <columnConstraints>-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+
+            <!--                </columnConstraints>-->
+            <!--            </GridPane>-->
+
+
+        </GridPane>
+
+
+        <ImageView fx:id="board2" fitHeight="896" fitWidth="800">
+            <image >
+                <Image url ="@/images/board.png"/>
+            </image>
+        </ImageView>
+
+    </center>
+    <bottom>
+
+        <HBox alignment="CENTER" spacing="100" styleClass="buttonContainer">
+            <Button fx:id="backButton" text="BBB"/>
+            <Button fx:id="loadButton" text="AAA"/>
+        </HBox>
+
+
+    </bottom>
+
+
+
+    <right>
+        <VBox spacing="100" >
+
+            <Text textAlignment="CENTER">
+                PLAYER SCORE:
+                RED X BLACK Y
+            </Text>
+
+
+            <Text>
+                HISTORY:
+            </Text>
+
+
+            <HBox>
+                <Button>
+                    &lt;-
+                </Button>
+
+                <Button>
+                    -&gt;
+                </Button>
+
+            </HBox>
+
+
+        </VBox>
+    </right>
+
+
+
+</BorderPane>

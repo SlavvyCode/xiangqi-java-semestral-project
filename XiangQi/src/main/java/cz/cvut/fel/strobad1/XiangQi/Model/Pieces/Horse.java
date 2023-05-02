@@ -12,22 +12,22 @@ public class Horse extends Piece {
     private int row;
     private int col;
     private final float value = 4;
+    private final int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
     Board gameBoard = Main.getMatch().getGameBoard();
-    public Horse(int row, int col, String color) {
+    public Horse(int row, int col, String color,Board board) {
 
-        super(row, col, color);
+        super(row, col, color,board);
     }
 
 
 
-    @Override
-    public ArrayList<Cell> getValidMoves(){
+
+    public ArrayList<Cell> getMoveList(){
 
 
-        ArrayList<Cell> validMoveList = new ArrayList<Cell>();
+        ArrayList<Cell> moveList = new ArrayList<Cell>();
 
         //return valid moves for horse
-        int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
 
         for(int[] offset : offsets) {
 
@@ -39,13 +39,9 @@ public class Horse extends Piece {
             if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
                 continue;
             }
-
-
             //Takes CURRENT JUMP OFFSET and discards the decimal point leftover (0.5)
             int blockingRow = row + offset[0] / 2;
             int blockingCol = col + offset[1] / 2;
-
-
 
 
             Piece blockingPiece = gameBoard.getCell(blockingRow, blockingCol).getPieceOnCell();
@@ -59,9 +55,14 @@ public class Horse extends Piece {
 
 
 
-            validMoveList.add(gameBoard.getCell(destRow,destCol));
+            moveList.add(gameBoard.getCell(destRow,destCol));
         }
-        return validMoveList;
+        return moveList;
+    }
+
+    @Override
+    public int[][] getOffsets() {
+        return offsets;
     }
 
 }

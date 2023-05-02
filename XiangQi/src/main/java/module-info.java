@@ -14,5 +14,7 @@ module cz.cvut.fel.strobad1.XiangQi {
     exports cz.cvut.fel.strobad1.XiangQi.controller;
     exports cz.cvut.fel.strobad1.XiangQi.Model to javafx.graphics, javafx.fxml;
 
+    opens images;
+    opens cssFiles;
 }
 

@@ -3,6 +3,7 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,59 +33,63 @@ import javafx.stage.Stage;
 
 
 
-public class Main extends Application {
+public class Main {
     private static Match match;
 
     public static Match getMatch() {
         return match;
     }
 
-//    public static void main(String[] args) {
-
-//        //RED STARTS
-//
-//        //start game method, switches sides of players
-//        //set default positions
-//
-//`
-//
-//
-//        match = new Match();
-//        match.startGame();
-//
-////        while()
-//
-////            checkMateCheck();
-//
-//        System.out.println("x wins!");
-//
 
 
 
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("/LoadMenu.fxml"));
-
-        Scene scene = new Scene(root, 800, 600);
-
-        stage.setMinWidth(800);
-        stage.setMinHeight(600);
-
-
-
-        stage.setTitle("FXML Welcome");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public static void main(String[] args) {
-        launch(args);
 
-    }
+        //RED STARTS
 
+        //start game method, switches sides of players
+        //set default positions
+
+
+
+        //NEEDED TO START GAME:
+
+        match = new Match();
+        match.startGame();
+
+
+
+//
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//
+//
+////        Parent root = FXMLLoader.load(getClass().getResource("/LoadMenu.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/XiangQiBoard.fxml"));
+//
+//
+//
+//
+//
+//        Scene scene = new Scene(root, 800, 600);
+//
+//        stage.setMinWidth(800);
+//        stage.setMinHeight(600);
+//
+//
+//
+//        stage.setTitle("FXML Welcome");
+//        stage.setScene(scene);
+//        stage.show();
+//    }
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//
+//    }
+
+}
 }
 
 
