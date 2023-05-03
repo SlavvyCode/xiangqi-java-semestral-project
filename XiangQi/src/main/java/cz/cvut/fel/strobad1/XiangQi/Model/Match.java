@@ -1,7 +1,9 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
 import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.General;
+import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.Soldier;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Match {
@@ -31,7 +33,7 @@ public class Match {
     /**
      * Starts the instance of the game
      */
-    public void startGame() {
+    public void startGame() throws IOException {
         turnCounter = -1;
         // possibly add name selection, low importance
 
@@ -53,8 +55,11 @@ public class Match {
 
         //set up clock
         gameClock = new Clock();
+        gameClock.pauseCountdown();
 
         //start the game
+
+        //TODO move start
         startTurn();
     }
 
@@ -63,8 +68,9 @@ public class Match {
      * Turn start operation that happens every turn.
      */
 
-    public void startTurn() {
+    public void startTurn() throws IOException {
 
+        gameClock.resumeCountdown();
         // saves last turn's board (starting at 0 pieces moved)
         moveHistory.add(gameBoard);
 
@@ -75,38 +81,132 @@ public class Match {
         }
 
 
+        gameBoard.getCell(0,0).getPieceOnCell().move(0,1);
+
+        gameBoard.getCell(8,8).getPieceOnCell().move(8,7);
+
         turnCounter++;
 
+        SaveManager saveManager = new SaveManager();
+        saveManager.saveGame(gameBoard);
 
 
 
-        //if it was black's turn, it's red's turn now.
-        if (!redTurn) {
-            redTurn = true;
-            //it's red's turn;
-        } else {
-            //it's black's turn
-            redTurn = false;
+        //TEST
+
+
+
+        return;
+
+
+//        //if it was black's turn, it's red's turn now.
+//        if (!redTurn) {
+//            redTurn = true;
+//            //Turn number only changes on red's turn
+//            turnCounter++;
+//            //it's red's turn;
+//        } else {
+//            //it's black's turn
+//            redTurn = false;
+//        }
+//
+//        //check if you have any legal moves ELSE game ends via stalemate
+//        checkMateCheck();
+//
+//
+//
+//        // the person whose turn it is when generals are revealed wins.
+//        if(flyingGeneralCheck()==true){
+//            if(redTurn){
+//                redWins=true;
+//            }
+//            else{
+//                blackWins=true;
+//            }
+//        }
+//
+//
+//
+//        repetitionCheck();
+//        lackOfPiecesCheck();
+//        fiftyMoveNoCaptureCheck();
+
+    }
+
+    private void fiftyMoveNoCaptureCheck() {
+
+        if(moveHistory.size()<50){
+            return;
+        }
+        for (int i = 0; i < 50; i++) {
+
+            ArrayList<Piece> tempPieceList = moveHistory.get(moveHistory.size()-i-1).getPieceList();
+
+            if(gameBoard.getPieceList()!=tempPieceList){
+                return;
+            }
+            if(i>=50){
+                System.out.println("DRAW!!!");
+
+            }
+
+        }
+    }
+
+    private boolean lackOfPiecesCheck() {
+        if(gameBoard.getPieceList().size()==2){
+            System.out.println("DRAW!!!");
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Board> getMoveHistory() {
+        return moveHistory;
+    }
+
+    private boolean repetitionCheck() {
+
+        // If you check your opponent three times in a row in a way that repeats their positions, you lose.
+
+        if(moveHistory.size()<=2){
+            return false;
         }
 
-        //check if you have any legal moves ELSE game ends via stalemate
-        checkMateCheck();
+        if(gameBoard.getPiecesCheckingRedGeneral().size()==0 ||gameBoard.getPiecesCheckingBlackGeneral().size()==0){
+            return false;
+        }
+
+        Board lastTurnBoard = moveHistory.get(moveHistory.size()-2);
+
+        Board twoTurnsAgoBoard = moveHistory.get(moveHistory.size()-3);
 
 
-
-        // the person whose turn it is when generals are revealed wins.
-        if(flyingGeneralCheck()==true){
-            if(redTurn){
-                redWins=true;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                //if the pieces aren't in the same place == have not been repeated
+                if(lastTurnBoard.getCell(i,j).getPieceOnCell()!=gameBoard.getCell(i,j).getPieceOnCell()){
+                    return false;
+                }
             }
-            else{
-                blackWins=true;
+        }
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                //if the pieces aren't in the same place == have not been repeated
+                if(twoTurnsAgoBoard.getCell(i,j).getPieceOnCell()!=gameBoard.getCell(i,j).getPieceOnCell()){
+                    return false;
+                }
             }
         }
 
 
+        System.out.println("REPETITION CHECK! CHECKER LOSES!!");
+        return true;
 
-        staleMateCheck();
+
+
+
+
     }
 
 

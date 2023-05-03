@@ -38,6 +38,9 @@ public class Board implements Cloneable{
     ///****** SHOULD THE BOARD REMEMBER THE PIECES' PLACES OR SHOULD THE PIECES THEMSELVES
     private ArrayList<Piece> pieceList;
 
+
+    private String[] movesPerformedThisTurn = new String[2];
+
     private Cell[][] cellList = new Cell[10][9];
 
 
@@ -99,6 +102,9 @@ public class Board implements Cloneable{
         Soldier soldierRed1 = new Soldier(0,0, "red",this);
         pieceList.add(soldierRed1);
 
+        Soldier soldierBlack1 = new Soldier(8,8, "black",this);
+        pieceList.add(soldierBlack1);
+
 
 
         General redGeneral = new General(0,2, "red", this);
@@ -116,6 +122,15 @@ public class Board implements Cloneable{
         //2 advisors
         //2 chariots rooks
 
+    }
+
+    public void setMovesPerformedThisTurn(String movesPerformedThisTurn,int i) {
+
+        this.movesPerformedThisTurn[i] = movesPerformedThisTurn;
+    }
+
+    public String[] getMovesPerformedThisTurn() {
+        return movesPerformedThisTurn;
     }
 
     /**

@@ -73,17 +73,24 @@ public abstract class Piece {
             }
 
 
+
+
+            if(match.flyingGeneralCheck() == true){
+                continue;
+            }
+
+
+
             currentCell.setPieceOnCell(this);
             destCell.setPieceOnCell(destCellOriginalPiece);
+
+
 
             if (amountOfCheckingPieces > 0) {
                 continue;
             }
 
 
-            if(match.flyingGeneralCheck() == true){
-                continue;
-            }
 
 
 
@@ -126,14 +133,67 @@ public abstract class Piece {
         // A method that moves a piece to a new position if valid
         if (isValidMove(newRow, newCol)) {
             board.updateCell(this.row, this.col, null);
+
+            int oldRow=this.getRow();
+            int oldCol=this.getCol();
+
+
             this.row = newRow;
             this.col = newCol;
+
+            Cell destCell = board.getCell(newRow,newCol);
+
+
+            //remove piece from play.
+            if(destCell.getPieceOnCell()!= null){
+
+                board.getPieceList().remove(destCell.getPieceOnCell());
+
+            }
+
             board.updateCell(newRow, newCol, this);
+
+
+
+
+            // a-i rows
+            // 0-9 cols
+
+            int oldColToTranslate = oldCol; // the number to convert
+            char oldColLetter = (char) ('a' + oldColToTranslate); // convert the number to a letter
+
+            int newColToTranslate = newCol; // the number to convert
+            char newColLetter = (char) ('a' + newColToTranslate); // convert the number to a letter
+
+
+
+            int i;
+            if(this.color=="red"){
+                i=0;
+            }
+            else{
+                i=1;
+            }
+
+//            String movePerformed = (oldColLetter + oldRow + " " + newColLetter + newRow);
+
+
+//            if(piece of same kind in same col)
+
+            board.setMovesPerformedThisTurn(movePerformed,i);
+            //example chariot going from a0 to a2 should be a0a2
+            System.out.println(oldColLetter + oldRow + " " + newColLetter + newRow);
+
+
             return true; // Move successful
 //        ([former rank][former file])-[new rank][new file] Thus,
 //        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
 //        this looks weird because the numbers dont have a line between them such as 3,2 - 3,5
-        } else {
+        }
+
+        else
+
+        {
             return false; // Move invalid
         }
     }

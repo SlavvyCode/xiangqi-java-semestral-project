@@ -31,6 +31,7 @@ import javafx.scene.transform.Scale;
 
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
 
 public class Main {
@@ -44,7 +45,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //RED STARTS
 
@@ -57,6 +58,8 @@ public class Main {
 
         match = new Match();
         match.startGame();
+
+
 
 
 
