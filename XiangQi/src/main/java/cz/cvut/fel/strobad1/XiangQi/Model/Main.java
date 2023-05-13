@@ -1,40 +1,25 @@
 package cz.cvut.fel.strobad1.XiangQi.Model;
 
+import cz.cvut.fel.strobad1.XiangQi.controller.MainMenuController;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
-
-
-import javafx.application.Application;
-
-import javafx.scene.Group;
 
 import javafx.scene.Scene;
 
-import javafx.scene.control.Accordion;
-
-import javafx.scene.control.Button;
-
-import javafx.scene.control.TitledPane;
-
 import javafx.scene.layout.*;
-
-import javafx.scene.paint.Color;
-
-import javafx.scene.transform.Scale;
-
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static javafx.application.Application.launch;
 
-public class Main {
+
+public class Main extends Application {
+
     private static Match match;
 
     public static Match getMatch() {
@@ -45,7 +30,35 @@ public class Main {
 
 
 
+
+
+
+    public void start(Stage stage) throws Exception {
+        // Set the stage's title and minimum size.
+        stage.setTitle("FXML Welcome");
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+
+        // Load the FXML file for the main menu scene.
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/XiangQiBoard.fxml"));
+        Parent root = loader.load();
+
+        // Create a scene for the main menu scene.
+        Scene scene = new Scene(root, 800, 600);
+
+        // Set the stage's scene to the main menu scene.
+        stage.setScene(scene);
+
+        // Show the stage.
+        stage.show();
+    }
+
+
     public static void main(String[] args) throws IOException {
+        launch(args);
+
+
+
 
         //RED STARTS
 
@@ -54,46 +67,14 @@ public class Main {
 
 
 
-        //NEEDED TO START GAME:
+//        NEEDED TO START GAME:
 
         match = new Match();
         match.startGame();
-
-
-
-
-
-//
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//
-//
-////        Parent root = FXMLLoader.load(getClass().getResource("/LoadMenu.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("/XiangQiBoard.fxml"));
-//
-//
-//
-//
-//
-//        Scene scene = new Scene(root, 800, 600);
-//
-//        stage.setMinWidth(800);
-//        stage.setMinHeight(600);
-//
-//
-//
-//        stage.setTitle("FXML Welcome");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-//
-//    public static void main(String[] args) {
-//        launch(args);
-//
-//    }
+    }
 
 }
-}
+
 
 
 

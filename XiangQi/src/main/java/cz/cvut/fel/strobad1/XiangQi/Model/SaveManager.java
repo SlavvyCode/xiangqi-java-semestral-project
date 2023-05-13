@@ -11,19 +11,15 @@ public class SaveManager {
 
 
     public SaveManager() throws IOException {
-        saveFile = new File("/SaveFile.txt");
-        System.out.println(saveFile.exists());
-        InputStream is = new FileInputStream(saveFile);
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        String s;
-        while ((s = br.readLine()) != null) {
-            System.out.println(s);
+
+        saveFile = new File("C:/Users/Adam/Desktop/FEL CVUT/Semestralka JAVA/XiangQi/SaveFile.txt");
+        if(!saveFile.exists()){
+
+
+            saveFile.createNewFile();
+
+            System.out.println("new savefile created");
         }
-        br.close();
-
-
-
     }
 
     /**
@@ -46,7 +42,7 @@ public class SaveManager {
 
         ArrayList<Board> moveHistory = Main.getMatch().getMoveHistory();
 
-        for (int i = 0; i < moveHistory.size()-1; i++) {
+        for (int i = 0; i < moveHistory.size(); i++) {
             String[]     movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
             String orderedMovesPerformed = (i+1) +"." + movesPerformed[0] + " " +movesPerformed[1] + " ";
             osw.write(orderedMovesPerformed);

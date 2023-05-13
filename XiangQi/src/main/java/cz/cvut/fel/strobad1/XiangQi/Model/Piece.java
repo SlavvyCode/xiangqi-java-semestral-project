@@ -25,6 +25,14 @@ public abstract class Piece {
 
     public abstract int[][] getOffsets();
 
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
     /**
      * returns an arraylist of all the piece's valid moves.
      */
@@ -60,12 +68,13 @@ public abstract class Piece {
 //            gets placed back if checkmates arise.
             Piece destCellOriginalPiece = destCell.getPieceOnCell();
 
+
+
+            // TODO DO I EVEN NEED THIS HERE?
             currentCell.setPieceOnCell(null);
             destCell.setPieceOnCell(this);
 
-
             int amountOfCheckingPieces;
-
             if (this.color == "red") {
                 amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
             } else {
@@ -74,7 +83,7 @@ public abstract class Piece {
 
 
 
-
+                // uses general.getcol()
             if(match.flyingGeneralCheck() == true){
                 continue;
             }
@@ -128,7 +137,6 @@ public abstract class Piece {
      */
     public abstract ArrayList<Cell> getMoveList();
 
-
     public boolean move(int newRow, int newCol) {
         // A method that moves a piece to a new position if valid
         if (isValidMove(newRow, newCol)) {
@@ -147,6 +155,9 @@ public abstract class Piece {
             //remove piece from play.
             if(destCell.getPieceOnCell()!= null){
 
+                if(destCell.getPieceOnCell().getColor()==this.getColor()){
+                    return false;
+                }
                 board.getPieceList().remove(destCell.getPieceOnCell());
 
             }
@@ -160,10 +171,10 @@ public abstract class Piece {
             // 0-9 cols
 
             int oldColToTranslate = oldCol; // the number to convert
-            char oldColLetter = (char) ('a' + oldColToTranslate); // convert the number to a letter
+            String oldColLetter = String.format("%c", 'a' + oldColToTranslate); // convert the number to a letter
 
             int newColToTranslate = newCol; // the number to convert
-            char newColLetter = (char) ('a' + newColToTranslate); // convert the number to a letter
+            String newColLetter = String.format("%c", 'a' + newColToTranslate); // convert the number to a letter
 
 
 
@@ -175,14 +186,11 @@ public abstract class Piece {
                 i=1;
             }
 
-//            String movePerformed = (oldColLetter + oldRow + " " + newColLetter + newRow);
-
-
-//            if(piece of same kind in same col)
+            String movePerformed = (oldColLetter + oldRow + newColLetter + newRow);
 
             board.setMovesPerformedThisTurn(movePerformed,i);
             //example chariot going from a0 to a2 should be a0a2
-            System.out.println(oldColLetter + oldRow + " " + newColLetter + newRow);
+            System.out.println(movePerformed);
 
 
             return true; // Move successful
@@ -197,22 +205,16 @@ public abstract class Piece {
             return false; // Move invalid
         }
     }
-
     public String getColor() {
         return color;
     }
-
     public int getRow() {
         return row;
     }
-
     public int getCol() {
         return col;
     }
-
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-
-
 }

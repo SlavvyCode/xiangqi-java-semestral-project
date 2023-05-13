@@ -10,6 +10,9 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundImage?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.PrefixSelectionComboBox?>
@@ -17,8 +20,21 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.text.TextFlow?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+<?import javafx.scene.layout.Background?>
+
+<?import java.net.URL?>
+<?import impl.org.controlsfx.skin.DecorationPane?>
+
+
+<BorderPane fx:id="gameScene"  fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.GameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+
+    <stylesheets>
+        <URL value="@/Board.css"/>
+
+    </stylesheets>
+
 
     <left>
 
@@ -50,7 +66,10 @@
 
 
 
-        <GridPane>
+        <GridPane >
+
+
+
 
             <rowConstraints>
 
@@ -68,42 +87,43 @@
 
 
 
-            <!--            <GridPane gridLinesVisible="true" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
-            <!--                <rowConstraints>-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                    <RowConstraints percentHeight="10" />-->
-            <!--                </rowConstraints>-->
-            <!--                <columnConstraints>-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
-            <!--                    <ColumnConstraints percentWidth="11.11" />-->
+                        <GridPane fx:id="boardGrid" id="boardGrid" gridLinesVisible="true" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
 
-            <!--                </columnConstraints>-->
-            <!--            </GridPane>-->
+                            <rowConstraints>
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                                <RowConstraints vgrow="ALWAYS" percentHeight="10" />
+                            </rowConstraints>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="11.11" />
+
+                            </columnConstraints>
+                        </GridPane>
 
 
         </GridPane>
 
 
-        <ImageView fx:id="board2" fitHeight="896" fitWidth="800">
-            <image >
-                <Image url ="@/images/board.png"/>
-            </image>
-        </ImageView>
+<!--        <ImageView fx:id="board2" fitHeight="896" fitWidth="800">-->
+<!--            <image >-->
+<!--                <Image url ="@/images/board.png"/>-->
+<!--            </image>-->
+<!--        </ImageView>-->
 
     </center>
     <bottom>

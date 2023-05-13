@@ -101,12 +101,13 @@ public class Board implements Cloneable{
 
         Soldier soldierRed1 = new Soldier(0,0, "red",this);
         pieceList.add(soldierRed1);
-
+//
         Soldier soldierBlack1 = new Soldier(8,8, "black",this);
         pieceList.add(soldierBlack1);
 
 
 
+        // if i input 0,2, shit breaks
         General redGeneral = new General(0,2, "red", this);
         pieceList.add(redGeneral);
 
@@ -139,6 +140,9 @@ public class Board implements Cloneable{
      * @return the cell of the piece we have.
      */
     public Cell getFirstCellWithPiece(Piece pieceToFind){
+
+
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 // TODO MAKE BETTER if needed? This only finds the FIRST cell with a piece instead of all of them. but i dont need it?????
@@ -177,7 +181,20 @@ public class Board implements Cloneable{
         General redGeneral = (General) Main.getMatch().getRedGeneral();
 
         ArrayList<Piece> checkingPieces = new ArrayList<>();
-        Cell generalLocation = this.getFirstCellWithPiece(redGeneral);
+
+        Cell generalLocation = getCell(redGeneral.getRow(),redGeneral.getCol());
+        if(generalLocation.getPieceOnCell()!=redGeneral){
+
+            System.out.println("red general is this " + redGeneral.getRow() + ", " + redGeneral.getCol() );
+            System.out.println("generalLocation.getPieceOnCell() is " + generalLocation.getPieceOnCell());
+
+            System.err.println("wadafak");
+        }
+
+//        Cell generalLocation = this.getFirstCellWithPiece(redGeneral);
+
+        System.out.println(redGeneral.row + redGeneral.col);
+
 
         for (Piece enemyPiece: this.getPieceList()) {
             if (enemyPiece.getColor()=="black" && enemyPiece.getMoveList().contains(generalLocation)){

@@ -2,7 +2,7 @@ package cz.cvut.fel.strobad1.XiangQi.Model;
 
 public class Cell {
 
-    private Piece pieceOnCell = null;
+    private Piece pieceOnCell;
 
     private String sideColor;
     private Boolean isPalace;
@@ -41,6 +41,8 @@ public class Cell {
      */
     public void setPieceOnCell(Piece pieceOnCell) {
         this.pieceOnCell = pieceOnCell;
+//        pieceOnCell.setCol();
+
     }
 
 

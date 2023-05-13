@@ -50,16 +50,16 @@ public class Soldier extends Piece{
         if (color.equals("red")) {
             if (row >= 5) {
                 // Soldier has crossed the river, can move horizontally as well
-                forwardOffsets = new int[][]{{1, 0}, {0, 1}, {0, -1}};
+                forwardOffsets = new int[][]{{0, 1}, {-1, 0},{1,0}};
             } else {
                 // Soldier is still behind the river, can only move vertically
-                forwardOffsets = new int[][]{{1, 0}};
+                forwardOffsets = new int[][]{{0, 1}};
             }
         } else {
             //black soldier
             if (row <= 4) {
                 // Soldier has crossed the river, can move horizontally as well
-                forwardOffsets = new int[][]{{-1, 0}, {0, 1}, {0, -1}};
+                forwardOffsets = new int[][]{{0, -1}, {1, 0}, {-1, 0}};
             } else {
                 // Soldier is still behind the river, can only move vertically
                 forwardOffsets = new int[][]{{-1, 0}};

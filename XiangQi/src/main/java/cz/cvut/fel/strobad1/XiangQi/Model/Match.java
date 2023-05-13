@@ -81,8 +81,16 @@ public class Match {
         }
 
 
+
+        //TESTING
+
+        redTurn=true;
+        //red pawn moves
         gameBoard.getCell(0,0).getPieceOnCell().move(0,1);
 
+
+        redTurn=false;
+        //black pawn moves
         gameBoard.getCell(8,8).getPieceOnCell().move(8,7);
 
         turnCounter++;
