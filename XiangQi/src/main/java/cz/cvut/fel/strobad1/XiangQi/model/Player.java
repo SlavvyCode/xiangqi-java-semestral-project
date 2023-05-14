@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.model;
 
 import java.util.ArrayList;
 

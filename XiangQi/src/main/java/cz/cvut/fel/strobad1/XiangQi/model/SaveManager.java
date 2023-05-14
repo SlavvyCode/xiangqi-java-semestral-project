@@ -1,4 +1,4 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.model;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class SaveManager {
         OutputStream os = new FileOutputStream(saveFile);
         OutputStreamWriter osw = new OutputStreamWriter(os);
 
-        ArrayList<Board> moveHistory = Main.getMatch().getMoveHistory();
+        ArrayList<Board> moveHistory = board.getMatch().getMoveHistory();
 
         for (int i = 0; i < moveHistory.size(); i++) {
             String[]     movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();

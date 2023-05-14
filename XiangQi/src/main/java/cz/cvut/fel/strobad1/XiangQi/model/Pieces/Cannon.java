@@ -1,9 +1,8 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.model.Pieces;
 
 
-import cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.model.*;
 
-import javax.security.auth.login.AccountExpiredException;
 import java.util.ArrayList;
 
 // moves like a chariot but captures only after jumping over another piece.

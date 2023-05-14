@@ -1,7 +1,6 @@
 package cz.cvut.fel.strobad1.XiangQi.controller;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,19 +14,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainMenuController{
+public class NewGameController{
 
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
+
     @FXML
-    public void switchToNewGameMenu(ActionEvent event) throws IOException {
+    public void switchToGameBoardView(ActionEvent event) throws IOException {
 
         GameController gameController = new GameController();
 
-        root = FXMLLoader.load(getClass().getResource("/scenes/NewGameMenu.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/scenes/XiangQiBoard.fxml"));
 
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -37,11 +37,11 @@ public class MainMenuController{
     }
 
     @FXML
-    public void switchToLoadMenu(ActionEvent event) throws IOException {
+    public void switchToMainMenu(ActionEvent event) throws IOException {
 
         GameController gameController = new GameController();
 
-        root = FXMLLoader.load(getClass().getResource("/scenes/LoadMenu.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/scenes/MainMenu.fxml"));
 
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -49,17 +49,6 @@ public class MainMenuController{
         stage.setScene(scene);
         stage.show();
     }
-
-
-
-    @FXML
-    public void exit(ActionEvent event) throws IOException {
-
-        Platform.exit();
-
-    }
-
-
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 

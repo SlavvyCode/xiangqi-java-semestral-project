@@ -1,7 +1,7 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.model;
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.General;
-import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.Soldier;
+import cz.cvut.fel.strobad1.XiangQi.model.Pieces.General;
+import cz.cvut.fel.strobad1.XiangQi.controller.GameController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,8 +46,12 @@ public class Match {
         moveHistory = new ArrayList<Board>();
 
         //set up board
-        gameBoard = new Board();
+        gameBoard = new Board(this);
         gameBoard.setUpPieces();
+
+
+
+
 
         viewingBoard = gameBoard;
 
@@ -86,12 +90,12 @@ public class Match {
 
         redTurn=true;
         //red pawn moves
-        gameBoard.getCell(0,0).getPieceOnCell().move(0,1);
+//        gameBoard.getCell(0,0).getPieceOnCell().move(0,1);
 
 
-        redTurn=false;
+//        redTurn=false;
         //black pawn moves
-        gameBoard.getCell(8,8).getPieceOnCell().move(8,7);
+//        gameBoard.getCell(8,8).getPieceOnCell().move(8,7);
 
         turnCounter++;
 
@@ -140,6 +144,12 @@ public class Match {
 //        fiftyMoveNoCaptureCheck();
 
     }
+
+    public Board getViewingBoard() {
+        return viewingBoard;
+    }
+
+
 
     private void fiftyMoveNoCaptureCheck() {
 

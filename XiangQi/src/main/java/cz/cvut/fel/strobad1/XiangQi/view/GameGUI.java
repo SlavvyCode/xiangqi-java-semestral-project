@@ -2,7 +2,7 @@ package cz.cvut.fel.strobad1.XiangQi.view;
 
 
 import javafx.scene.layout.GridPane;
-import cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.model.*;
 
 public class GameGUI extends GridPane {
 

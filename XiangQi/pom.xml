@@ -69,7 +69,7 @@
     <!--                    <id>default-cli</id>-->
     <!--                    <configuration>-->
     <!--&lt;!&ndash;                        TODO SET MAIN CLASS HERE&ndash;&gt;-->
-    <!--                        <mainClass>cz.cvut.fel.strobad1.XiangQi.Model.Main</mainClass>-->
+    <!--                        <mainClass>cz.cvut.fel.strobad1.XiangQi.model.Main</mainClass>-->
     <!--                    </configuration>-->
     <!--                </execution>-->
     <!--            </executions>-->
@@ -145,7 +145,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>cz.cvut.fel.strobad1.XiangQi.Model.Main</mainClass>
+                            <mainClass>cz.cvut.fel.strobad1.XiangQi.model.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -161,7 +161,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>cz.cvut.fel.strobad1.XiangQi.Model.Main</mainClass>
+                    <mainClass>cz.cvut.fel.strobad1.XiangQi.model.Main</mainClass>
                 </configuration>
             </plugin>
 

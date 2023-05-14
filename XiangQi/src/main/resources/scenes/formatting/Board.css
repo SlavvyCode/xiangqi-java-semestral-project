@@ -1,0 +1,130 @@
+#boardGrid{
+    -fx-background-image:url('/images/boardNew.png');
+    /*-fx-background-insets: 5px 12px 5px 12px;*/
+
+
+    -fx-background-size: 100% 100%;
+    -fx-background-color: white;
+    -fx-border-color: red;
+    -fx-border-width: 5px;
+    -fx-background-repeat: no-repeat;
+
+}
+
+
+
+.buttonContainer{
+    -fx-padding: 50px;
+}
+.headerContainer{
+    -fx-padding: 50px;
+}
+
+#listView{
+}
+
+.header{
+    -fx-font-size: 30px;
+
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+
+.redAdvisor{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Advisor_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-border-color: red;
+    -fx-border-width: 20px;
+
+}
+.blackAdvisor{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Advisor_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-border-color: grey;
+    -fx-border-width: 20px;
+}
+/* Chariot */
+.redChariot{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Chariot_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.blackChariot{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Chariot_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/* Cannon */
+.redCannon{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Cannon_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.blackCannon{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Cannon_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/* Elephant */
+.redElephant{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Elephant_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.blackElephant{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Elephant_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/* General */
+.redGeneral{
+    -fx-image: url("/images/Pieces/Western/Red-Western_Xiangqi_General_(Trad).png");
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_General_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.blackGeneral{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_General_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/* Horse */
+.redHorse{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Horse_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+.blackHorse{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Horse_(Trad).png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+/* Soldier */
+.redSoldier{
+    -fx-background-image: url("/images/Pieces/Western/Red-Western_Xiangqi_Soldier_(Trad).png");
+    -fx-background-size: cover;
+}
+.blackSoldier{
+    -fx-background-image: url("/images/Pieces/Western/Black-Western_Xiangqi_Soldier_(Trad).png");
+    -fx-border-color: red;
+    -fx-border-width: 20px;
+    -fx-background-size: cover;
+}
+#testText{
+    -fx-font-size: 200;
+}
+#testText2{
+    -fx-font-size: 200;
+}
+
+
+
+

@@ -1,10 +1,10 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.model.Pieces;
 //like a knight in chess except:
 //      A_A       if O has target, cannot move.
 //       O
 //       X     knight=horse=X
 
-import cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.model.*;
 import java.util.ArrayList;
 
 
@@ -13,11 +13,11 @@ public class Horse extends Piece {
     private int col;
     private final float value = 4;
     private final int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
-    Board gameBoard = Main.getMatch().getGameBoard();
     public Horse(int row, int col, String color,Board board) {
 
         super(row, col, color,board);
     }
+
 
 
 
@@ -44,7 +44,7 @@ public class Horse extends Piece {
             int blockingCol = col + offset[1] / 2;
 
 
-            Piece blockingPiece = gameBoard.getCell(blockingRow, blockingCol).getPieceOnCell();
+            Piece blockingPiece = board.getCell(blockingRow, blockingCol).getPieceOnCell();
 
 
             if (blockingPiece != null) {
@@ -55,7 +55,7 @@ public class Horse extends Piece {
 
 
 
-            moveList.add(gameBoard.getCell(destRow,destCol));
+            moveList.add(board.getCell(destRow,destCol));
         }
         return moveList;
     }

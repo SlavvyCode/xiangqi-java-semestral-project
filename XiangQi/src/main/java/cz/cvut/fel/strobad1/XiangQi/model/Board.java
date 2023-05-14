@@ -1,9 +1,8 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.model;
 
 
-import cz.cvut.fel.strobad1.XiangQi.Model.Pieces.*;
+import cz.cvut.fel.strobad1.XiangQi.model.Pieces.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board implements Cloneable{
@@ -38,20 +37,19 @@ public class Board implements Cloneable{
     ///****** SHOULD THE BOARD REMEMBER THE PIECES' PLACES OR SHOULD THE PIECES THEMSELVES
     private ArrayList<Piece> pieceList;
 
+    private Match match;
 
     private String[] movesPerformedThisTurn = new String[2];
 
     private Cell[][] cellList = new Cell[10][9];
 
 
-    public Cell[][] getCellList() {
-        return cellList;
-    }
 
-    public Cell getCell(int row, int col) {
-        return cellList[row][col];
-    }
-    public Board() {
+
+
+    public Board(Match match) {
+
+        this.match = match;
 
         pieceList = new ArrayList<Piece>();
 
@@ -82,10 +80,6 @@ public class Board implements Cloneable{
         }
     }
 
-    public Board(int[] rows, int[] cols, ArrayList<Piece> pieceList, Cell[][] cellList) {
-        this.pieceList = pieceList;
-        this.cellList = cellList;
-    }
 
     /**
      * Sets up piecs on the board.
@@ -112,7 +106,7 @@ public class Board implements Cloneable{
         pieceList.add(redGeneral);
 
 
-        General blackGeneral = new General(8,8, "black", this);
+        General blackGeneral = new General(1,8, "black", this);
         pieceList.add(blackGeneral);
 
 
@@ -174,27 +168,13 @@ public class Board implements Cloneable{
         return super.clone();
     }
 
-
-
-
     public ArrayList<Piece> getPiecesCheckingRedGeneral(){
-        General redGeneral = (General) Main.getMatch().getRedGeneral();
+
+        General redGeneral = (General) match.getRedGeneral();
 
         ArrayList<Piece> checkingPieces = new ArrayList<>();
 
         Cell generalLocation = getCell(redGeneral.getRow(),redGeneral.getCol());
-        if(generalLocation.getPieceOnCell()!=redGeneral){
-
-            System.out.println("red general is this " + redGeneral.getRow() + ", " + redGeneral.getCol() );
-            System.out.println("generalLocation.getPieceOnCell() is " + generalLocation.getPieceOnCell());
-
-            System.err.println("wadafak");
-        }
-
-//        Cell generalLocation = this.getFirstCellWithPiece(redGeneral);
-
-        System.out.println(redGeneral.row + redGeneral.col);
-
 
         for (Piece enemyPiece: this.getPieceList()) {
             if (enemyPiece.getColor()=="black" && enemyPiece.getMoveList().contains(generalLocation)){
@@ -205,10 +185,10 @@ public class Board implements Cloneable{
     }
     public ArrayList<Piece> getPiecesCheckingBlackGeneral(){
             ArrayList<Piece> checkingPieces = new ArrayList<>();
-            Cell generalLocation = this.getFirstCellWithPiece(Main.getMatch().getBlackGeneral());
+            Cell generalLocation = this.getFirstCellWithPiece(match.getBlackGeneral());
 
             for (Piece enemyPiece: this.getPieceList()) {
-                if (enemyPiece.getColor()=="red" && enemyPiece.getValidMoves().contains(generalLocation)){
+                if (enemyPiece.getColor()=="red" && enemyPiece.getMoveList().contains(generalLocation)){
                     checkingPieces.add(enemyPiece);
                 }
             }
@@ -216,6 +196,18 @@ public class Board implements Cloneable{
 
     }
 
+
+    public Cell[][] getCellList() {
+        return cellList;
+    }
+
+    public Cell getCell(int row, int col) {
+        return cellList[row][col];
+    }
+
+    public Match getMatch() {
+        return match;
+    }
 }
 
 

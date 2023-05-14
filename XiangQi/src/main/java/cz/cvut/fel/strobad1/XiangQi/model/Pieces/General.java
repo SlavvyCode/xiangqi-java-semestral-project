@@ -1,7 +1,7 @@
-package cz.cvut.fel.strobad1.XiangQi.Model.Pieces;
+package cz.cvut.fel.strobad1.XiangQi.model.Pieces;
 // moves in a plus shape, contained to the palace. CANNOT have Line of sight with the enemy king
 
-import cz.cvut.fel.strobad1.XiangQi.Model.*;
+import cz.cvut.fel.strobad1.XiangQi.model.*;
 
 
 import java.util.ArrayList;

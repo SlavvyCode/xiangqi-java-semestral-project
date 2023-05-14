@@ -1,7 +1,6 @@
-package cz.cvut.fel.strobad1.XiangQi.Model;
+package cz.cvut.fel.strobad1.XiangQi.model;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public abstract class Piece {
@@ -11,7 +10,7 @@ public abstract class Piece {
     protected int row;
     protected int col;
     protected Board board;
-    Match match = Main.getMatch();
+    private Match match;
 
 
     public Piece(int row, int col, String color, Board board) {
@@ -19,7 +18,9 @@ public abstract class Piece {
         this.col = col;
         this.color = color;
         this.board = board;
-        board.updateCell(row, col, this);
+        this.board.updateCell(row, col, this);
+
+        this.match = this.board.getMatch();
 
     }
 
@@ -41,7 +42,6 @@ public abstract class Piece {
         int[][] offsets = getOffsets();
 
 
-        Board board = Main.getMatch().getGameBoard();
 
         ArrayList<Cell> moveList = new ArrayList<Cell>();
 
@@ -62,7 +62,10 @@ public abstract class Piece {
 
 //            if the piece can move to this new spot and not let a checkmate happen, it's in the valid move list
 
-            Cell currentCell = board.getCell(this.getRow(), this.getCol());
+
+            int currentRow = this.getRow();
+            int currentCol = this.getCol();
+
             Cell destCell = board.getCell(destRow, destCol);
 
 //            gets placed back if checkmates arise.
@@ -70,9 +73,9 @@ public abstract class Piece {
 
 
 
-            // TODO DO I EVEN NEED THIS HERE?
-            currentCell.setPieceOnCell(null);
-            destCell.setPieceOnCell(this);
+            move(destRow,destCol);
+
+
 
             int amountOfCheckingPieces;
             if (this.color == "red") {
@@ -81,35 +84,31 @@ public abstract class Piece {
                 amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
             }
 
-
-
                 // uses general.getcol()
             if(match.flyingGeneralCheck() == true){
+
+                move(currentRow,currentCol);
+                if(destCellOriginalPiece !=null) {
+                    destCellOriginalPiece.move(destRow, destCol);
+                }
                 continue;
             }
 
+            move(currentRow,currentCol);
 
-
-            currentCell.setPieceOnCell(this);
-            destCell.setPieceOnCell(destCellOriginalPiece);
-
-
+            if(destCellOriginalPiece !=null){
+                destCellOriginalPiece.move(destRow,destCol);
+            }
 
             if (amountOfCheckingPieces > 0) {
                 continue;
             }
-
-
-
-
 
             moveList.add(board.getCell(destRow, destCol));
 
         }
         return moveList;
     }
-
-    ;
 
 
     /**
@@ -137,73 +136,13 @@ public abstract class Piece {
      */
     public abstract ArrayList<Cell> getMoveList();
 
-    public boolean move(int newRow, int newCol) {
+    public void move(int newRow, int newCol) {
         // A method that moves a piece to a new position if valid
-        if (isValidMove(newRow, newCol)) {
-            board.updateCell(this.row, this.col, null);
+        board.updateCell(newRow, newCol, this);
+        board.updateCell(this.row, this.col, null);
 
-            int oldRow=this.getRow();
-            int oldCol=this.getCol();
-
-
-            this.row = newRow;
-            this.col = newCol;
-
-            Cell destCell = board.getCell(newRow,newCol);
-
-
-            //remove piece from play.
-            if(destCell.getPieceOnCell()!= null){
-
-                if(destCell.getPieceOnCell().getColor()==this.getColor()){
-                    return false;
-                }
-                board.getPieceList().remove(destCell.getPieceOnCell());
-
-            }
-
-            board.updateCell(newRow, newCol, this);
-
-
-
-
-            // a-i rows
-            // 0-9 cols
-
-            int oldColToTranslate = oldCol; // the number to convert
-            String oldColLetter = String.format("%c", 'a' + oldColToTranslate); // convert the number to a letter
-
-            int newColToTranslate = newCol; // the number to convert
-            String newColLetter = String.format("%c", 'a' + newColToTranslate); // convert the number to a letter
-
-
-
-            int i;
-            if(this.color=="red"){
-                i=0;
-            }
-            else{
-                i=1;
-            }
-
-            String movePerformed = (oldColLetter + oldRow + newColLetter + newRow);
-
-            board.setMovesPerformedThisTurn(movePerformed,i);
-            //example chariot going from a0 to a2 should be a0a2
-            System.out.println(movePerformed);
-
-
-            return true; // Move successful
-//        ([former rank][former file])-[new rank][new file] Thus,
-//        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
-//        this looks weird because the numbers dont have a line between them such as 3,2 - 3,5
-        }
-
-        else
-
-        {
-            return false; // Move invalid
-        }
+        this.row = newRow;
+        this.col = newCol;
     }
     public String getColor() {
         return color;
@@ -217,4 +156,60 @@ public abstract class Piece {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+
+
+    public boolean moveIfValid(int newRow, int newCol){
+        if (isValidMove(newRow, newCol)) {
+
+
+            move(newRow,newCol);
+
+
+            saveMoveToHistory(newRow, newCol);
+
+
+            return true; // Move successful
+//        ([former rank][former file])-[new rank][new file] Thus,
+//        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
+//        this looks weird because the numbers dont have a line between them such as 3,2 - 3,5
+        }
+
+        else {
+            return false; // Move invalid
+        }
+    }
+
+    private void saveMoveToHistory(int newRow, int newCol) {
+        int oldRow=this.getRow();
+        int oldCol=this.getCol();
+
+
+        this.row = newRow;
+        this.col = newCol;
+
+        board.updateCell(newRow, newCol, this);
+
+        // a-i rows
+        // 0-9 cols
+        int oldColToTranslate = oldCol; // the number to convert
+        String oldColLetter = String.format("%c", 'a' + oldColToTranslate); // convert the number to a letter
+
+        int newColToTranslate = newCol; // the number to convert
+        String newColLetter = String.format("%c", 'a' + newColToTranslate); // convert the number to a letter
+
+        int i;
+        if(this.color=="red"){
+            i=0;
+        }
+        else{
+            i=1;
+        }
+
+        String movePerformed = (oldColLetter + oldRow + newColLetter + newRow);
+
+        board.setMovesPerformedThisTurn(movePerformed,i);
+    }
+
+
 }
