@@ -25,7 +25,6 @@ public class MainMenuController{
     @FXML
     public void switchToNewGameMenu(ActionEvent event) throws IOException {
 
-        GameController gameController = new GameController();
 
         root = FXMLLoader.load(getClass().getResource("/scenes/NewGameMenu.fxml"));
 
@@ -39,7 +38,6 @@ public class MainMenuController{
     @FXML
     public void switchToLoadMenu(ActionEvent event) throws IOException {
 
-        GameController gameController = new GameController();
 
         root = FXMLLoader.load(getClass().getResource("/scenes/LoadMenu.fxml"));
 

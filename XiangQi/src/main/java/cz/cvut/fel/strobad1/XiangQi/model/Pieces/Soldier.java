@@ -46,28 +46,37 @@ public class Soldier extends Piece{
 
     @Override
     public int[][] getOffsets() {
-        int[][] forwardOffsets;
+        int[][] offsets;
         if (color.equals("red")) {
             if (row >= 5) {
                 // Soldier has crossed the river, can move horizontally as well
-                forwardOffsets = new int[][]{{0, 1}, {-1, 0},{1,0}};
+                offsets = new int[][]{{1, 0}, {0, 1},{0,-1}};
             } else {
                 // Soldier is still behind the river, can only move vertically
-                forwardOffsets = new int[][]{{0, 1}};
+                offsets = new int[][]{{1, 0}};
             }
         } else {
             //black soldier
             if (row <= 4) {
                 // Soldier has crossed the river, can move horizontally as well
-                forwardOffsets = new int[][]{{0, -1}, {1, 0}, {-1, 0}};
+                offsets = new int[][]{{-1, 0}, {0, 1},{0,-1}};
             } else {
                 // Soldier is still behind the river, can only move vertically
-                forwardOffsets = new int[][]{{-1, 0}};
+                offsets = new int[][]{{-1, 0}};
             }
         }
-        return forwardOffsets;
+        return offsets;
     }
 
+
+    @Override
+    public Piece clone() {
+        // create a new Piece object with the same fields as this
+        Soldier newPiece = new Soldier(this.row, this.col, this.color, this.board);
+
+        // return the new Piece object
+        return newPiece;
+    }
 }
 
 

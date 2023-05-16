@@ -26,7 +26,8 @@
 <?import impl.org.controlsfx.skin.DecorationPane?>
 
 
-<BorderPane fx:id="gameScene"  fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.GameController"
+<?import javafx.scene.control.Label?>
+<BorderPane fx:id="gameScene" fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.GameController"
             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0"
             prefWidth="800.0"
@@ -41,25 +42,36 @@
 
     <left>
 
-        <VBox spacing="100">
-            <Button>
-                PAUSE
+        <VBox spacing="100" alignment="CENTER">
+
+
+            <Button onAction="#pauseClock">
+                Pause
             </Button>
 
-            <Button>
-                FORFEIT MATCH
+            <Button onAction="#resign">
+                Resign
             </Button>
 
+            <Button onAction="#saveOngoingMatch">
+                Save match
+            </Button>
 
-            <Text>
-                CLOCK:
-            </Text>
-            <Text>
-                Red: 10:00
-                BLACK: 10:00
+            <Button onAction="#exitAndSwitchToMainMenu">
+                Exit to menu
+            </Button>
 
-                (static for  now)
-            </Text>
+            <VBox spacing="5">
+
+                <Text>
+                    CLOCK:
+                </Text>
+
+                <Text fx:id="ClockDisplay" textAlignment="CENTER"/>
+
+            </VBox>
+
+
         </VBox>
 
 
@@ -69,9 +81,11 @@
     <top >
         <HBox alignment="CENTER" spacing="100" styleClass="buttonContainer" fx:id="Hbox">
 
-<!--            <Text textAlignment="CENTER" fx:id="testText"> HeaderText</Text>-->
 
             <Button text="BBB"/>
+
+            <Text textAlignment="CENTER" fx:id="infoDisplay" styleClass="header"></Text>
+
             <Button text="AAA"/>
 
         </HBox>
@@ -102,7 +116,7 @@
 
 
 
-                        <GridPane fx:id="boardGrid" id="boardGrid" gridLinesVisible="true" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <GridPane fx:id="boardGrid" id="boardGrid" gridLinesVisible="false" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
 
                             <rowConstraints>
                                 <RowConstraints vgrow="ALWAYS" percentHeight="10" />
@@ -162,11 +176,11 @@
 
 
             <HBox>
-                <Button>
+                <Button onAction="#viewOlderBoard">
                     &lt;-
                 </Button>
 
-                <Button>
+                <Button onAction="#viewNewerBoard">
                     -&gt;
                 </Button>
 

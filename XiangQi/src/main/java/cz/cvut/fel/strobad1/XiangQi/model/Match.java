@@ -1,17 +1,26 @@
 package cz.cvut.fel.strobad1.XiangQi.model;
 
 import cz.cvut.fel.strobad1.XiangQi.model.Pieces.General;
-import cz.cvut.fel.strobad1.XiangQi.controller.GameController;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Match {
 
+
+    private String aiColor;
+    private boolean playingAgainstAI = false;
+
     private static boolean redWins = false;
+    private static boolean blackWins = false;
+    private static boolean gameDraw= false;
+
+    public static boolean isGameDraw() {
+        return gameDraw;
+    }
+
     private static Player redPlayer;
     private static Player blackPlayer;
-    private static boolean blackWins = false;
     private static int turnCounter;
     private static boolean redTurn = false;
     Board viewingBoard;
@@ -19,25 +28,33 @@ public class Match {
     private ArrayList<Board> moveHistory;
     private boolean viewingPast = false;
 
-    Clock gameClock;
+    private boolean aiOpponent;
 
-    /**
-     * Does all important checks before ending the turn to make sure that the move was legal
-     */
-    private void endTurnChecks() {
-// CHECK IF GENERAL WILL BE IN LOS WITH OTHER GENERAL OR GO INTO CHECK BY MAKING A BAD MOVE.**************
-        ///TODO end turn checks
+    public SaveManager getSaveManager() {
+        return saveManager;
     }
 
+    private SaveManager saveManager;
+    ChessClock gameClock;
+
+
+
+    public ChessClock getGameClock() {
+        return gameClock;
+    }
+
+    public static void setGameDraw(boolean gameDraw) {
+        Match.gameDraw = gameDraw;
+    }
 
     /**
      * Starts the instance of the game
      */
-    public void startGame() throws IOException {
+    public void startGame() throws IOException, CloneNotSupportedException {
         turnCounter = -1;
         // possibly add name selection, low importance
 
-
+        saveManager = new SaveManager();
         //set up players
         redPlayer = new Player("red");
         blackPlayer = new Player("black");
@@ -51,14 +68,21 @@ public class Match {
 
 
 
+        if(aiOpponent==true){
 
 
-        viewingBoard = gameBoard;
+            //TODO
+        }
+
+
+
+
+//        viewingBoard = gameBoard;
 
 
 
         //set up clock
-        gameClock = new Clock();
+        gameClock = new ChessClock();
         gameClock.pauseCountdown();
 
         //start the game
@@ -68,80 +92,79 @@ public class Match {
     }
 
 
+    public static boolean isRedTurn() {
+        return redTurn;
+    }
+
     /**
      * Turn start operation that happens every turn.
      */
 
-    public void startTurn() throws IOException {
+    public void startTurn() throws IOException, CloneNotSupportedException {
 
         gameClock.resumeCountdown();
         // saves last turn's board (starting at 0 pieces moved)
-        moveHistory.add(gameBoard);
 
-        getBlackGeneral().getValidMoves();
 
         if(turnCounter!=0){
             gameClock.switchTurn();
         }
 
 
-
-        //TESTING
-
-        redTurn=true;
-        //red pawn moves
-//        gameBoard.getCell(0,0).getPieceOnCell().move(0,1);
-
-
-//        redTurn=false;
-        //black pawn moves
-//        gameBoard.getCell(8,8).getPieceOnCell().move(8,7);
-
         turnCounter++;
 
-        SaveManager saveManager = new SaveManager();
-        saveManager.saveGame(gameBoard);
 
 
 
-        //TEST
+
+
+        //if it was black's turn, it's red's turn now.
+        if (!redTurn) {
+            redTurn = true;
+            //Turn number only changes on red's turn
+            turnCounter++;
+            //it's red's turn;
 
 
 
-        return;
+            //TODO RESOLVE ERROR
 
 
-//        //if it was black's turn, it's red's turn now.
-//        if (!redTurn) {
-//            redTurn = true;
-//            //Turn number only changes on red's turn
-//            turnCounter++;
-//            //it's red's turn;
-//        } else {
-//            //it's black's turn
-//            redTurn = false;
-//        }
 //
-//        //check if you have any legal moves ELSE game ends via stalemate
-//        checkMateCheck();
+//            Board newBoard = gameBoard.clone();
 //
 //
+//            moveHistory.add(newBoard);
 //
-//        // the person whose turn it is when generals are revealed wins.
-//        if(flyingGeneralCheck()==true){
-//            if(redTurn){
-//                redWins=true;
-//            }
-//            else{
-//                blackWins=true;
-//            }
-//        }
-//
-//
-//
-//        repetitionCheck();
-//        lackOfPiecesCheck();
-//        fiftyMoveNoCaptureCheck();
+            viewingBoard = gameBoard;
+
+        } else {
+            //it's black's turn
+            redTurn = false;
+        }
+
+
+
+        //check if you have any legal moves ELSE game ends via stalemate
+        checkMateCheck();
+
+
+
+        // the person whose turn it is when generals are revealed wins.
+        if(flyingGeneralCheck()==true){
+            if(redTurn){
+                redWins=true;
+            }
+            else{
+                blackWins=true;
+            }
+        }
+
+
+
+        repetitionCheck();
+        lackOfPiecesCheck();
+        fiftyMoveNoCaptureCheck();
 
     }
 
@@ -228,35 +251,62 @@ public class Match {
     }
 
 
+    public static String getVictor(){
+        if(redWins){
+            return "red";
+        }
+        if(blackWins){
+            return  "black";
+        }
+        return null;
+    }
+
+    public static void setRedWins(boolean redWins) {
+        Match.redWins = redWins;
+    }
+
+    public static void setBlackWins(boolean blackWins) {
+        Match.blackWins = blackWins;
+    }
+
     /**
      *
      * @return true if the generals can "see" each other
      */
+
+
     public boolean flyingGeneralCheck() {
         General redGeneral = (General) getRedGeneral();
         General blackGeneral = (General) getBlackGeneral();
 
-        ArrayList<Piece> blockingPieceList = new ArrayList<>();
-
-            //if the generals aren't in the same line
-        if(redGeneral.getCol() != blackGeneral.getCol()){
+        // If the generals aren't in the same column, no need to check further
+        if (redGeneral.getCol() != blackGeneral.getCol()) {
             return false;
         }
 
-        for (Piece piece: gameBoard.getPieceList() ) {
-
-            if((piece.getCol()==redGeneral.getCol()) &&(piece != blackGeneral && piece != redGeneral)){
-                blockingPieceList.add(piece);
+        // Loop through the pieces in the same column as the generals
+        for (Piece piece : gameBoard.getPieceList()) {
+            // Skip the generals themselves
+            if (piece == redGeneral || piece == blackGeneral) {
+                continue;
             }
 
-            if (blockingPieceList.size()>0){
-                return false;
+            // Check if the piece is between the generals
+            if (piece.getCol() == redGeneral.getCol()) {
+                int minRow = Math.min(redGeneral.getRow(), blackGeneral.getRow());
+                int maxRow = Math.max(redGeneral.getRow(), blackGeneral.getRow());
+
+                // Check if the piece is in the same column and its row is between the generals' rows
+                if (piece.getRow() > minRow && piece.getRow() < maxRow) {
+                    return false;
+                }
             }
         }
 
-
+        // If no piece is between the generals, return true
         return true;
     }
+
 
 
     /**
@@ -289,7 +339,7 @@ public class Match {
         General blackGeneral = null;
 
         for (Piece piece : gameBoard.getPieceList()) {
-            if (piece instanceof General && piece.getColor() == "black") {
+            if (piece instanceof General && piece.getColor().equals("black")) {
                 blackGeneral = (General) piece;
             }
         }
@@ -343,25 +393,6 @@ public class Match {
                 }
             }
             blackWins=true;
-
-
-
-            //TODO DELETE IF IRRELEVANT, I think this code is useless but not sure
-//
-//            // if defending side can take checking piece
-//            for (Piece checkingPiece : checkingPieces) {
-//                for (Piece defendingPiece : gameBoard.getPieceList()) {
-//
-//                    //a defending move can take checking piece
-//                    if (defendingPiece.getValidMoves().contains(gameBoard.getFirstCellWithPiece(checkingPiece))) {
-//                        continue;
-//                    } else {
-//                        blackWins = true;
-//                        return true;
-//                    }
-//                }
-//            }
-
         } else {
             checkingPieces =gameBoard.getPiecesCheckingBlackGeneral();
 
@@ -388,12 +419,12 @@ public class Match {
 
         if(redWins){
             System.out.println( "RED PLAYER WINS!!!");
-
         }
         else{
             System.out.println( "BLACK PLAYER WINS!!!");
-
         }
+
+        gameOver();
 
     }
 
@@ -411,11 +442,15 @@ public class Match {
 
     public Board getViewingBoard1TurnBack() {
 
-        int tempViewingBoardIndex = moveHistory.indexOf(viewingBoard);
+        int viewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
-        if (tempViewingBoardIndex > 0) {
-            tempViewingBoardIndex -= 1;
-            viewingBoard = moveHistory.get(tempViewingBoardIndex);
+        if(viewingBoardIndex== moveHistory.size()-1){
+            startOrStopViewingPast();
+        }
+
+        if (viewingBoardIndex > 0) {
+            viewingBoardIndex -= 1;
+            viewingBoard = moveHistory.get(viewingBoardIndex);
         } else {
             System.out.println("already on first turn");
         }
@@ -424,15 +459,46 @@ public class Match {
 
     public Board getViewingBoard1TurnAhead() {
 
-        int tempViewingBoardIndex = moveHistory.indexOf(viewingBoard);
+        int ViewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
-        if (tempViewingBoardIndex < moveHistory.size() + 1) {
-            tempViewingBoardIndex += 1;
-            viewingBoard = moveHistory.get(tempViewingBoardIndex);
+        //there's
+        if (ViewingBoardIndex < moveHistory.size()-1) {
+            ViewingBoardIndex += 1;
+            viewingBoard = moveHistory.get(ViewingBoardIndex);
         } else {
             System.out.println("already on current turn");
+            if(viewingPast){
+                startOrStopViewingPast();
+
+            }
         }
 
         return viewingBoard;
     }
+
+
+
+    public void gameOver(){
+        gameClock.pauseCountdown();
+    }
+
+    public boolean getViewingPast() {
+        return viewingPast;
+
+    }
+
+
+    public boolean isPlayingAgainstAI() {
+        return playingAgainstAI;
+    }
+
+
+    public void setPlayingAgainstAI(boolean playingAgainstAI) {
+        this.playingAgainstAI = playingAgainstAI;
+    }
+
+    public void setAiColor(String aiColor) {
+        this.aiColor = aiColor;
+    }
+
 }

@@ -20,7 +20,7 @@ public class LoadGameController {
     @FXML
     public void switchToMainMenu(ActionEvent event) throws IOException {
 
-        GameController gameController = new GameController();
+
 
         root = FXMLLoader.load(getClass().getResource("/scenes/MainMenu.fxml"));
 
@@ -33,8 +33,6 @@ public class LoadGameController {
 
     @FXML
     public void LoadGameAndSwitchToGameScreen(ActionEvent event) throws IOException {
-
-        GameController gameController = new GameController();
 
         root = FXMLLoader.load(getClass().getResource("/scenes/XiangQiBoard.fxml"));
 
@@ -51,7 +49,6 @@ public class LoadGameController {
     @FXML
     public void switchToLoadMenu(ActionEvent event) throws IOException {
 
-        GameController gameController = new GameController();
 
         root = FXMLLoader.load(getClass().getResource("/scenes/LoadMenu.fxml"));
 

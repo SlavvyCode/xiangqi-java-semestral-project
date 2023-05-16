@@ -32,18 +32,32 @@ public class Advisor extends Piece {
             int destCol = col + offset[1];
 
 
-
-            if ((destRow < 0 || destRow > 2) || (destRow < 7 || destRow > 9) || destCol < 3 || destCol > 5) {
-                // destination is outside of the general's palace
+            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
                 continue;
             }
+
             Cell destCell = board.getCell(destRow, destCol);
+
+            if(!destCell.getIsPalace()){
+                continue;
+            }
 
             moveList.add(destCell);
 
         }
         return moveList;
     }
+
+
+    @Override
+    public Piece clone() {
+        // create a new Piece object with the same fields as this
+        Advisor newPiece = new Advisor(this.row, this.col, this.color, this.board);
+
+        // return the new Piece object
+        return newPiece;
+    }
+
 
 
 

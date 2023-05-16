@@ -24,23 +24,23 @@ public class SaveManager {
 
     /**
      * Loads game from file
-     * @param board
+     * @param match
      */
-    public void loadGame(Board board){
+    public void loadGame(Match match){
 
     }
 
 
     /**
      * Saves game to file
-     * @param board
+     * @param match
      */
-    public void saveGame(Board board) throws IOException {
+    public void saveGame(Match match) throws IOException {
 
         OutputStream os = new FileOutputStream(saveFile);
         OutputStreamWriter osw = new OutputStreamWriter(os);
 
-        ArrayList<Board> moveHistory = board.getMatch().getMoveHistory();
+        ArrayList<Board> moveHistory = match.getMoveHistory();
 
         for (int i = 0; i < moveHistory.size(); i++) {
             String[]     movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();

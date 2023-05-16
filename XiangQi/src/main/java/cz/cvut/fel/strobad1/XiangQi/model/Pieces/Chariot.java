@@ -7,7 +7,7 @@ import java.util.ArrayList;
 // == rook
 public class Chariot extends Piece {
 
-    private static final float value = 9;
+    private final float value = 9;
 
     private final int[][] offsets = {
             {-1,0},{0,-1},{0,1},{1,0},
@@ -84,8 +84,121 @@ public class Chariot extends Piece {
 
         return moveList;
     }
+
+//
+//    @Override
+//    public ArrayList<Cell> getValidMoves() {
+//        ArrayList<Cell> moveList = new ArrayList<Cell>();
+//
+//        // Define the directions for the chariot to move
+//        int[][] directions = {{-1,0},{0,-1},{0,1},{1,0}};
+//
+//        // Loop through each direction
+//        for (int[] direction : directions) {
+//
+//            // Initialize the destination row and column as the current row and column
+//            int destRow = row;
+//            int destCol = col;
+//
+//            // Loop until the destination is out of the board
+//            while (true) {
+//
+//                // Update the destination by adding the direction offset
+//                destRow += direction[0];
+//                destCol += direction[1];
+//
+//                // Check if destination is within the board
+//                if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+//                    break;
+//                }
+//
+//                // Get the piece on the destination cell
+//                Piece piece = board.getCell(destRow, destCol).getPieceOnCell();
+//
+//                // If there is no piece on the destination cell
+//                if (piece == null) {
+//                    // The chariot can move there
+//                    moveList.add(board.getCell(destRow, destCol));
+//                }
+//                // If there is a piece on the destination cell
+//                else {
+//                    // If the piece is of the opposite color, the chariot can capture it
+//                    if (piece.getColor() != this.color) {
+//                        moveList.add(board.getCell(destRow, destCol));
+//                    }
+//                    // The chariot cannot move further in this direction
+//                    break;
+//                }
+//            }
+//        }
+//
+//        return moveList;
+//    }
+
+    @Override
+    public ArrayList<Cell> getValidMoves() {
+        ArrayList<Cell> moveList = new ArrayList<>();
+
+        // Define the directions for the chariot to move
+        int[][] directions = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+
+        // Loop through each direction
+        for (int[] direction : directions) {
+            // Get the valid moves in the specified direction
+            getValidMovesInDirection(direction, moveList);
+        }
+
+        return moveList;
+    }
+
+    private void getValidMovesInDirection(int[] direction, ArrayList<Cell> moveList) {
+        // Initialize the destination row and column as the current row and column
+        int destRow = row;
+        int destCol = col;
+
+        boolean pieceInPath=false;
+
+        // Loop until the destination is out of the board
+        while (true) {
+            // Update the destination by adding the direction offset
+            destRow += direction[0];
+            destCol += direction[1];
+
+
+            // Check if destination is within the board
+            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+                break;
+            }
+
+            Cell destCell = board.getCell(destRow,destCol);
+
+            if(destCell.getPieceOnCell()!=null){
+                if (checkValidityAndAddMove(destRow, destCol)) {
+                    moveList.add(board.getCell(destRow, destCol));
+                }
+                break;
+            }
+
+            // Check the validity of the move and add it to the moveList
+            if (checkValidityAndAddMove(destRow, destCol)) {
+                moveList.add(board.getCell(destRow, destCol));
+            }
+        }
+    }
+
     @Override
     public int[][] getOffsets() {
         return offsets;
+    }
+
+
+
+    @Override
+    public Piece clone() {
+        // create a new Piece object with the same fields as this
+        Chariot newPiece = new Chariot(this.row, this.col, this.color, this.board);
+
+        // return the new Piece object
+        return newPiece;
     }
 }
