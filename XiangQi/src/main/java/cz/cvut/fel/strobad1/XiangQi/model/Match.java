@@ -77,7 +77,7 @@ public class Match {
 
 
 
-//        viewingBoard = gameBoard;
+        viewingBoard = gameBoard;
 
 
 

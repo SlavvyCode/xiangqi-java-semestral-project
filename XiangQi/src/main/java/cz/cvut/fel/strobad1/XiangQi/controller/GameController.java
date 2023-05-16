@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 
 public class GameController {
@@ -373,5 +374,29 @@ public class GameController {
         saveManager.saveGame(match);
     }
 
+
+    public String initMatchHistoryTracking() {
+
+        Text moveHistoryDisplay = (Text) gameScene.lookup("#moveHistoryDisplay");
+
+
+        // Create a StringBuilder object
+        StringBuilder matchHistoryString = new StringBuilder();
+        ArrayList<Board> moveHistory = match.getMoveHistory();
+        for (int i = 0; i < moveHistory.size(); i++) {
+            String[] movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
+            if (movesPerformed[1] == null) {
+                String orderedMovesPerformed = (i + 1) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
+                // Append the orderedMovesPerformed string to the StringBuilder object
+                matchHistoryString.append(orderedMovesPerformed);
+                // Write a new line to the StringBuilder object
+                matchHistoryString.append(System.lineSeparator());
+            } else {
+                // Handle the case when movesPerformed[1] is not null
+            }
+        }
+        // Return the string representation of the StringBuilder object
+        return matchHistoryString.toString();
+    }
 
 }

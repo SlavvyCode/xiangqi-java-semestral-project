@@ -170,9 +170,14 @@
             </Text>
 
 
+
+
             <Text>
                 HISTORY:
             </Text>
+
+
+            <Text fx:id="#moveHistoryDisplay"/>
 
 
             <HBox>
