@@ -206,7 +206,7 @@ public class GameController {
 
                 updateBoard();
             }
-        }), new KeyFrame(Duration.seconds(5)));
+        }), new KeyFrame(Duration.seconds(1)));
         // Set the cycle count to indefinite, so the animation repeats forever
         aiTimeline.setCycleCount(Animation.INDEFINITE);
 // Start the animation
@@ -464,14 +464,11 @@ public class GameController {
             return;
         }
         SaveManager saveManager = match.getSaveManager();
-        saveManager.saveGame(match);
+        saveManager.saveGame(matchHistoryString.toString());
     }
 
     public void updateHistory() {
-
-
         ArrayList<Board> moveHistory = match.getMoveHistory();
-
 
         int i = moveHistory.size() - 1;
 

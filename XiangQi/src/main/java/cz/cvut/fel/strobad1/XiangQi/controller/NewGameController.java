@@ -48,13 +48,6 @@ public class NewGameController implements Initializable {
             match.setPlayingAgainstAI(false);
         }
 
-//        root = FXMLLoader.load(getClass().getResource("/scenes/XiangQiBoard.fxml"));
-//
-//
-//        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
 
 
         FXMLLoader loader = new FXMLLoader();

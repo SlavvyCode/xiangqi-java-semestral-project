@@ -25,7 +25,7 @@
     <top>
         <HBox alignment="CENTER" spacing="100" styleClass="headerContainer" BorderPane.alignment="CENTER">
 
-            <Text styleClass="header" textAlignment="CENTER"> LOAD GAME HEADER</Text>
+            <Text styleClass="header" textAlignment="CENTER"> Load savegame</Text>
 
         </HBox>
     </top>

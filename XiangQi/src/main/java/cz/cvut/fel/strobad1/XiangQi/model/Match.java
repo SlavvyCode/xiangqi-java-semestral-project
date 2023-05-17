@@ -17,16 +17,16 @@ public class Match {
     private String aiColor = "black";
     private boolean playingAgainstAI = false;
 
-    private static boolean redWins = false;
-    private static boolean blackWins = false;
-    private static boolean gameDraw= false;
+    private boolean redWins = false;
+    private boolean blackWins = false;
+    private boolean gameDraw= false;
 
     int viewingBoardIndex;
 
     Logger logger = Logger.getLogger(Match.class.getName());
 
 
-    public static boolean isGameDraw() {
+    public boolean isGameDraw() {
         return gameDraw;
     }
 
@@ -53,8 +53,8 @@ public class Match {
         return gameClock;
     }
 
-    public static void setGameDraw(boolean gameDraw) {
-        Match.gameDraw = gameDraw;
+    public void setGameDraw(boolean gameDraw) {
+        this.gameDraw = gameDraw;
     }
 
     /**
@@ -251,7 +251,7 @@ public class Match {
     }
 
 
-    public static String getVictor(){
+    public String getVictor(){
         if(redWins){
             return "red";
         }
@@ -261,12 +261,12 @@ public class Match {
         return null;
     }
 
-    public static void setRedWins(boolean redWins) {
-        Match.redWins = redWins;
+    public void setRedWins(boolean redWins) {
+        this.redWins = redWins;
     }
 
-    public static void setBlackWins(boolean blackWins) {
-        Match.blackWins = blackWins;
+    public void setBlackWins(boolean blackWins) {
+        this.blackWins = blackWins;
     }
 
 
@@ -432,43 +432,29 @@ public class Match {
 
     public void randomAIMove() throws IOException, CloneNotSupportedException {
 
-        if((!gameBoard.isRedTurn() && aiColor.equals("red"))||
-                gameBoard.isRedTurn() && aiColor.equals("black"))
-        {
+//        if((!gameBoard.isRedTurn() && aiColor.equals("red"))||
+//                gameBoard.isRedTurn() && aiColor.equals("black"))
+//        {
+//            return;
+//        }
+        if(gameClock.isPaused()){
             return;
         }
+
         Random random = new Random();
 
-
-        ArrayList<Piece> pieceList = gameBoard.getPieceList();
         Piece randomPiece;
-
-
-        ArrayList<Piece> redPieces= new ArrayList<>();
-        ArrayList<Piece> blackPieces= new ArrayList<>();
-
-        for (Piece pieceInList: pieceList) {
-
-            if(pieceInList.color.equals("red")){
-                redPieces.add(pieceInList);
-            }
-            else{
-                blackPieces.add(pieceInList);
-            }
-
-        }
 
 
         ArrayList<Piece>playingSidePieces;
 
         if(gameBoard.isRedTurn()){
-            playingSidePieces=redPieces;
+            playingSidePieces=getRedPieces();
         }else {
-            playingSidePieces=blackPieces;
+            playingSidePieces=getBlackPieces();
         }
 
         while (true){
-
             int pieceIndexToTry = random.nextInt(playingSidePieces.size());
 
             randomPiece = playingSidePieces.get(pieceIndexToTry);
@@ -488,30 +474,55 @@ public class Match {
         Cell[][] cellList = gameBoard.getCellList();
 
 
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        int[] cellCoords = gameBoard.findCellCoords(randomValidCell);
 
 
-
-                if(randomValidCell==(cellList[i][j])){
-
-                    if(randomPiece.moveIfValid(i, j)){
-                        logger.info("AI is moving "  + randomPiece.color + " "+ randomPiece.getClass().getSimpleName() + " to " + i + " " + j +".");
-                        startTurn();
-                        return;
-                    }
-
-
-                }
-
-
-
-            }
+        if(randomPiece.moveIfValid(cellCoords[0], cellCoords[1])){
+            logger.info("AI is moving "  + randomPiece.color + " "
+                    + randomPiece.getClass().getSimpleName() +
+                    " to " + cellCoords[0] + " " + cellCoords[1] +".");
+            startTurn();
+            return;
         }
+
 
         logger.severe("AI couldn't find its move!");
         throw new NullPointerException();
+    }
+
+
+
+    private ArrayList<Piece> getRedPieces() {
+        ArrayList<Piece> redPieces = new ArrayList<Piece>();
+        ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+
+        for (Piece pieceInList: gameBoard.getPieceList()) {
+
+            if(pieceInList.color.equals("red")){
+                redPieces.add(pieceInList);
+            }
+            else{
+                blackPieces.add(pieceInList);
+            }
+
+        }
+        return redPieces;
+    }
+    private ArrayList<Piece> getBlackPieces() {
+        ArrayList<Piece> redPieces = new ArrayList<Piece>();
+        ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+
+        for (Piece pieceInList: gameBoard.getPieceList()) {
+
+            if(pieceInList.color.equals("red")){
+                redPieces.add(pieceInList);
+            }
+            else{
+                blackPieces.add(pieceInList);
+            }
+
+        }
+        return blackPieces;
     }
 
     public void setGameClock(ChessClock importedClock) {

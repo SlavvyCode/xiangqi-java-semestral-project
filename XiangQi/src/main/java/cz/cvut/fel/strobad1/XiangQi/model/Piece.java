@@ -44,75 +44,93 @@ public abstract class Piece implements Cloneable {
      */
     public ArrayList<Cell> getValidMoves() {
 
-        int[][] offsets = getOffsets();
+//        int[][] offsets = getOffsets();
+
+
+        ArrayList<Cell> validMoveList = new ArrayList<Cell>();
 
 
 
-        ArrayList<Cell> moveList = new ArrayList<Cell>();
+        //        ArrayList<Cell> moveList = new ArrayList<Cell>();
 
         //example offsets for king
         //int[][] offsets = {{+1, 0},{-1,0},{0,+1},{0,-1}};
 
-        for (int[] offset : offsets) {
+//        for (int[] offset : offsets) {
+//
+//            //each offset is for example {1,2}
+//            int destRow = this.getRow() + offset[0];
+//            int destCol = this.getCol() + offset[1];
+//
+//            // Check if destination is within the board, else move on to the next move
+//            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+//                continue;
+//            }
+//
+//            int currentRow = this.getRow();
+//            int currentCol = this.getCol();
+//
+//            Cell destCell = board.getCell(destRow, destCol);
+//
+////            gets placed back if checkmates arise.
+//            Piece destCellOriginalPiece = destCell.getPieceOnCell();
+//
+//
+//            if(destCellOriginalPiece != null && destCellOriginalPiece.getColor().equals(this.color)){
+//                continue;
+//            }
+//
+//
+//            move(destRow,destCol);
+//
+//
+//            int amountOfCheckingPieces;
+//            if (this.color == "red") {
+//                amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
+//            } else {
+//                amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
+//            }
+//
+//            if(board.flyingGeneralCheck() == true){
+//                //return to former position
+//                move(currentRow,currentCol);
+//                //return original destination cell piece to its cell
+//                if(destCellOriginalPiece !=null) {
+//                    destCellOriginalPiece.move(destRow, destCol);
+//                }
+//                continue;
+//            }
+//
+//            //return piece to former position
+//            move(currentRow,currentCol);
+//
+//            if(destCellOriginalPiece !=null){
+//                destCellOriginalPiece.move(destRow,destCol);
+//            }
+//
+//            if (amountOfCheckingPieces > 0) {
+//                continue;
+//            }
+//
+//            moveList.add(board.getCell(destRow, destCol));
 
-            //each offset is for example {1,2}
-            int destRow = this.getRow() + offset[0];
-            int destCol = this.getCol() + offset[1];
+//        }
 
-            // Check if destination is within the board, else move on to the next move
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
-                continue;
+
+        for (Cell move: getMoveList()) {
+
+            int[] coords = board.findCellCoords(move);
+
+            if(checkValidityAndAddMove(coords[0],coords[1])){
+
+                validMoveList.add(move);
             }
-
-            int currentRow = this.getRow();
-            int currentCol = this.getCol();
-
-            Cell destCell = board.getCell(destRow, destCol);
-
-//            gets placed back if checkmates arise.
-            Piece destCellOriginalPiece = destCell.getPieceOnCell();
-
-
-            if(destCellOriginalPiece != null && destCellOriginalPiece.getColor().equals(this.color)){
-                continue;
-            }
-
-
-            move(destRow,destCol);
-
-
-            int amountOfCheckingPieces;
-            if (this.color == "red") {
-                amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
-            } else {
-                amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
-            }
-
-            if(board.flyingGeneralCheck() == true){
-                //return to former position
-                move(currentRow,currentCol);
-                //return original destination cell piece to its cell
-                if(destCellOriginalPiece !=null) {
-                    destCellOriginalPiece.move(destRow, destCol);
-                }
-                continue;
-            }
-
-            //return piece to former position
-            move(currentRow,currentCol);
-
-            if(destCellOriginalPiece !=null){
-                destCellOriginalPiece.move(destRow,destCol);
-            }
-
-            if (amountOfCheckingPieces > 0) {
-                continue;
-            }
-
-            moveList.add(board.getCell(destRow, destCol));
 
         }
-        return moveList;
+
+
+
+        return validMoveList;
     }
 
 
@@ -126,15 +144,6 @@ public abstract class Piece implements Cloneable {
     public boolean isValidMove(int newRow, int newCol) {
 
         Cell newCell = board.getCell(newRow, newCol);
-
-        System.out.println(newCell);
-
-        if(this instanceof General || this instanceof Advisor){
-            if(!newCell.getIsPalace()){
-                return false;
-            }
-        }
-
 
         if (getValidMoves().contains(newCell)) {
             return true;
@@ -154,19 +163,15 @@ public abstract class Piece implements Cloneable {
         // A method that moves a piece to a new position if valid
         board.updateCell(this.row, this.col, null);
 
-
-
         Piece pieceOnDestCell = board.getCell(newRow, newCol).getPieceOnCell();
         board.getPieceList().remove(pieceOnDestCell);
 
-
         board.updateCell(newRow, newCol, this);
-
-
 
         this.row = newRow;
         this.col = newCol;
     }
+
     public String getColor() {
         return color;
     }
@@ -184,26 +189,13 @@ public abstract class Piece implements Cloneable {
 
     public boolean moveIfValid(int newRow, int newCol){
 
-
-
-
         if((board.isRedTurn() && this.color.equals("red")) || (!board.isRedTurn() && this.color.equals("black"))){
 
             if (isValidMove(newRow, newCol)) {
-
-
-                move(newRow,newCol);
-
-
                 saveMoveToHistory(newRow, newCol);
-
-
+                move(newRow,newCol);
                 board.setRedTurn(!board.isRedTurn());
-                //if it's red's turn
                 return true; // Move successful
-//        ([former rank][former file])-[new rank][new file] Thus,
-//        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
-//        this looks weird because the numbers dont have a line between them such as 3,2 - 3,5
             }
 
             else {

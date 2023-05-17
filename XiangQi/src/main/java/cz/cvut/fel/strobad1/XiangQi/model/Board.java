@@ -4,7 +4,6 @@ package cz.cvut.fel.strobad1.XiangQi.model;
 import cz.cvut.fel.strobad1.XiangQi.model.Pieces.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Board implements Cloneable {
@@ -36,27 +35,12 @@ public class Board implements Cloneable {
     // RED STARTS
 
 
-    public void setPieceList(ArrayList<Piece> pieceList) {
-        this.pieceList = pieceList;
-    }
-
-
-    private ArrayList<Piece> pieceList;
-
-    public void setRedTurn(boolean redTurn) {
-        isRedTurn = redTurn;
-    }
-
-    public boolean isRedTurn() {
-        return isRedTurn;
-    }
-
-    private boolean isRedTurn=true;
     Logger logger = Logger.getLogger(Board.class.getName());
-
+    private ArrayList<Piece> pieceList;
+    private boolean isRedTurn = true;
     private String movePerformedThisTurn;
-
     private Cell[][] cellList = new Cell[10][9];
+
 
 
     public Board() {
@@ -64,6 +48,7 @@ public class Board implements Cloneable {
         pieceList = new ArrayList<Piece>();
 
 
+        //creates cells
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
 
@@ -90,6 +75,14 @@ public class Board implements Cloneable {
         }
     }
 
+    public boolean isRedTurn() {
+        return isRedTurn;
+    }
+
+    public void setRedTurn(boolean redTurn) {
+        isRedTurn = redTurn;
+    }
+
     @Override
     public Board clone() throws CloneNotSupportedException {
         // create a new Board object
@@ -111,7 +104,7 @@ public class Board implements Cloneable {
             int pieceRow = piece.getRow();
             int pieceCol = piece.getCol();
 
-            newBoard.updateCell(pieceRow,pieceCol,newPiece);
+            newBoard.updateCell(pieceRow, pieceCol, newPiece);
 
         }
 
@@ -175,13 +168,13 @@ public class Board implements Cloneable {
 
     }
 
+    public String getMovePerformedThisTurn() {
+        return movePerformedThisTurn;
+    }
+
     public void setMovePerformedThisTurn(String movePerformedThisTurn) {
 
         this.movePerformedThisTurn = movePerformedThisTurn;
-    }
-
-    public String getMovePerformedThisTurn() {
-        return movePerformedThisTurn;
     }
 
     /**
@@ -231,6 +224,9 @@ public class Board implements Cloneable {
         return pieceList;
     }
 
+    public void setPieceList(ArrayList<Piece> pieceList) {
+        this.pieceList = pieceList;
+    }
 
     public ArrayList<Piece> getPiecesCheckingRedGeneral() {
 
@@ -271,7 +267,6 @@ public class Board implements Cloneable {
     }
 
 
-
     @Override
     public String toString() {
 
@@ -302,7 +297,7 @@ public class Board implements Cloneable {
     @Override
     public boolean equals(Object boardToCompare) {
 
-        if(boardToCompare.getClass() != Board.class){
+        if (boardToCompare.getClass() != Board.class) {
             return false;
         }
         Board board = (Board) boardToCompare;
@@ -311,20 +306,19 @@ public class Board implements Cloneable {
             for (int j = 0; j < 9; j++) {
 
 
-                 if(!board.cellList[i][j].equals(cellList[i][j])){
-                     return false;
-                 }
+                if (!board.cellList[i][j].equals(cellList[i][j])) {
+                    return false;
+                }
 
             }
         }
 
 
-
         return true;
 
     }
+
     /**
-     *
      * @return true if the generals can "see" each other
      */
 
@@ -399,6 +393,26 @@ public class Board implements Cloneable {
             throw new NullPointerException();
         }
         return blackGeneral;
+    }
+
+
+    public int[] findCellCoords(Cell randomValidCell) {
+
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (randomValidCell == (cellList[i][j])) {
+                    int[] coords = new int[2];
+                    coords[0] = i;
+                    coords[1] = j;
+
+                    return coords;
+                }
+            }
+        }
+
+        logger.severe("couldn't find cell!");
+        throw new NullPointerException();
     }
 
 

@@ -1,18 +1,30 @@
 package cz.cvut.fel.strobad1.XiangQi.model;
 
-import javafx.beans.InvalidationListener;
-
-import java.time.Clock;
 import java.util.logging.Logger;
 
 public class ChessClock extends Thread {
+
+
+    private Match match;
+
 
     private long redStartTime;
     private long blackStartTime;
     private long redElapsedTime;
     private long blackElapsedTime;
-    private long maximumPlayerTime = 6000_000;
+
+
+    private long maximumTimeForBoth;
+    private long maximumRedTime;
+    private long maximumBlackTime;
+
+
     private long matchStartTime;
+
+
+    private long loadedRedTime;
+    private long loadedBlackTime;
+
     private long totalPauseTime = 0;
     private boolean isPaused = false;
     private boolean isRedTurn = false;
@@ -22,11 +34,25 @@ public class ChessClock extends Thread {
     Logger logger = Logger.getLogger(ChessClock.class.getName());
 
 
-    public ChessClock(long maximumPlayerTime) {
-        this. maximumPlayerTime = maximumPlayerTime;
+    public ChessClock(long maximumTimeForBoth, Match match) {
+        this.maximumTimeForBoth = maximumTimeForBoth;
         matchStartTime = System.currentTimeMillis();
         redStartTime = matchStartTime;
         blackStartTime = matchStartTime;
+        start();
+    }
+
+    //Constructor for loading from a save.
+    public ChessClock(long remainingRedTime,long remainingBlackTime, Match match) {
+        this.maximumRedTime = maximumRedTime;
+        matchStartTime = System.currentTimeMillis();
+        redStartTime = matchStartTime;
+        blackStartTime = matchStartTime;
+
+        match.getGameBoard().isRedTurn();
+
+        loadedRedTime = remainingRedTime;
+        loadedBlackTime = remainingBlackTime;
         start();
     }
 
@@ -35,16 +61,17 @@ public class ChessClock extends Thread {
     }
 
     public long getRedRemainingTime() {
-        return maximumPlayerTime - redElapsedTime;
+        return maximumRedTime - redElapsedTime;
     }
 
     public long getBlackRemainingTime() {
-        return maximumPlayerTime - blackElapsedTime;
+        return maximumRedTime - blackElapsedTime;
     }
 
     @Override
     public void run() {
-        while (redElapsedTime < maximumPlayerTime && blackElapsedTime < maximumPlayerTime) {
+
+        while (redElapsedTime < maximumRedTime && blackElapsedTime < maximumRedTime) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -68,11 +95,9 @@ public class ChessClock extends Thread {
         }
     }
 
+
+
     public void switchTurn() {
-        isRedTurn = !isRedTurn;
-
-
-
         if (isRedTurn) {
             redStartTime = System.currentTimeMillis() - redElapsedTime - totalPauseTime;
         } else {
@@ -119,11 +144,11 @@ public class ChessClock extends Thread {
     }
 
     public long getMaxPlayerTime() {
-        return maximumPlayerTime;
+        return maximumRedTime;
     }
 
     public void setMaxPlayerTime(long maxPlayerTime) {
-        this.maximumPlayerTime = maxPlayerTime;
+        this.maximumRedTime = maxPlayerTime;
     }
 
 

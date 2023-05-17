@@ -39,7 +39,7 @@ public class LoadGameController {
 
         SaveManager saveManager = new SaveManager();
 
-        saveManager.getMatchFromSaveFile();
+        saveManager.prepareMatchForLoading();
         root = FXMLLoader.load(getClass().getResource("/scenes/XiangQiBoard.fxml"));
 
 
