@@ -19,7 +19,8 @@ public class ChessClock extends Thread {
 
 
 
-    public ChessClock() {
+    public ChessClock(long maximumPlayerTime) {
+        this. maximumPlayerTime = maximumPlayerTime;
         matchStartTime = System.currentTimeMillis();
         redStartTime = matchStartTime;
         blackStartTime = matchStartTime;

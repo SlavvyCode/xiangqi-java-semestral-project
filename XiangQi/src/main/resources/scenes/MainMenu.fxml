@@ -36,19 +36,26 @@
 
 
     <stylesheets>
-
+        <URL value="@formatting/Menu.css"/>
+        <URL value="@formatting/GeneralFormatting.css"/>
 
     </stylesheets>
 
 
+    <top>
+        <VBox spacing="60" alignment="CENTER">
+
+
+            <Text fx:id="gameTitle" textAlignment="CENTER" >
+                XIANGQI
+            </Text>
+        </VBox>
+    </top>
     <center>
 
 
-        <VBox spacing="150" alignment="CENTER">
+        <VBox spacing="60" alignment="CENTER">
 
-            <Text>
-                XIANGQI
-            </Text>
 
             <Button fx:id="newGame"  text="New Game" onAction="#switchToNewGameMenu"/>
             <Button fx:id="loadGame" text="Load Game" onAction="#switchToLoadMenu"/>

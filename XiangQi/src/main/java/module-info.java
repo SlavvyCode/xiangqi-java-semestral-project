@@ -3,6 +3,8 @@ module cz.cvut.fel.strobad1.XiangQi {
     requires javafx.fxml;
     requires javafx.base;
     requires javafx.graphics;
+    requires java.logging;
+
 
 
 

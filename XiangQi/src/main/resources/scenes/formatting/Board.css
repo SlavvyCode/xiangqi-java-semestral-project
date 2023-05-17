@@ -5,22 +5,32 @@
 
     -fx-background-size: 100% 100%;
     -fx-background-color: white;
-    -fx-border-color: red;
+    -fx-border-color: #7a2626;
     -fx-border-width: 5px;
     -fx-background-repeat: no-repeat;
 
+
+
+
 }
 
+.sideBar{
+    -fx-padding: 20 20 20 20;
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 2px;
+    -fx-background-color: #a46363;
+    -fx-border-color: #444141;
 
+}
+Button{
+    -fx-min-width: 150;
+}
 
 .buttonContainer{
     -fx-padding: 50px;
 }
 .headerContainer{
     -fx-padding: 50px;
-}
-
-#listView{
 }
 
 .header{

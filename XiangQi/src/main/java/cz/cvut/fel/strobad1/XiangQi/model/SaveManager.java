@@ -112,6 +112,45 @@ public class SaveManager {
             }
         }
     }
+
+    public Match  getMatchFromSaveFile() {
+
+
+            // Create a FileChooser instance
+            FileChooser fileChooser = new FileChooser();
+            // Set the title of the file chooser
+            fileChooser.setTitle("Load File");
+            // Set the initial directory of the file chooser
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            // Set the extension filters of the file chooser
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+                    new FileChooser.ExtensionFilter("All Files", "*.*")
+            );
+            // Show the file open dialog and get the selected file
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            // Check if the user has selected a file
+            if (selectedFile != null) {
+                // Load the file using your own logic
+                String filePath = selectedFile.getAbsolutePath();
+                try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        // Parse and process each line of the file
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        return null;
+    }
+
+
 }
+
 
 

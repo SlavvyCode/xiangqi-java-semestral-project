@@ -4,11 +4,15 @@ import cz.cvut.fel.strobad1.XiangQi.model.Pieces.General;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Random;
 public class Match {
 
 
-    private String aiColor;
+    public String getAiColor() {
+        return aiColor;
+    }
+
+    private String aiColor = "black";
     private boolean playingAgainstAI = false;
 
     private static boolean redWins = false;
@@ -68,29 +72,18 @@ public class Match {
 
 
 
-        if(aiOpponent==true){
-
-
-            //TODO
-        }
 
 
 
 
         viewingBoard = gameBoard;
 
-
-
-        //set up clock
-        gameClock = new ChessClock();
-        gameClock.pauseCountdown();
-
-        //start the game
-
-        //TODO move start
-        startTurn();
     }
 
+
+    public void setGameBoard(Board gameBoard) {
+        this.gameBoard = gameBoard;
+    }
 
     public static boolean isRedTurn() {
         return redTurn;
@@ -131,10 +124,10 @@ public class Match {
 
 
 //
-//            Board newBoard = gameBoard.clone();
-//
-//
-//            moveHistory.add(newBoard);
+            Board newBoard = gameBoard.clone();
+
+
+            moveHistory.add(newBoard);
 //
             viewingBoard = gameBoard;
 
@@ -142,6 +135,7 @@ public class Match {
             //it's black's turn
             redTurn = false;
         }
+
 
 
 
@@ -381,7 +375,7 @@ public class Match {
             if (checkingPieces.isEmpty() || redGeneral.getValidMoves().size() > 0) {
                 return;
             }
-            //TODO find out if this works
+
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
                 if (allyPiece.color == "red") {
@@ -400,7 +394,7 @@ public class Match {
             if (checkingPieces.isEmpty() || blackGeneral.getValidMoves().size() > 0) {
                 return;
             }
-            //TODO find out if this works
+
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
                 if (allyPiece.color == "red") {
@@ -501,4 +495,85 @@ public class Match {
         this.aiColor = aiColor;
     }
 
+
+    public void randomAIMove(){
+        Random random = new Random();
+
+
+        ArrayList<Piece> pieceList = gameBoard.getPieceList();
+        Piece randomPiece;
+
+
+        ArrayList<Piece> redPieces= new ArrayList<>();
+        ArrayList<Piece> blackPieces= new ArrayList<>();
+        for (Piece pieceInList: pieceList) {
+
+            if(pieceInList.color.equals("red")){
+                redPieces.add(pieceInList);
+            }
+            else{
+                blackPieces.add(pieceInList);
+            }
+
+        }
+
+
+        ArrayList<Piece>playingSidePieces = null;
+
+        if(redTurn){
+            playingSidePieces=redPieces;
+        }else {
+            playingSidePieces=blackPieces;
+        }
+
+        while (true){
+
+            int pieceIndexToTry = random.nextInt(playingSidePieces.size());
+
+            randomPiece = pieceList.get(pieceIndexToTry);
+
+            if(randomPiece.getValidMoves().size()==0){
+                continue;
+            }
+            break;
+        }
+
+
+
+        ArrayList<Cell> validMoves = randomPiece.getValidMoves();
+
+        int randomValidMoveIndex = random.nextInt(validMoves.size());
+
+
+        Cell randomValidCell = validMoves.get(randomValidMoveIndex);
+
+//        find randomvalidcell in the 2d array that is celllist
+
+
+        Cell[][] cellList = gameBoard.getCellList();
+
+
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+
+
+
+                if(randomValidCell==cellList[i][j]){
+
+                    randomPiece.moveIfValid(i, j);
+                    return;
+                }
+
+
+
+            }
+        }
+
+        throw new NullPointerException();
+    }
+
+    public void setGameClock(ChessClock importedClock) {
+        this.gameClock = importedClock;
+    }
 }

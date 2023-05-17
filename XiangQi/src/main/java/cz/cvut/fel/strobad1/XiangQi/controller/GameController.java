@@ -7,15 +7,16 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -24,20 +25,30 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.time.Clock;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import java.util.logging.*;
 
 public class GameController {
 
+
+
     private static Match match;
-    public GameController(Match match) {
+    public GameController(Match match, int timeSettingMin) {
         // Set the match field with the constructor parameter
         this.match = match;
+        this.timeSettingMin = timeSettingMin;
     }
 
+    int timeSettingMin;
+
+
+    @FXML
+    Text clockDisplay;
+    @FXML
+    Text infoDisplay;
 
     // Define the initial position of the piece
     double startX = 0;
@@ -55,6 +66,8 @@ public class GameController {
     ChessClock gameTime;
 
 
+    @FXML
+    Text moveHistoryDisplay;
 
     @FXML
     public void initialize() throws IOException, CloneNotSupportedException {
@@ -70,8 +83,30 @@ public class GameController {
 
 
         match.startGame();
+        // Get a logger for the current class
+        Logger logger = Logger.getLogger(GameController.class.getName());
+
+        // Log an info message
+
 
         board = match.getGameBoard();
+
+        logger.info("Board created.");
+
+
+        System.out.println(timeSettingMin + "is time in mins");
+        //set up clock
+        gameTime = new ChessClock(timeSettingMin*60 *1000);
+
+        match.setGameClock(gameTime);
+
+        gameTime.pauseCountdown();
+
+        logger.info("Clock setUp");
+
+        match.startTurn();
+
+        logger.info("Match started");
 
         //#region BIND BOARD SIZE TO CENTER
         // create a stackpane to wrap the gridpane
@@ -102,15 +137,9 @@ public class GameController {
         //#endregion
 
 
-        updateBoard();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("mm:ss");
 
 
-        gameTime = match.getGameClock();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm:ss");
-
-
-        Text clockLabel = (Text) gameScene.lookup("#ClockDisplay");
 
         // Create a Timeline that updates the time every second
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
@@ -119,11 +148,25 @@ public class GameController {
             String redTime=null;
             String blackTime = null;
 
+
+
+
             if(gameTime.getBlackRemainingTime()>0 && gameTime.getRedRemainingTime() >0){
-                redTime = LocalTime.ofSecondOfDay(gameTime.getRedRemainingTime() / 1000)
-                        .format(formatter);
-                blackTime = LocalTime.ofSecondOfDay(gameTime.getBlackRemainingTime() / 1000)
-                        .format(formatter);
+//                redTime = LocalTime.ofSecondOfDay(gameTime.getRedRemainingTime() / 1000)
+//                        .format(formatter);
+//                blackTime = LocalTime.ofSecondOfDay(gameTime.getBlackRemainingTime() / 1000)
+//                        .format(formatter);
+                // Calculate minutes and seconds
+                int redMinutes = (int) (gameTime.getRedRemainingTime() / 1000 / 60);
+                int redSeconds = (int) ((gameTime.getRedRemainingTime() / 1000) % 60);
+
+                int blackMinutes = (int) (gameTime.getBlackRemainingTime() / 1000 / 60);
+                int blackSeconds = (int) ((gameTime.getBlackRemainingTime() / 1000) % 60);
+
+// Format minutes and seconds as "mm:ss"
+                redTime = String.format("%02d:%02d", redMinutes, redSeconds);
+                blackTime = String.format("%02d:%02d", blackMinutes, blackSeconds);
+
 
             }
             else {
@@ -131,19 +174,56 @@ public class GameController {
             }
 
             // Set the text of the label to the formatted time
-            clockLabel.setText("\n\n\n red time is: " + redTime + "\n and black time is: " + blackTime + "\n");
+            clockDisplay.setText("red time: " + redTime + "\nblack time: " + blackTime);
 
-        }), new KeyFrame(Duration.seconds(1)));
-// Set the cycle count to indefinite, so the animation repeats forever
+        }), new KeyFrame(Duration.millis(500)));
+        // Set the cycle count to indefinite, so the animation repeats forever
         clock.setCycleCount(Animation.INDEFINITE);
-// Start the animation
+        // Start the animation
         clock.play();
 
-// Add the label to the scene
-        gameScene.getChildren().add(clockLabel);
+
+        // Create a Timeline that updates the time every second
+        Timeline updater = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            updateEverything();
+
+        }), new KeyFrame(Duration.millis(100)));
+        // Set the cycle count to indefinite, so the animation repeats forever
+        updater.setCycleCount(Animation.INDEFINITE);
+        // Start the animation
+        updater.play();
 
 
-        System.err.println("user is playing against AI == " + match.isPlayingAgainstAI());
+
+
+
+        Timeline aiTimeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            // Get the current time and format it as hh:mm:ss
+
+
+        if(match.getAiColor()!=null){
+
+            if(match.isRedTurn() && match.getAiColor().equals("red")){
+                match.randomAIMove();
+            } else if (!match.isRedTurn() && match.getAiColor().equals("black")) {
+                match.randomAIMove();
+            }
+            updateBoard();
+        }
+        }), new KeyFrame(Duration.seconds(5)));
+        // Set the cycle count to indefinite, so the animation repeats forever
+        aiTimeline.setCycleCount(Animation.INDEFINITE);
+// Start the animation
+        aiTimeline.play();
+
+
+
+
+        logger.info("user is playing against AI == " + match.isPlayingAgainstAI());
+
+
+
+
     }
 
     public void updateBoard() {
@@ -171,6 +251,7 @@ public class GameController {
     }
 
     private void pieceAdding(Piece pieceOnCell, StackPane stackPane) {
+
         if (pieceOnCell != null) {
             // Create an ImageView for the piece
             ImageView pieceImageView = new ImageView();
@@ -197,7 +278,7 @@ public class GameController {
             pieceImageView.setOnMousePressed(event -> {
 
 
-                if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null)){
+                if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null) ){
                     return;
                 }
                 // Get the initial mouse coordinates
@@ -210,6 +291,10 @@ public class GameController {
             // Add an event handler for mouse drag on the image
             pieceImageView.setOnMouseDragged(event -> {
 
+                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                    return;
+                }
                 if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null)){
                     return;
                 }
@@ -230,10 +315,18 @@ public class GameController {
             // Add an event handler for mouse release on the image
             pieceImageView.setOnMouseReleased(event -> {
                 // Get the current mouse coordinates
-
+                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                    return;
+                }
                 if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null)){
                     return;
                 }
+                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                    return;
+                }
+
 
                 double mouseX = event.getSceneX();
                 double mouseY = event.getSceneY();
@@ -263,6 +356,7 @@ public class GameController {
 
                     if(pieceOnCell.moveIfValid(row, col)){
                         // Remove the piece from the old cell
+
                         updateBoard();
                         try {
                             match.startTurn();
@@ -291,6 +385,12 @@ public class GameController {
             stackPane.getChildren().clear();
         }
     }
+
+
+
+
+
+
 
     public void viewOlderBoard(){
 
@@ -331,20 +431,28 @@ public class GameController {
 
 
 
+
+    public void updateEverything(){
+        updateInfoDisplay();
+        updateHistory();
+
+    }
     public void updateInfoDisplay(){
 
         Text infoDisplay = (Text) gameScene.lookup("#infoDisplay");
 
-        if(match.getVictor().equals("red")){
+        if(match.getVictor() != null && match.getVictor().equals("red")){
             infoDisplay.setText("Game over!\n Red wins!");
         }
-        else if(match.getVictor().equals("black")){
+        else if(match.getVictor() != null && match.getVictor().equals("black")){
 
             infoDisplay.setText("Game over!\n Black wins!");
         }
         else if (gameTime.isPaused()) {
             infoDisplay.setText("P A U S E D");
         } else if (match.isRedTurn()) {
+
+
             infoDisplay.setText("Red's turn to play");
         } else {
             infoDisplay.setText("Black's turn to play");
@@ -370,14 +478,15 @@ public class GameController {
 
     public void saveOngoingMatch() throws IOException {
 
+        if((match.getVictor()!=null)){
+            return;
+        }
         SaveManager saveManager = match.getSaveManager();
         saveManager.saveGame(match);
     }
 
 
-    public String initMatchHistoryTracking() {
-
-        Text moveHistoryDisplay = (Text) gameScene.lookup("#moveHistoryDisplay");
+    public void updateHistory() {
 
 
         // Create a StringBuilder object
@@ -395,8 +504,12 @@ public class GameController {
                 // Handle the case when movesPerformed[1] is not null
             }
         }
-        // Return the string representation of the StringBuilder object
-        return matchHistoryString.toString();
+
+        moveHistoryDisplay.setText(matchHistoryString.toString());
+
+
     }
+
+
 
 }

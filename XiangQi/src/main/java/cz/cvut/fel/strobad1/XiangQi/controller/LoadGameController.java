@@ -1,5 +1,6 @@
 package cz.cvut.fel.strobad1.XiangQi.controller;
 
+import cz.cvut.fel.strobad1.XiangQi.model.SaveManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ public class LoadGameController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private boolean againstAI = false;
 
     @FXML
     public void switchToMainMenu(ActionEvent event) throws IOException {
@@ -32,8 +34,12 @@ public class LoadGameController {
     }
 
     @FXML
-    public void LoadGameAndSwitchToGameScreen(ActionEvent event) throws IOException {
+    public void loadGameAndSwitchToGameScreen(ActionEvent event) throws IOException {
 
+
+        SaveManager saveManager = new SaveManager();
+
+        saveManager.getMatchFromSaveFile();
         root = FXMLLoader.load(getClass().getResource("/scenes/XiangQiBoard.fxml"));
 
 
@@ -63,4 +69,12 @@ public class LoadGameController {
 
 
     }
+
+    public void selectSaveGame(ActionEvent actionEvent) {
+    }
+
+    public void setIfGameAgainstAI(ActionEvent actionEvent) {
+        againstAI = !againstAI;
+    }
+
 }

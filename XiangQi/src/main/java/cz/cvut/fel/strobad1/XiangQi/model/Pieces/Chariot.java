@@ -55,8 +55,6 @@ public class Chariot extends Piece {
 
 
 
-            //TODO CHECK FUNCTIONALITY
-
             for (int r = Math.min(destRow, row) + 1; r < Math.max(destRow, row); r++) {
                 for (int c = Math.min(destCol, col) + 1; c < Math.max(destCol, col); c++) {
 

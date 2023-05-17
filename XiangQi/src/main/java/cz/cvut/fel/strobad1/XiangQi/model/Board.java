@@ -35,7 +35,11 @@ public class Board implements Cloneable {
     // RED STARTS
 
 
-    ///****** SHOULD THE BOARD REMEMBER THE PIECES' PLACES OR SHOULD THE PIECES THEMSELVES
+    public void setPieceList(ArrayList<Piece> pieceList) {
+        this.pieceList = pieceList;
+    }
+
+
     private ArrayList<Piece> pieceList;
 
     private Match match;
@@ -84,43 +88,46 @@ public class Board implements Cloneable {
         Board newBoard = new Board(this.match);
 
 
-        // clone the cellList using a loop
-        newBoard.cellList = new Cell[10][9];
+//        // clone the cellList using a loop
+//        newBoard.cellList = new Cell[10][9];
+//
+//        for (int i = 0; i < 10; i++) {
+//            for (int j = 0; j < 9; j++) {
+//
+//
+//                if (i < 5) {
+//                    //finding palace on RedSide
+//                    if (i < 3 && (j > 2 && j < 6)) {
+//                        newBoard.cellList[i][j] = new Cell("red", null, true);
+//                    } else {
+//                        newBoard.cellList[i][j] = new Cell("red", null, false);
+//                    }
+//                } else {
+//                    //check for palace on BLACKSide
+//
+//                    if (i > 6 && (j > 2 && j < 6)) {
+//                        newBoard.cellList[i][j] = new Cell("black", null, true);
+//                    } else {
+//                        newBoard.cellList[i][j] = new Cell("black", null, false);
+//                    }
+//
+//                }
+//
+//
+//            }
+//        }
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+//        Board tempBoard = match.getGameBoard();
 
-
-                if (i < 5) {
-                    //finding palace on RedSide
-                    if (i < 3 && (j > 2 && j < 6)) {
-                        newBoard.cellList[i][j] = new Cell("red", null, true);
-                    } else {
-                        newBoard.cellList[i][j] = new Cell("red", null, false);
-                    }
-                } else {
-                    //check for palace on BLACKSide
-
-                    if (i > 6 && (j > 2 && j < 6)) {
-                        newBoard.cellList[i][j] = new Cell("black", null, true);
-                    } else {
-                        newBoard.cellList[i][j] = new Cell("black", null, false);
-                    }
-
-                }
-
-
-            }
-        }
-
-
+        System.out.println(this);
         // clone the pieceList using a loop
-        newBoard.pieceList = new ArrayList<Piece>();
+        ArrayList<Piece> newPieceList = newBoard.getPieceList();
+        newPieceList = new ArrayList<Piece>();
         for (Piece piece : this.pieceList) {
             Piece newPiece = (Piece) piece.clone();
             newPiece.setBoard(newBoard);
 
-            newBoard.pieceList.add(newPiece);
+            newPieceList.add(newPiece);
 
 
 
@@ -128,13 +135,38 @@ public class Board implements Cloneable {
             int pieceCol = piece.getCol();
 
 
-            newBoard.getCell(pieceRow, pieceCol).setPieceOnCell(newPiece);
+//            newBoard.getCell(pieceRow, pieceCol).setPieceOnCell(newPiece);
 
+            newBoard.updateCell(pieceRow,pieceCol,newPiece);
 
         }
+        newBoard.setPieceList(newPieceList);
+
+//        match.setGameBoard(tempBoard);
+//        tempBoard.setPieceList(pieceList);
+
 
         // KRITICKY KOD????
-        System.out.println(match.getGameBoard().getFirstCellWithPiece(match.getBlackGeneral()));
+        //General se prepise druhym. proc???? clone() je snad dobre udelan?
+        //nic neodkazuje na soucasny piecelist???
+
+        // newBoard se NEnastavuje na match board - blbost. - lze postupne projit debuggerem.
+//        System.out.println(match.getGameBoard().getFirstCellWithPiece(match.getBlackGeneral()));
+//        System.out.println(match.getGameBoard().getFirstCellWithPiece(match.getRedGeneral()));
+
+
+        System.out.println(this);
+//        for (int i = 0; i < 10; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                if (getCell(i, j).getPieceOnCell() !=null) {
+////                    if (getCell(i, j).getPieceOnCell().equals(pieceToFind)) {
+//                    System.out.println(getCell(i, j).getPieceOnCell().getClass());
+//                }
+//            }
+//        }
+
+
+
 
         // clone the movesPerformedThisTurn array using Arrays.copyOf
         newBoard.movesPerformedThisTurn = Arrays.copyOf(this.movesPerformedThisTurn, this.movesPerformedThisTurn.length);
@@ -228,6 +260,7 @@ public class Board implements Cloneable {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 if (getCell(i, j).getPieceOnCell() == pieceToFind) {
+//                    if (getCell(i, j).getPieceOnCell().equals(pieceToFind)) {
                     return getCell(i, j);
                 }
             }
@@ -295,31 +328,34 @@ public class Board implements Cloneable {
     }
 
 
-    @Override
-    public String toString() {
+//    @Override
+//    public String toString() {
+//
+//        String output = "";
+//        for (int i = 0; i < 10; i++) {
+//            for (int j = 0; j < 9; j++) {
+//
+//                Piece piece = getCell(i, j).getPieceOnCell();
+//
+//                if (piece == null) {
+//                    output += " ";
+//                } else {
+//
+//                    output += piece.getClass().getSimpleName().toString().charAt(0);
+//
+//                }
+//
+//
+//            }
+//            output += "\n";
+//
+//        }
+//
+//        return output;
+//    }
 
-        String output = "";
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
-
-                Piece piece = getCell(i, j).getPieceOnCell();
-
-                if (piece == null) {
-                    output += " ";
-                } else {
-
-                    output += piece.getClass().getSimpleName().toString().charAt(0);
-
-                }
 
 
-            }
-            output += "\n";
-
-        }
-
-        return output;
-    }
 
 }
 
