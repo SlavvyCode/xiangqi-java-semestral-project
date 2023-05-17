@@ -123,9 +123,9 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        Elephant newPiece = new Elephant(this.row, this.col, this.color, this.board);
+        Elephant newPiece = new Elephant(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

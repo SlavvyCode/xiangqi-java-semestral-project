@@ -43,17 +43,23 @@ public class Board implements Cloneable {
 
     private ArrayList<Piece> pieceList;
 
-    private Match match;
+    public void setRedTurn(boolean redTurn) {
+        isRedTurn = redTurn;
+    }
+
+    public boolean isRedTurn() {
+        return isRedTurn;
+    }
+
+    private boolean isRedTurn=true;
     Logger logger = Logger.getLogger(Board.class.getName());
 
-    private String[] movesPerformedThisTurn = new String[2];
+    private String movePerformedThisTurn;
 
     private Cell[][] cellList = new Cell[10][9];
 
 
-    public Board(Match match) {
-
-        this.match = match;
+    public Board() {
 
         pieceList = new ArrayList<Piece>();
 
@@ -87,40 +93,36 @@ public class Board implements Cloneable {
     @Override
     public Board clone() throws CloneNotSupportedException {
         // create a new Board object
-        Board newBoard = new Board(this.match);
+        Board newBoard = new Board();
+
+        newBoard.setRedTurn(this.isRedTurn);
+        newBoard.movePerformedThisTurn = this.movePerformedThisTurn;
 
         // clone the pieceList using a loop
         ArrayList<Piece> newPieceList = newBoard.getPieceList();
-        newPieceList = new ArrayList<Piece>();
+
         for (Piece piece : this.pieceList) {
 
             //should work?
-            Piece newPiece = (Piece) piece.clone();
-
-            newPiece.setBoard(newBoard);
+            Piece newPiece = (Piece) piece.clone(newBoard);
 
             newPieceList.add(newPiece);
 
             int pieceRow = piece.getRow();
             int pieceCol = piece.getCol();
 
-
-
             newBoard.updateCell(pieceRow,pieceCol,newPiece);
-            // important!
-            updateCell(pieceRow,pieceCol,piece);
-
 
         }
 
         newBoard.setPieceList(newPieceList);
-        newBoard.movesPerformedThisTurn = Arrays.copyOf(this.movesPerformedThisTurn, this.movesPerformedThisTurn.length);
-        return newBoard;
 
+
+        return newBoard;
     }
 
     /**
-     * Sets up piecs on the board.
+     * Sets up pieces on the board in the default layout.
      */
     public void setUpPieces() {
 
@@ -173,13 +175,13 @@ public class Board implements Cloneable {
 
     }
 
-    public void setMovesPerformedThisTurn(String movesPerformedThisTurn, int i) {
+    public void setMovePerformedThisTurn(String movePerformedThisTurn) {
 
-        this.movesPerformedThisTurn[i] = movesPerformedThisTurn;
+        this.movePerformedThisTurn = movePerformedThisTurn;
     }
 
-    public String[] getMovesPerformedThisTurn() {
-        return movesPerformedThisTurn;
+    public String getMovePerformedThisTurn() {
+        return movePerformedThisTurn;
     }
 
     /**
@@ -189,6 +191,17 @@ public class Board implements Cloneable {
      * @return the cell of the piece we have.
      */
     public Cell getFirstCellWithPiece(Piece pieceToFind) {
+
+//
+//        Cell cellToReturn = getCell(pieceToFind.getRow(),pieceToFind.getCol());
+//
+//        if (cellToReturn == null){
+//
+//            logger.severe("An error occurred: Piece not found!");
+//            throw new NullPointerException();
+//        }
+//
+//        return cellToReturn;
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
@@ -221,7 +234,7 @@ public class Board implements Cloneable {
 
     public ArrayList<Piece> getPiecesCheckingRedGeneral() {
 
-        General redGeneral = (General) match.getRedGeneral();
+        General redGeneral = (General) getRedGeneral();
 
         ArrayList<Piece> checkingPieces = new ArrayList<>();
 
@@ -237,7 +250,7 @@ public class Board implements Cloneable {
 
     public ArrayList<Piece> getPiecesCheckingBlackGeneral() {
         ArrayList<Piece> checkingPieces = new ArrayList<>();
-        Cell generalLocation = this.getFirstCellWithPiece(match.getBlackGeneral());
+        Cell generalLocation = this.getFirstCellWithPiece(getBlackGeneral());
 
         for (Piece enemyPiece : this.getPieceList()) {
             if (enemyPiece.getColor().equals("red") && enemyPiece.getMoveList().contains(generalLocation)) {
@@ -257,41 +270,141 @@ public class Board implements Cloneable {
         return cellList[row][col];
     }
 
-    public Match getMatch() {
-        return match;
+
+
+    @Override
+    public String toString() {
+
+        String output = "";
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
+
+                Piece piece = getCell(i, j).getPieceOnCell();
+
+                if (piece == null) {
+                    output += " ";
+                } else {
+
+                    output += piece.getClass().getSimpleName().toString().charAt(0);
+
+                }
+
+
+            }
+            output += "\n";
+
+        }
+
+        return output;
     }
 
 
-//    @Override
-//    public String toString() {
-//
-//        String output = "";
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 9; j++) {
-//
-//                Piece piece = getCell(i, j).getPieceOnCell();
-//
-//                if (piece == null) {
-//                    output += " ";
-//                } else {
-//
-//                    output += piece.getClass().getSimpleName().toString().charAt(0);
-//
-//                }
-//
-//
-//            }
-//            output += "\n";
-//
-//        }
-//
-//        return output;
-//    }
+    @Override
+    public boolean equals(Object boardToCompare) {
+
+        if(boardToCompare.getClass() != Board.class){
+            return false;
+        }
+        Board board = (Board) boardToCompare;
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
 
 
+                 if(!board.cellList[i][j].equals(cellList[i][j])){
+                     return false;
+                 }
+
+            }
+        }
+
+
+
+        return true;
+
+    }
+    /**
+     *
+     * @return true if the generals can "see" each other
+     */
+
+
+    public boolean flyingGeneralCheck() {
+        General redGeneral = (General) getRedGeneral();
+        General blackGeneral = (General) getBlackGeneral();
+
+        // If the generals aren't in the same column, no need to check further
+        if (redGeneral.getCol() != blackGeneral.getCol()) {
+            return false;
+        }
+
+        // Loop through the pieces in the same column as the generals
+        for (Piece piece : getPieceList()) {
+            // Skip the generals themselves
+            if (piece == redGeneral || piece == blackGeneral) {
+                continue;
+            }
+
+            // Check if the piece is between the generals
+            if (piece.getCol() == redGeneral.getCol()) {
+                int minRow = Math.min(redGeneral.getRow(), blackGeneral.getRow());
+                int maxRow = Math.max(redGeneral.getRow(), blackGeneral.getRow());
+
+                // Check if the piece is in the same column and its row is between the generals' rows
+                if (piece.getRow() > minRow && piece.getRow() < maxRow) {
+                    return false;
+                }
+            }
+        }
+
+        // If no piece is between the generals, return true
+        return true;
+    }
+
+    /**
+     * Get red general by looping through the pieceList of the board else throw NullPointerException
+     *
+     * @return red general
+     */
+    public Piece getRedGeneral() {
+
+        General redGeneral = null;
+
+        for (Piece piece : getPieceList()) {
+            if (piece instanceof General && piece.getColor() == "red") {
+                redGeneral = (General) piece;
+            }
+        }
+        if (redGeneral == null) {
+            throw new NullPointerException();
+        }
+        return redGeneral;
+    }
+
+    /**
+     * Get black general by looping through the pieceList of the board else throw NullPointerException
+     *
+     * @return black general
+     */
+    public Piece getBlackGeneral() {
+
+        General blackGeneral = null;
+
+        for (Piece piece : getPieceList()) {
+            if (piece instanceof General && piece.getColor().equals("black")) {
+                blackGeneral = (General) piece;
+            }
+        }
+        if (blackGeneral == null) {
+            throw new NullPointerException();
+        }
+        return blackGeneral;
+    }
 
 
 }
+
+
 
 
 

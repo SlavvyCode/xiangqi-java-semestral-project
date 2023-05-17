@@ -14,7 +14,6 @@ public abstract class Piece implements Cloneable {
     protected int row;
     protected int col;
     protected Board board;
-    protected Match match;
 
     private Logger logger = Logger.getLogger(Piece.class.getName());
 
@@ -25,7 +24,7 @@ public abstract class Piece implements Cloneable {
         this.board = board;
         this.board.updateCell(row, col, this);
 
-        this.match = this.board.getMatch();
+
 
 
     }
@@ -57,7 +56,6 @@ public abstract class Piece implements Cloneable {
         for (int[] offset : offsets) {
 
             //each offset is for example {1,2}
-
             int destRow = this.getRow() + offset[0];
             int destCol = this.getCol() + offset[1];
 
@@ -66,15 +64,10 @@ public abstract class Piece implements Cloneable {
                 continue;
             }
 
-
-//            if the piece can move to this new spot and not let a checkmate happen, it's in the valid move list
-
-
             int currentRow = this.getRow();
             int currentCol = this.getCol();
 
             Cell destCell = board.getCell(destRow, destCol);
-
 
 //            gets placed back if checkmates arise.
             Piece destCellOriginalPiece = destCell.getPieceOnCell();
@@ -95,9 +88,7 @@ public abstract class Piece implements Cloneable {
                 amountOfCheckingPieces = board.getPiecesCheckingBlackGeneral().size();
             }
 
-
-            if(match.flyingGeneralCheck() == true){
-
+            if(board.flyingGeneralCheck() == true){
                 //return to former position
                 move(currentRow,currentCol);
                 //return original destination cell piece to its cell
@@ -107,6 +98,7 @@ public abstract class Piece implements Cloneable {
                 continue;
             }
 
+            //return piece to former position
             move(currentRow,currentCol);
 
             if(destCellOriginalPiece !=null){
@@ -164,7 +156,6 @@ public abstract class Piece implements Cloneable {
 
 
 
-        logger.info("Moving "  + this.color + " "+ this.getClass().getSimpleName() + " to " + newRow + " " + newCol +".");
         Piece pieceOnDestCell = board.getCell(newRow, newCol).getPieceOnCell();
         board.getPieceList().remove(pieceOnDestCell);
 
@@ -187,16 +178,16 @@ public abstract class Piece implements Cloneable {
     }
 
 
-    @Override
-    public abstract Piece clone() ;
+
+    public abstract Piece clone(Board board) ;
 
 
     public boolean moveIfValid(int newRow, int newCol){
 
 
-        //if it's red's turn
 
-        if((match.isRedTurn() && this.color.equals("red")) || (!match.isRedTurn() && this.color.equals("black"))){
+
+        if((board.isRedTurn() && this.color.equals("red")) || (!board.isRedTurn() && this.color.equals("black"))){
 
             if (isValidMove(newRow, newCol)) {
 
@@ -207,6 +198,8 @@ public abstract class Piece implements Cloneable {
                 saveMoveToHistory(newRow, newCol);
 
 
+                board.setRedTurn(!board.isRedTurn());
+                //if it's red's turn
                 return true; // Move successful
 //        ([former rank][former file])-[new rank][new file] Thus,
 //        the most common opening in the game would be written as: cannon (32)–35 soldier (18)–37
@@ -242,17 +235,9 @@ public abstract class Piece implements Cloneable {
         int newColToTranslate = newCol; // the number to convert
         String newColLetter = String.format("%c", 'a' + newColToTranslate); // convert the number to a letter
 
-        int i;
-        if(this.color.equals("red")){
-            i=0;
-        }
-        else{
-            i=1;
-        }
-
         String movePerformed = (oldColLetter + oldRow + newColLetter + newRow);
 
-        board.setMovesPerformedThisTurn(movePerformed,i);
+        board.setMovePerformedThisTurn(movePerformed);
     }
 
     protected boolean checkValidityAndAddMove(int destRow, int destCol) {
@@ -282,7 +267,7 @@ public abstract class Piece implements Cloneable {
         }
 
         // uses general.getcol()
-        if(match.flyingGeneralCheck() == true){
+        if(board.flyingGeneralCheck() == true){
 
             move(currentRow,currentCol);
             if(destCellOriginalPiece !=null) {

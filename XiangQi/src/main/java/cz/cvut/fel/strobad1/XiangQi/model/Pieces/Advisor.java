@@ -49,10 +49,11 @@ public class Advisor extends Piece {
     }
 
 
+
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        Advisor newPiece = new Advisor(this.row, this.col, this.color, this.board);
+        Advisor newPiece = new Advisor(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

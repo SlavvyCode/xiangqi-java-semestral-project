@@ -192,9 +192,9 @@ public class Chariot extends Piece {
 
 
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        Chariot newPiece = new Chariot(this.row, this.col, this.color, this.board);
+        Chariot newPiece = new Chariot(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

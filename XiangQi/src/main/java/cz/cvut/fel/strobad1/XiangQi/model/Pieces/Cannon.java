@@ -189,7 +189,7 @@ public class Cannon extends Piece {
         }
 
         // uses general.getcol()
-        if(match.flyingGeneralCheck() == true){
+        if(board.flyingGeneralCheck() == true){
 
             move(currentRow,currentCol);
             if(destCellOriginalPiece !=null) {
@@ -215,9 +215,9 @@ public class Cannon extends Piece {
 
 
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        Cannon newPiece = new Cannon(this.row, this.col, this.color, this.board);
+        Cannon newPiece = new Cannon(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

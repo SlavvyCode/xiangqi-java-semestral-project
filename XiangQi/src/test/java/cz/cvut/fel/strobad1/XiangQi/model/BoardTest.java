@@ -31,7 +31,7 @@ public class BoardTest {
     public void testConstructor(){
 
         assertNotNull(board.getCellList());
-        assertNotNull(board.getMovesPerformedThisTurn());
+        assertNotNull(board.getMovePerformedThisTurn());
         Assertions.assertEquals(match,board.getMatch());
 
 

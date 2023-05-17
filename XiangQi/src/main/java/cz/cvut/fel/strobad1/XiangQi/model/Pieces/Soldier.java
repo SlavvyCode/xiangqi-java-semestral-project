@@ -70,9 +70,9 @@ public class Soldier extends Piece{
 
 
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        Soldier newPiece = new Soldier(this.row, this.col, this.color, this.board);
+        Soldier newPiece = new Soldier(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

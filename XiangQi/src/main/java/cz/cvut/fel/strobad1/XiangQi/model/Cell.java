@@ -1,5 +1,7 @@
 package cz.cvut.fel.strobad1.XiangQi.model;
 
+import java.util.Objects;
+
 public class Cell {
 
     private Piece pieceOnCell;
@@ -46,5 +48,17 @@ public class Cell {
     }
 
 
-
+//    @Override
+//    public boolean equals(Object cellToCompare) {
+//        if(cellToCompare.getClass() != Cell.class){
+//            return false;
+//        }
+//        Cell cell = (Cell) cellToCompare;
+//
+//        if(cell.isPalace)
+//
+//            this.pieceOnCell = pieceOnCell;
+//        this.sideColor = sideColor;
+//        this.isPalace = isPalace;
+//    }
 }

@@ -53,9 +53,9 @@ public class General extends Piece {
 
 
     @Override
-    public Piece clone() {
+    public Piece clone(Board newBoard) {
         // create a new Piece object with the same fields as this
-        General newPiece = new General(this.row, this.col, this.color, this.board);
+        General newPiece = new General(this.row, this.col, this.color, newBoard);
 
         // return the new Piece object
         return newPiece;

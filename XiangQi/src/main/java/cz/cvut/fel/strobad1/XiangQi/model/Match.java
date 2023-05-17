@@ -33,7 +33,6 @@ public class Match {
     private static Player redPlayer;
     private static Player blackPlayer;
     private static int turnCounter;
-    private static boolean redTurn = false;
     Board viewingBoard;
     private Board gameBoard;
     private ArrayList<Board> moveHistory;
@@ -74,14 +73,14 @@ public class Match {
         moveHistory = new ArrayList<Board>();
 
         //set up board
-        gameBoard = new Board(this);
+        gameBoard = new Board();
         gameBoard.setUpPieces();
 
 
-
-
-        viewingBoard = gameBoard;
-
+        Board newBoard = gameBoard.clone();
+        moveHistory.add(newBoard);
+        viewingBoard = newBoard;
+        gameBoard=newBoard;
     }
 
 
@@ -89,15 +88,29 @@ public class Match {
         this.gameBoard = gameBoard;
     }
 
-    public static boolean isRedTurn() {
-        return redTurn;
-    }
 
     /**
      * Turn start operation that happens every turn.
      */
 
     public void startTurn() throws IOException, CloneNotSupportedException {
+
+
+
+
+        //if it was black's turn, it's red's turn now.
+        if (!gameBoard.isRedTurn()) {
+            //Turn number only changes on red's turn
+            turnCounter++;
+            //it's red's turn;
+
+        }
+
+        Board newBoard = gameBoard.clone();
+        moveHistory.add(newBoard);
+        viewingBoard = newBoard;
+        gameBoard=newBoard;
+
 
         gameClock.resumeCountdown();
         // saves last turn's board (starting at 0 pieces moved)
@@ -108,33 +121,14 @@ public class Match {
         }
 
 
-
-        //if it was black's turn, it's red's turn now.
-        if (!redTurn) {
-            redTurn = true;
-            //Turn number only changes on red's turn
-            turnCounter++;
-            //it's red's turn;
-
-        } else {
-            //it's black's turn
-            redTurn = false;
-        }
-
-        Board newBoard = gameBoard.clone();
-        moveHistory.add(newBoard);
-        viewingBoard = gameBoard;
-
-
-
         //check if you have any legal moves ELSE game ends via stalemate
         checkMateCheck();
 
 
 
         // the person whose turn it is when generals are revealed wins.
-        if(flyingGeneralCheck()==true){
-            if(redTurn){
+        if(gameBoard.flyingGeneralCheck()==true){
+            if(gameBoard.isRedTurn()){
                 redWins=true;
             }
             else{
@@ -147,10 +141,10 @@ public class Match {
 
         if(repetitionCheck()){
 
-            if(redTurn){
+            if(gameBoard.isRedTurn()){
                 redWins=true;
             }
-            if(!redTurn){
+            if(!gameBoard.isRedTurn()){
                 blackWins=true;
             }
             gameOver();
@@ -204,8 +198,6 @@ public class Match {
 
 
     public void drawGame(){
-
-
         logger.info("Draw!");
         gameOver();
     }
@@ -277,111 +269,29 @@ public class Match {
         Match.blackWins = blackWins;
     }
 
-    /**
-     *
-     * @return true if the generals can "see" each other
-     */
-
-
-    public boolean flyingGeneralCheck() {
-        General redGeneral = (General) getRedGeneral();
-        General blackGeneral = (General) getBlackGeneral();
-
-        // If the generals aren't in the same column, no need to check further
-        if (redGeneral.getCol() != blackGeneral.getCol()) {
-            return false;
-        }
-
-        // Loop through the pieces in the same column as the generals
-        for (Piece piece : gameBoard.getPieceList()) {
-            // Skip the generals themselves
-            if (piece == redGeneral || piece == blackGeneral) {
-                continue;
-            }
-
-            // Check if the piece is between the generals
-            if (piece.getCol() == redGeneral.getCol()) {
-                int minRow = Math.min(redGeneral.getRow(), blackGeneral.getRow());
-                int maxRow = Math.max(redGeneral.getRow(), blackGeneral.getRow());
-
-                // Check if the piece is in the same column and its row is between the generals' rows
-                if (piece.getRow() > minRow && piece.getRow() < maxRow) {
-                    return false;
-                }
-            }
-        }
-
-        // If no piece is between the generals, return true
-        return true;
-    }
 
 
 
-    /**
-     * Get red general by looping through the pieceList of the board else throw NullPointerException
-     *
-     * @return red general
-     */
-    public Piece getRedGeneral() {
-
-        General redGeneral = null;
-
-        for (Piece piece : gameBoard.getPieceList()) {
-            if (piece instanceof General && piece.getColor() == "red") {
-                redGeneral = (General) piece;
-            }
-        }
-        if (redGeneral == null) {
-            throw new NullPointerException();
-        }
-        return redGeneral;
-    }
-
-    /**
-     * Get black general by looping through the pieceList of the board else throw NullPointerException
-     *
-     * @return black general
-     */
-    public Piece getBlackGeneral() {
-
-        General blackGeneral = null;
-
-        for (Piece piece : gameBoard.getPieceList()) {
-            if (piece instanceof General && piece.getColor().equals("black")) {
-                blackGeneral = (General) piece;
-            }
-        }
-        if (blackGeneral == null) {
-            throw new NullPointerException();
-        }
-        return blackGeneral;
-    }
 
     public Board getGameBoard() {
         return gameBoard;
     }
 
-    //true if general in check
 
-    /**
-     * loops through each of the pieces that can move to the black general's location and returns them as an arraylist
-     *
-     * @return all pieces checking the black general
-     */
 
 
 
 
 
     public void checkMateCheck() {
-        General blackGeneral = (General) getBlackGeneral();
-        General redGeneral = (General) getRedGeneral();
+        General blackGeneral = (General) gameBoard.getBlackGeneral();
+        General redGeneral = (General) gameBoard.getRedGeneral();
 
         ArrayList<Piece> checkingPieces;
 
 
         //check at the start of the turn of the player being attacked
-        if (redTurn) {
+        if (gameBoard.isRedTurn()) {
 
             checkingPieces = gameBoard.getPiecesCheckingRedGeneral();
 
@@ -392,7 +302,7 @@ public class Match {
 
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
-                if (allyPiece.color == "red") {
+                if (allyPiece.color.equals("red")) {
                     //Get Valid moves checks for being able to move next turn.
                     totalPossibleMoves.addAll(allyPiece.getValidMoves());
                     if (totalPossibleMoves.size() > 0) {
@@ -411,7 +321,7 @@ public class Match {
 
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
-                if (allyPiece.color == "red") {
+                if (allyPiece.color.equals("red")) {
                     //Get Valid moves checks for being able to move next turn.
                     totalPossibleMoves.addAll(allyPiece.getValidMoves());
                     if (totalPossibleMoves.size() > 0) {
@@ -441,17 +351,11 @@ public class Match {
 
     }
 
-    public void startOrStopViewingPast() {
-
-
-        if (viewingPast && viewingBoardIndex== moveHistory.size()-1) {
-            viewingPast = false;
-            viewingBoard = gameBoard;
-
-            logger.info("viewing present now");
-            return;
-
-        }
+    public void stopViewingPast() {
+        viewingPast=false;
+        logger.info("viewing present now");
+    }
+    public void startViewingPast() {
         viewingPast = true;
         logger.info("viewing past now");
     }
@@ -465,35 +369,35 @@ public class Match {
         viewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
         if(viewingBoardIndex== moveHistory.size()-1 && !viewingPast){
-            startOrStopViewingPast();
+            startViewingPast();
         }
-
-        //if not on first turn
-        if (viewingBoardIndex > 0) {
-            viewingBoardIndex --;
-            viewingBoard = moveHistory.get(viewingBoardIndex);
-        } else {
-
+        if(viewingBoardIndex ==0){
             logger.info("already on first turn");
+            return viewingBoard;
         }
+
+        viewingBoardIndex --;
+        viewingBoard = moveHistory.get(viewingBoardIndex);
+
         return viewingBoard;
+
     }
 
     public Board getViewingBoard1TurnAhead() {
 
         viewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
-
-        if (viewingBoardIndex < moveHistory.size()-1) {
-            viewingBoardIndex ++;
-            viewingBoard = moveHistory.get(viewingBoardIndex);
-        } else {
+        if(viewingBoardIndex == moveHistory.size()-1){
             logger.info("already on last turn");
-            if(viewingPast){
-                //stop viewing past if you just got to the last turn again.
-                startOrStopViewingPast();
-            }
+            return viewingBoard;
         }
+
+        if(viewingBoardIndex == moveHistory.size()-2) {
+
+            stopViewingPast();
+        }
+        viewingBoardIndex ++;
+        viewingBoard = moveHistory.get(viewingBoardIndex);
 
         return viewingBoard;
     }
@@ -526,7 +430,13 @@ public class Match {
     }
 
 
-    public void randomAIMove(){
+    public void randomAIMove() throws IOException, CloneNotSupportedException {
+
+        if((!gameBoard.isRedTurn() && aiColor.equals("red"))||
+                gameBoard.isRedTurn() && aiColor.equals("black"))
+        {
+            return;
+        }
         Random random = new Random();
 
 
@@ -536,6 +446,7 @@ public class Match {
 
         ArrayList<Piece> redPieces= new ArrayList<>();
         ArrayList<Piece> blackPieces= new ArrayList<>();
+
         for (Piece pieceInList: pieceList) {
 
             if(pieceInList.color.equals("red")){
@@ -548,9 +459,9 @@ public class Match {
         }
 
 
-        ArrayList<Piece>playingSidePieces = null;
+        ArrayList<Piece>playingSidePieces;
 
-        if(redTurn){
+        if(gameBoard.isRedTurn()){
             playingSidePieces=redPieces;
         }else {
             playingSidePieces=blackPieces;
@@ -560,7 +471,7 @@ public class Match {
 
             int pieceIndexToTry = random.nextInt(playingSidePieces.size());
 
-            randomPiece = pieceList.get(pieceIndexToTry);
+            randomPiece = playingSidePieces.get(pieceIndexToTry);
 
             if(randomPiece.getValidMoves().size()==0){
                 continue;
@@ -569,16 +480,10 @@ public class Match {
         }
 
 
-
         ArrayList<Cell> validMoves = randomPiece.getValidMoves();
-
         int randomValidMoveIndex = random.nextInt(validMoves.size());
 
-
         Cell randomValidCell = validMoves.get(randomValidMoveIndex);
-
-//        find randomvalidcell in the 2d array that is celllist
-
 
         Cell[][] cellList = gameBoard.getCellList();
 
@@ -589,10 +494,15 @@ public class Match {
 
 
 
-                if(randomValidCell==cellList[i][j]){
+                if(randomValidCell==(cellList[i][j])){
 
-                    randomPiece.moveIfValid(i, j);
-                    return;
+                    if(randomPiece.moveIfValid(i, j)){
+                        logger.info("AI is moving "  + randomPiece.color + " "+ randomPiece.getClass().getSimpleName() + " to " + i + " " + j +".");
+                        startTurn();
+                        return;
+                    }
+
+
                 }
 
 
@@ -600,6 +510,7 @@ public class Match {
             }
         }
 
+        logger.severe("AI couldn't find its move!");
         throw new NullPointerException();
     }
 

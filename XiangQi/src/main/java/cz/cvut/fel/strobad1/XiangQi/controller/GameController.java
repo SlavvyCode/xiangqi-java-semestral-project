@@ -7,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -16,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -25,37 +23,31 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 public class GameController {
 
-
-
+    int realTurnNum;
     private static Match match;
-    public GameController(Match match, int timeSettingMin) {
-        // Set the match field with the constructor parameter
-        this.match = match;
-        this.timeSettingMin = timeSettingMin;
-    }
-
     int timeSettingMin;
     Logger logger = Logger.getLogger(Match.class.getName());
-
-
     @FXML
     Text clockDisplay;
     @FXML
     Text infoDisplay;
     @FXML
     Text turnDisplay;
-
     // Define the initial position of the piece
     double startX = 0;
     double startY = 0;
+    ChessClock gameTime;
+    StringBuilder matchHistoryString;
+    @FXML
+    Text moveHistoryDisplay;
+    // Declare a global variable to store the last written index
+    int lastWrittenIndex = -1;
     private double lastX;
     private double lastY;
     @FXML
@@ -66,14 +58,12 @@ public class GameController {
     private Scene scene;
     private Parent root;
     private Board board;
-    ChessClock gameTime;
 
-
-    StringBuilder matchHistoryString;
-
-
-    @FXML
-    Text moveHistoryDisplay;
+    public GameController(Match match, int timeSettingMin) {
+        // Set the match field with the constructor parameter
+        this.match = match;
+        this.timeSettingMin = timeSettingMin;
+    }
 
     @FXML
     public void initialize() throws IOException, CloneNotSupportedException {
@@ -103,7 +93,7 @@ public class GameController {
         logger.info(timeSettingMin + "is time in mins");
 
         //set up clock
-        gameTime = new ChessClock(timeSettingMin*60 *1000);
+        gameTime = new ChessClock(timeSettingMin * 60 * 1000);
 
         match.setGameClock(gameTime);
 
@@ -151,18 +141,15 @@ public class GameController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("mm:ss");
 
 
-
         // Create a Timeline that updates the time every second
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             // Get the current time and format it as hh:mm:ss
 
-            String redTime=null;
+            String redTime = null;
             String blackTime = null;
 
 
-
-
-            if(gameTime.getBlackRemainingTime()>0 && gameTime.getRedRemainingTime() >0){
+            if (gameTime.getBlackRemainingTime() > 0 && gameTime.getRedRemainingTime() > 0) {
 //                redTime = LocalTime.ofSecondOfDay(gameTime.getRedRemainingTime() / 1000)
 //                        .format(formatter);
 //                blackTime = LocalTime.ofSecondOfDay(gameTime.getBlackRemainingTime() / 1000)
@@ -179,8 +166,7 @@ public class GameController {
                 blackTime = String.format("%02d:%02d", blackMinutes, blackSeconds);
 
 
-            }
-            else {
+            } else {
                 match.setGameDraw(true);
             }
 
@@ -205,22 +191,21 @@ public class GameController {
         updater.play();
 
 
-
-
-
         Timeline aiTimeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            // Get the current time and format it as hh:mm:ss
 
 
-        if(match.getAiColor()!=null){
+            if (match.getAiColor() != null) {
+                try {
+                    match.randomAIMove();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (CloneNotSupportedException ex) {
+                    throw new RuntimeException(ex);
+                }
 
-            if(match.isRedTurn() && match.getAiColor().equals("red")){
-                match.randomAIMove();
-            } else if (!match.isRedTurn() && match.getAiColor().equals("black")) {
-                match.randomAIMove();
+
+                updateBoard();
             }
-            updateBoard();
-        }
         }), new KeyFrame(Duration.seconds(5)));
         // Set the cycle count to indefinite, so the animation repeats forever
         aiTimeline.setCycleCount(Animation.INDEFINITE);
@@ -228,11 +213,7 @@ public class GameController {
         aiTimeline.play();
 
 
-
-
         logger.info("user is playing against AI == " + match.isPlayingAgainstAI());
-
-
 
 
     }
@@ -289,7 +270,7 @@ public class GameController {
             pieceImageView.setOnMousePressed(event -> {
 
 
-                if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null) ){
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
                     return;
                 }
                 // Get the initial mouse coordinates
@@ -302,11 +283,11 @@ public class GameController {
             // Add an event handler for mouse drag on the image
             pieceImageView.setOnMouseDragged(event -> {
 
-                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
                     return;
                 }
-                if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null)){
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
                     return;
                 }
                 // Get the current mouse coordinates
@@ -326,15 +307,15 @@ public class GameController {
             // Add an event handler for mouse release on the image
             pieceImageView.setOnMouseReleased(event -> {
                 // Get the current mouse coordinates
-                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
                     return;
                 }
-                if(gameTime.isPaused() || match.getViewingPast() || (match.getVictor()!=null)){
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
                     return;
                 }
-                if((pieceOnCell.getColor().equals("black") && match.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !match.isRedTurn())){
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
                     return;
                 }
 
@@ -356,7 +337,8 @@ public class GameController {
                 }
 
                 if (closestNode != null) {
-                    logger.info("User tried placing piece at " + GridPane.getRowIndex(closestNode) + " and " + GridPane.getColumnIndex(closestNode));
+                    logger.info("User tried placing piece at " + GridPane.getRowIndex(closestNode) +
+                            " and " + GridPane.getColumnIndex(closestNode));
 
                     // Get the row and column indices of the closest node
                     int row = GridPane.getRowIndex(closestNode);
@@ -365,7 +347,7 @@ public class GameController {
                     // Check if the cell is empty
                     // Move the piece to the empty cell
 
-                    if(pieceOnCell.moveIfValid(row, col)){
+                    if (pieceOnCell.moveIfValid(row, col)) {
                         // Remove the piece from the old cell
 
                         updateBoard();
@@ -381,12 +363,10 @@ public class GameController {
                         }
 
                         stackPane.getChildren().clear();
-                    }
-                    else{
+                    } else {
                         pieceImageView.setTranslateX(originalX);
                         pieceImageView.setTranslateY(originalY);
                     }
-
 
 
                 }
@@ -400,30 +380,24 @@ public class GameController {
         }
     }
 
-
-
-
-
-
-
-    public void viewOlderBoard(){
+    public void viewOlderBoard() {
 
         match.getViewingBoard1TurnBack();
         updateBoard();
     }
-    public void viewNewerBoard(){
+
+    public void viewNewerBoard() {
         match.getViewingBoard1TurnAhead();
         updateBoard();
     }
 
+    public void pauseClock() {
 
-    public void pauseClock(){
-
-        if(match.getVictor()!=null){
+        if (match.getVictor() != null) {
             return;
         }
 
-        if(!gameTime.isPaused()){
+        if (!gameTime.isPaused()) {
             gameTime.pauseCountdown();
             return;
         }
@@ -434,36 +408,30 @@ public class GameController {
 
         match.gameOver();
 
-        if(match.isRedTurn()){
+        if (board.isRedTurn()) {
             match.setBlackWins(true);
-        }
-        else
-        {
+        } else {
             match.setRedWins(true);
         }
     }
 
-
-
-
-    public void updateEverything(){
+    public void updateEverything() {
         updateInfoDisplay();
         updateHistory();
 
     }
-    public void updateInfoDisplay(){
+
+    public void updateInfoDisplay() {
 
 
-        if(match.getVictor() != null && match.getVictor().equals("red")){
+        if (match.getVictor() != null && match.getVictor().equals("red")) {
             infoDisplay.setText("Game over!\n Red wins!");
-        }
-        else if(match.getVictor() != null && match.getVictor().equals("black")){
+        } else if (match.getVictor() != null && match.getVictor().equals("black")) {
 
             infoDisplay.setText("Game over!\n Black wins!");
-        }
-        else if (gameTime.isPaused()) {
+        } else if (gameTime.isPaused()) {
             infoDisplay.setText("P A U S E D");
-        } else if (match.isRedTurn()) {
+        } else if (board.isRedTurn()) {
 
 
             infoDisplay.setText("Red's turn to play");
@@ -472,21 +440,11 @@ public class GameController {
         }
 
 
+        int viewingBoardTurn = Integer.valueOf(match.getMoveHistory().indexOf(match.getViewingBoard()));
+        viewingBoardTurn= viewingBoardTurn/2;
+        turnDisplay.setText("viewing turn " + viewingBoardTurn);
 
-
-        int viewingBoardturnNumber = Integer.valueOf(match.getMoveHistory().indexOf(match.getViewingBoard()));
-        viewingBoardturnNumber=viewingBoardturnNumber;
-
-        turnDisplay.setText("viewing turn " + viewingBoardturnNumber);
-//        viewingBoardIndex
-//        viewingTurn
-
-
-//        ArrayList<Board> moveHistory = match.getMoveHistory();
-//        moveHistory.size()-1
     }
-
-
 
     @FXML
     public void exitAndSwitchToMainMenu(ActionEvent event) throws IOException {
@@ -494,55 +452,52 @@ public class GameController {
         root = FXMLLoader.load(getClass().getResource("/scenes/MainMenu.fxml"));
 
 
-
-
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-
     public void saveOngoingMatch() throws IOException {
 
-        if((match.getVictor()!=null)){
+        if ((match.getVictor() != null)) {
             return;
         }
         SaveManager saveManager = match.getSaveManager();
         saveManager.saveGame(match);
     }
 
-    // Declare a global variable to store the last written index
-    int lastWrittenIndex = -1;
-
     public void updateHistory() {
 
-        // Create a StringBuilder object
 
         ArrayList<Board> moveHistory = match.getMoveHistory();
 
-        if(moveHistory.size()<2){
+
+        int i = moveHistory.size() - 1;
+
+        if (moveHistory.size() <= 2 || lastWrittenIndex == i) {
             return;
         }
 
-        int i = moveHistory.size()-1;
+        String movePerformed = moveHistory.get(i).getMovePerformedThisTurn();
 
-        String[] movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
+        if (!moveHistory.get(i).isRedTurn()) {
 
-        // Check if the current index is equal to the last written index
-        if (i != lastWrittenIndex) {
-            // Update the last written index to the current index
-            lastWrittenIndex = i;
-            // Format the orderedMovesPerformed string
-            String orderedMovesPerformed = (i) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
-            // Append the orderedMovesPerformed string to the StringBuilder object
-            matchHistoryString.append(orderedMovesPerformed);
-            // Write a new line to the StringBuilder object
+            realTurnNum = (i/2);
+            matchHistoryString.append(realTurnNum+ ". " + movePerformed + " ");
+
+        } else {
+            matchHistoryString.append(movePerformed);
             matchHistoryString.append(System.lineSeparator());
         }
 
+        lastWrittenIndex = i;
+
         moveHistoryDisplay.setText(matchHistoryString.toString());
+
     }
 
-
 }
+
+
+

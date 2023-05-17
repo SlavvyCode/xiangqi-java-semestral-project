@@ -24,15 +24,16 @@ public class SaveManager {
         FileChooser fileChooser = new FileChooser();
 
         // Set the title of the file chooser
-        fileChooser.setTitle("Save File");
+        fileChooser.setTitle("Select Save File from the program or XiChess");
 
         // Set the initial directory of the file chooser
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
         // Set the extension filters of the file chooser
         fileChooser.getExtensionFilters().addAll(
+
+                new FileChooser.ExtensionFilter("XiangQi save files", "*.XiangQi"),
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
                 new FileChooser.ExtensionFilter("All Files", "*.*")
         );
 
@@ -47,10 +48,10 @@ public class SaveManager {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 ArrayList<Board> moveHistory = match.getMoveHistory();
                 for (int i = 0; i < moveHistory.size(); i++) {
-                    String[] movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
-                    String orderedMovesPerformed = (i + 1) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
-                    writer.write(orderedMovesPerformed);
-                    writer.newLine();
+//                    String[] movesPerformed = moveHistory.get(i).getMovePerformedThisTurn();
+//                    String orderedMovesPerformed = (i + 1) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
+//                    writer.write(orderedMovesPerformed);
+//                    writer.newLine();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
