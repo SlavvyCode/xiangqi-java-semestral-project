@@ -29,7 +29,7 @@ public class PieceTest {
     @Test
     public void testAdvisorValidMoves() {
         // Create a board and a match
-        Board board = new Board(match);
+        Board board = new Board();
         Match match = new Match();
 
         // Create an Advisor piece at position (3, 3) with color 'red'

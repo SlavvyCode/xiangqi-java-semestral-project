@@ -32,7 +32,6 @@ public class BoardTest {
 
         assertNotNull(board.getCellList());
         assertNotNull(board.getMovePerformedThisTurn());
-        Assertions.assertEquals(match,board.getMatch());
 
 
         // Verify expected number of pieces
@@ -57,7 +56,7 @@ public class BoardTest {
 
         // Verify that the pieces are placed on the correct cells on the board
         // For example, you can check the position of the red general
-        Cell redGeneralCell = board.getFirstCellWithPiece(match.getRedGeneral());
+        Cell redGeneralCell = board.getFirstCellWithPiece(board.getRedGeneral());
         assertNotNull(redGeneralCell);
 
         assertEquals("red", redGeneralCell.getSideColor());
