@@ -5,6 +5,8 @@ import cz.cvut.fel.strobad1.XiangQi.model.Pieces.General;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
+
 public class Match {
 
 
@@ -18,6 +20,11 @@ public class Match {
     private static boolean redWins = false;
     private static boolean blackWins = false;
     private static boolean gameDraw= false;
+
+    int viewingBoardIndex;
+
+    Logger logger = Logger.getLogger(Match.class.getName());
+
 
     public static boolean isGameDraw() {
         return gameDraw;
@@ -73,9 +80,6 @@ public class Match {
 
 
 
-
-
-
         viewingBoard = gameBoard;
 
     }
@@ -104,12 +108,6 @@ public class Match {
         }
 
 
-        turnCounter++;
-
-
-
-
-
 
         //if it was black's turn, it's red's turn now.
         if (!redTurn) {
@@ -118,24 +116,14 @@ public class Match {
             turnCounter++;
             //it's red's turn;
 
-
-
-            //TODO RESOLVE ERROR
-
-
-//
-            Board newBoard = gameBoard.clone();
-
-
-            moveHistory.add(newBoard);
-//
-            viewingBoard = gameBoard;
-
         } else {
             //it's black's turn
             redTurn = false;
         }
 
+        Board newBoard = gameBoard.clone();
+        moveHistory.add(newBoard);
+        viewingBoard = gameBoard;
 
 
 
@@ -152,12 +140,28 @@ public class Match {
             else{
                 blackWins=true;
             }
+            gameOver();
         }
 
 
 
-        repetitionCheck();
+        if(repetitionCheck()){
+
+            if(redTurn){
+                redWins=true;
+            }
+            if(!redTurn){
+                blackWins=true;
+            }
+            gameOver();
+
+        }
+
+
+
+
         lackOfPiecesCheck();
+
         fiftyMoveNoCaptureCheck();
 
     }
@@ -181,7 +185,8 @@ public class Match {
                 return;
             }
             if(i>=50){
-                System.out.println("DRAW!!!");
+
+                drawGame();
 
             }
 
@@ -190,10 +195,19 @@ public class Match {
 
     private boolean lackOfPiecesCheck() {
         if(gameBoard.getPieceList().size()==2){
-            System.out.println("DRAW!!!");
+
+            drawGame();
             return true;
         }
         return false;
+    }
+
+
+    public void drawGame(){
+
+
+        logger.info("Draw!");
+        gameOver();
     }
 
     public ArrayList<Board> getMoveHistory() {
@@ -235,7 +249,7 @@ public class Match {
         }
 
 
-        System.out.println("REPETITION CHECK! CHECKER LOSES!!");
+        logger.info("REPETITION CHECK! CHECKER LOSES!!");
         return true;
 
 
@@ -412,58 +426,72 @@ public class Match {
 
 
         if(redWins){
+
+            logger.info("Red wins.");
             System.out.println( "RED PLAYER WINS!!!");
         }
         else{
+
+            logger.info("Black wins.");
             System.out.println( "BLACK PLAYER WINS!!!");
         }
+
 
         gameOver();
 
     }
 
     public void startOrStopViewingPast() {
-        if (viewingPast) {
+
+
+        if (viewingPast && viewingBoardIndex== moveHistory.size()-1) {
             viewingPast = false;
             viewingBoard = gameBoard;
-            System.out.println("viewing present now");
+
+            logger.info("viewing present now");
             return;
 
         }
         viewingPast = true;
-        System.out.println("viewing the past now");
+        logger.info("viewing past now");
+    }
+
+    public int getViewingBoardIndex() {
+        return viewingBoardIndex;
     }
 
     public Board getViewingBoard1TurnBack() {
 
-        int viewingBoardIndex = moveHistory.indexOf(viewingBoard);
+        viewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
-        if(viewingBoardIndex== moveHistory.size()-1){
+        if(viewingBoardIndex== moveHistory.size()-1 && !viewingPast){
             startOrStopViewingPast();
         }
 
+        //if not on first turn
         if (viewingBoardIndex > 0) {
-            viewingBoardIndex -= 1;
+            viewingBoardIndex --;
             viewingBoard = moveHistory.get(viewingBoardIndex);
         } else {
-            System.out.println("already on first turn");
+
+            logger.info("already on first turn");
         }
         return viewingBoard;
     }
 
     public Board getViewingBoard1TurnAhead() {
 
-        int ViewingBoardIndex = moveHistory.indexOf(viewingBoard);
+        viewingBoardIndex = moveHistory.indexOf(viewingBoard);
 
-        //there's
-        if (ViewingBoardIndex < moveHistory.size()-1) {
-            ViewingBoardIndex += 1;
-            viewingBoard = moveHistory.get(ViewingBoardIndex);
+
+        if (viewingBoardIndex < moveHistory.size()-1) {
+            viewingBoardIndex ++;
+            viewingBoard = moveHistory.get(viewingBoardIndex);
         } else {
-            System.out.println("already on current turn");
+            logger.info("already on last turn");
             if(viewingPast){
+                //stop viewing past if you just got to the last turn again.
                 startOrStopViewingPast();
-
             }
         }
 
@@ -473,6 +501,8 @@ public class Match {
 
 
     public void gameOver(){
+
+        logger.fine("Game over.");
         gameClock.pauseCountdown();
     }
 

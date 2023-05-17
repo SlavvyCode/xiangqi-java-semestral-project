@@ -3,6 +3,7 @@ package cz.cvut.fel.strobad1.XiangQi.model;
 import javafx.beans.InvalidationListener;
 
 import java.time.Clock;
+import java.util.logging.Logger;
 
 public class ChessClock extends Thread {
 
@@ -17,6 +18,8 @@ public class ChessClock extends Thread {
     private boolean isRedTurn = false;
     private long pauseStartTime;
 
+
+    Logger logger = Logger.getLogger(ChessClock.class.getName());
 
 
     public ChessClock(long maximumPlayerTime) {
@@ -51,6 +54,8 @@ public class ChessClock extends Thread {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
+
+                    logger.severe("Thread Interrupted error!");
                     throw new RuntimeException(e);
                 }
                 continue;
@@ -87,7 +92,7 @@ public class ChessClock extends Thread {
         if (!isPaused) {
             isPaused = true;
             pauseStartTime = System.currentTimeMillis();
-
+            logger.info("Countdown paused.");
         }
     }
 
@@ -100,6 +105,8 @@ public class ChessClock extends Thread {
             } else {
                 blackStartTime = System.currentTimeMillis() - blackElapsedTime - totalPauseTime;
             }
+
+            logger.info("Countdown resumed.");
         }
     }
 

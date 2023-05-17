@@ -5,6 +5,7 @@ import cz.cvut.fel.strobad1.XiangQi.model.Pieces.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class Board implements Cloneable {
 
@@ -43,6 +44,7 @@ public class Board implements Cloneable {
     private ArrayList<Piece> pieceList;
 
     private Match match;
+    Logger logger = Logger.getLogger(Board.class.getName());
 
     private String[] movesPerformedThisTurn = new String[2];
 
@@ -87,91 +89,34 @@ public class Board implements Cloneable {
         // create a new Board object
         Board newBoard = new Board(this.match);
 
-
-//        // clone the cellList using a loop
-//        newBoard.cellList = new Cell[10][9];
-//
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 9; j++) {
-//
-//
-//                if (i < 5) {
-//                    //finding palace on RedSide
-//                    if (i < 3 && (j > 2 && j < 6)) {
-//                        newBoard.cellList[i][j] = new Cell("red", null, true);
-//                    } else {
-//                        newBoard.cellList[i][j] = new Cell("red", null, false);
-//                    }
-//                } else {
-//                    //check for palace on BLACKSide
-//
-//                    if (i > 6 && (j > 2 && j < 6)) {
-//                        newBoard.cellList[i][j] = new Cell("black", null, true);
-//                    } else {
-//                        newBoard.cellList[i][j] = new Cell("black", null, false);
-//                    }
-//
-//                }
-//
-//
-//            }
-//        }
-
-//        Board tempBoard = match.getGameBoard();
-
-        System.out.println(this);
         // clone the pieceList using a loop
         ArrayList<Piece> newPieceList = newBoard.getPieceList();
         newPieceList = new ArrayList<Piece>();
         for (Piece piece : this.pieceList) {
+
+            //should work?
             Piece newPiece = (Piece) piece.clone();
+
             newPiece.setBoard(newBoard);
 
             newPieceList.add(newPiece);
-
-
 
             int pieceRow = piece.getRow();
             int pieceCol = piece.getCol();
 
 
-//            newBoard.getCell(pieceRow, pieceCol).setPieceOnCell(newPiece);
 
             newBoard.updateCell(pieceRow,pieceCol,newPiece);
+            // important!
+            updateCell(pieceRow,pieceCol,piece);
+
 
         }
+
         newBoard.setPieceList(newPieceList);
-
-//        match.setGameBoard(tempBoard);
-//        tempBoard.setPieceList(pieceList);
-
-
-        // KRITICKY KOD????
-        //General se prepise druhym. proc???? clone() je snad dobre udelan?
-        //nic neodkazuje na soucasny piecelist???
-
-        // newBoard se NEnastavuje na match board - blbost. - lze postupne projit debuggerem.
-//        System.out.println(match.getGameBoard().getFirstCellWithPiece(match.getBlackGeneral()));
-//        System.out.println(match.getGameBoard().getFirstCellWithPiece(match.getRedGeneral()));
-
-
-        System.out.println(this);
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (getCell(i, j).getPieceOnCell() !=null) {
-////                    if (getCell(i, j).getPieceOnCell().equals(pieceToFind)) {
-//                    System.out.println(getCell(i, j).getPieceOnCell().getClass());
-//                }
-//            }
-//        }
-
-
-
-
-        // clone the movesPerformedThisTurn array using Arrays.copyOf
         newBoard.movesPerformedThisTurn = Arrays.copyOf(this.movesPerformedThisTurn, this.movesPerformedThisTurn.length);
-        // return the new Board object
         return newBoard;
+
     }
 
     /**
@@ -245,18 +190,6 @@ public class Board implements Cloneable {
      */
     public Cell getFirstCellWithPiece(Piece pieceToFind) {
 
-//        int pieceRow = pieceToFind.getRow();
-//        int pieceCol = pieceToFind.getCol();
-//
-//        return getCell(pieceRow,pieceCol);
-
-        System.out.println(this);
-        System.out.println("\n\n\n\n");
-
-
-//
-//        System.err.println("come back to getFirstCellWithPiece");
-//        return getCell(pieceRow,pieceCol);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
                 if (getCell(i, j).getPieceOnCell() == pieceToFind) {
@@ -265,6 +198,7 @@ public class Board implements Cloneable {
                 }
             }
         }
+        logger.severe("An error occurred: Piece not found!");
         throw new NullPointerException();
     }
 
@@ -276,7 +210,7 @@ public class Board implements Cloneable {
      * @param piece the piece or lack thereof that we want to put or remove from the cell.
      */
     public void updateCell(int row, int col, Piece piece) {
-        Cell selectedCell = cellList[row][col];
+        Cell selectedCell = this.cellList[row][col];
         selectedCell.setPieceOnCell(piece);
     }
 

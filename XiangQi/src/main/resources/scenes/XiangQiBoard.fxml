@@ -28,6 +28,8 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <BorderPane fx:id="gameScene" fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.GameController"
             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0"
@@ -88,6 +90,9 @@
 
             <Text textAlignment="CENTER" fx:id="infoDisplay" styleClass="header">
                 INFO DISPLAY
+            </Text>
+            <Text textAlignment="CENTER" fx:id="turnDisplay" styleClass="header">
+                Turn display
             </Text>
 
             <HBox alignment="CENTER" spacing="50">
@@ -163,7 +168,27 @@
                 </Text>
 
 
-                <Text fx:id="moveHistoryDisplay"/>
+
+                <ScrollPane maxWidth="150" hbarPolicy="NEVER" vbarPolicy="ALWAYS" minHeight="150">
+
+                    <Text fx:id="moveHistoryDisplay" wrappingWidth="150" />
+<!--                    <Text wrappingWidth="150">DELETE TEMP ONCE HISTORY WORKS-->
+<!--                        esttesttesttestt-->
+<!--                        e-->
+<!--                        s-->
+<!--                        t-->
+
+<!--                        t-->
+<!--                        e-->
+<!--                        s-->
+<!--                        t-->
+
+<!--                        t-->
+<!--                        e-->
+<!--                        st-->
+<!--                        t-->
+<!--                        esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest</Text>-->
+                </ScrollPane>
 
 
                 <padding>

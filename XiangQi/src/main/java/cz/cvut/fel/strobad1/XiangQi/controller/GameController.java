@@ -43,12 +43,15 @@ public class GameController {
     }
 
     int timeSettingMin;
+    Logger logger = Logger.getLogger(Match.class.getName());
 
 
     @FXML
     Text clockDisplay;
     @FXML
     Text infoDisplay;
+    @FXML
+    Text turnDisplay;
 
     // Define the initial position of the piece
     double startX = 0;
@@ -64,6 +67,9 @@ public class GameController {
     private Parent root;
     private Board board;
     ChessClock gameTime;
+
+
+    StringBuilder matchHistoryString;
 
 
     @FXML
@@ -94,7 +100,8 @@ public class GameController {
         logger.info("Board created.");
 
 
-        System.out.println(timeSettingMin + "is time in mins");
+        logger.info(timeSettingMin + "is time in mins");
+
         //set up clock
         gameTime = new ChessClock(timeSettingMin*60 *1000);
 
@@ -107,6 +114,10 @@ public class GameController {
         match.startTurn();
 
         logger.info("Match started");
+
+
+        matchHistoryString = new StringBuilder();
+
 
         //#region BIND BOARD SIZE TO CENTER
         // create a stackpane to wrap the gridpane
@@ -345,7 +356,7 @@ public class GameController {
                 }
 
                 if (closestNode != null) {
-                    System.out.println("Piece placed at row " + GridPane.getRowIndex(closestNode) + " and column " + GridPane.getColumnIndex(closestNode));
+                    logger.info("User tried placing piece at " + GridPane.getRowIndex(closestNode) + " and " + GridPane.getColumnIndex(closestNode));
 
                     // Get the row and column indices of the closest node
                     int row = GridPane.getRowIndex(closestNode);
@@ -361,8 +372,11 @@ public class GameController {
                         try {
                             match.startTurn();
                         } catch (IOException e) {
+
+                            logger.severe("An IO error occurred: " + e.getMessage());
                             throw new RuntimeException(e);
                         } catch (CloneNotSupportedException e) {
+                            logger.severe("A cloning error occurred: " + e.getMessage());
                             throw new RuntimeException(e);
                         }
 
@@ -439,7 +453,6 @@ public class GameController {
     }
     public void updateInfoDisplay(){
 
-        Text infoDisplay = (Text) gameScene.lookup("#infoDisplay");
 
         if(match.getVictor() != null && match.getVictor().equals("red")){
             infoDisplay.setText("Game over!\n Red wins!");
@@ -457,6 +470,20 @@ public class GameController {
         } else {
             infoDisplay.setText("Black's turn to play");
         }
+
+
+
+
+        int viewingBoardturnNumber = Integer.valueOf(match.getMoveHistory().indexOf(match.getViewingBoard()));
+        viewingBoardturnNumber=viewingBoardturnNumber;
+
+        turnDisplay.setText("viewing turn " + viewingBoardturnNumber);
+//        viewingBoardIndex
+//        viewingTurn
+
+
+//        ArrayList<Board> moveHistory = match.getMoveHistory();
+//        moveHistory.size()-1
     }
 
 
@@ -485,31 +512,37 @@ public class GameController {
         saveManager.saveGame(match);
     }
 
+    // Declare a global variable to store the last written index
+    int lastWrittenIndex = -1;
 
     public void updateHistory() {
 
-
         // Create a StringBuilder object
-        StringBuilder matchHistoryString = new StringBuilder();
+
         ArrayList<Board> moveHistory = match.getMoveHistory();
-        for (int i = 0; i < moveHistory.size(); i++) {
-            String[] movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
-            if (movesPerformed[1] == null) {
-                String orderedMovesPerformed = (i + 1) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
-                // Append the orderedMovesPerformed string to the StringBuilder object
-                matchHistoryString.append(orderedMovesPerformed);
-                // Write a new line to the StringBuilder object
-                matchHistoryString.append(System.lineSeparator());
-            } else {
-                // Handle the case when movesPerformed[1] is not null
-            }
+
+        if(moveHistory.size()<2){
+            return;
+        }
+
+        int i = moveHistory.size()-1;
+
+        String[] movesPerformed = moveHistory.get(i).getMovesPerformedThisTurn();
+
+        // Check if the current index is equal to the last written index
+        if (i != lastWrittenIndex) {
+            // Update the last written index to the current index
+            lastWrittenIndex = i;
+            // Format the orderedMovesPerformed string
+            String orderedMovesPerformed = (i) + "." + movesPerformed[0] + " " + movesPerformed[1] + " ";
+            // Append the orderedMovesPerformed string to the StringBuilder object
+            matchHistoryString.append(orderedMovesPerformed);
+            // Write a new line to the StringBuilder object
+            matchHistoryString.append(System.lineSeparator());
         }
 
         moveHistoryDisplay.setText(matchHistoryString.toString());
-
-
     }
-
 
 
 }

@@ -5,6 +5,7 @@ import cz.cvut.fel.strobad1.XiangQi.model.Pieces.Advisor;
 import cz.cvut.fel.strobad1.XiangQi.model.Pieces.General;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public abstract class Piece implements Cloneable {
 
@@ -15,6 +16,7 @@ public abstract class Piece implements Cloneable {
     protected Board board;
     protected Match match;
 
+    private Logger logger = Logger.getLogger(Piece.class.getName());
 
     public Piece(int row, int col, String color, Board board) {
         this.row = row;
@@ -24,6 +26,7 @@ public abstract class Piece implements Cloneable {
         this.board.updateCell(row, col, this);
 
         this.match = this.board.getMatch();
+
 
     }
 
@@ -160,6 +163,8 @@ public abstract class Piece implements Cloneable {
         board.updateCell(this.row, this.col, null);
 
 
+
+        logger.info("Moving "  + this.color + " "+ this.getClass().getSimpleName() + " to " + newRow + " " + newCol +".");
         Piece pieceOnDestCell = board.getCell(newRow, newCol).getPieceOnCell();
         board.getPieceList().remove(pieceOnDestCell);
 

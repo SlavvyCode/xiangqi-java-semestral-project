@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import static javafx.application.Application.launch;
 
@@ -33,6 +34,11 @@ public class Main extends Application {
 
         // Show the stage.
         stage.show();
+
+
+        Logger logger = Logger.getLogger(Main.class.getName());
+
+        logger.info("Main Menu loaded.");
     }
 
 
