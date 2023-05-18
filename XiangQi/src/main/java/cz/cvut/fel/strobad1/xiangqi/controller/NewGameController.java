@@ -115,6 +115,7 @@ public class NewGameController implements Initializable {
 
         aiColorSelection.getSelectionModel().select(0);
 
+        aiColorSelectionString = (String) aiColorSelection.getSelectionModel().getSelectedItem();
 
         timeSelection.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             //Set the opponent selection choice index based on the selected option
