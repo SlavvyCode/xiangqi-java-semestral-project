@@ -214,8 +214,6 @@ public class GameController {
                 //moves piece
                 if (pieceToMove.moveIfValid(newRowNumber, newColNumber)) {
                     match.startTurn();
-                    updateBoard();
-
                 }
                 else
                 {
@@ -231,7 +229,6 @@ public class GameController {
         }
 
         updateBoard();
-
     }
 
     private void bindBoardSizeToCenter() {
@@ -333,12 +330,7 @@ public class GameController {
 
     public void updateBoard() {
 
-
-
             Cell[][] cellList = match.getViewingBoard().getCellList();
-
-
-
 
             boardGrid.getChildren().clear();
 
@@ -361,7 +353,7 @@ public class GameController {
 
         private void pieceAdding (Piece pieceOnCell, StackPane stackPane){
 
-            Board board = match.getGameBoard();
+            Board board = match.getViewingBoard();
 
             if (pieceOnCell != null) {
                 // Create an ImageView for the piece
@@ -469,7 +461,6 @@ public class GameController {
                         if (pieceOnCell.moveIfValid(row, col)) {
                             // Remove the piece from the old cell
 
-                            updateBoard();
                             try {
                                 match.startTurn();
 
@@ -488,15 +479,15 @@ public class GameController {
                             pieceImageView.setTranslateY(originalY);
                         }
 
-
                     }
 
-
+                    updateBoard();
                 });
 
 
             } else {
                 stackPane.getChildren().clear();
+
             }
         }
 
