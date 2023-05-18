@@ -12,7 +12,10 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.CheckBox?>
-<BorderPane fx:id="loadGameScene" fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.LoadGameController" prefHeight="600.0" prefWidth="800.0"
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane fx:id="loadGameScene" fx:controller="cz.cvut.fel.strobad1.xiangqi.controller.LoadGameController" prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1">
 
@@ -37,6 +40,27 @@
             <Button fx:id="selectButton" text="Select save game" onAction="#selectSaveGame"/>
 
             <CheckBox fx:id="againstAIcheckbox" text="Against AI?" onAction="#setIfGameAgainstAI"/>
+
+            <ChoiceBox fx:id="opponentSelection" value="Computer">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Computer"/>
+
+                        <String fx:value="User"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+
+            <ChoiceBox fx:id="aiColorSelection" value="Red">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Red"/>
+
+                        <String fx:value="Black"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
 
         </VBox>
     </center>

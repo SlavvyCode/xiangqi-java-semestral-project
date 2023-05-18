@@ -30,7 +30,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
-<BorderPane fx:id="gameScene" fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.GameController"
+<BorderPane fx:id="gameScene" fx:controller="cz.cvut.fel.strobad1.xiangqi.controller.GameController"
             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0"
             prefWidth="800.0"
@@ -91,7 +91,7 @@
             <Text textAlignment="CENTER" fx:id="infoDisplay" styleClass="header">
                 INFO DISPLAY
             </Text>
-            <Text textAlignment="CENTER" fx:id="turnDisplay" styleClass="header">
+            <Text textAlignment="CENTER" fx:id="turnDisplay" styleClass="smallerheader" >
                 Turn display
             </Text>
 
@@ -150,19 +150,6 @@
 
             <VBox spacing="20" minWidth="150" GridPane.columnIndex="1" styleClass="sideBar">
 
-                <Text textAlignment="CENTER" >
-                    PLAYER SCORE:
-                </Text>
-                <Text textAlignment="CENTER" >
-                    Red X
-                </Text>
-                <Text textAlignment="CENTER" >
-                    Black X
-                </Text>
-
-
-
-
                 <Text>
                     🙾HISTORY:
                 </Text>
@@ -172,22 +159,7 @@
                 <ScrollPane maxWidth="150" hbarPolicy="NEVER" vbarPolicy="ALWAYS" minHeight="150">
 
                     <Text fx:id="moveHistoryDisplay" wrappingWidth="150" />
-<!--                    <Text wrappingWidth="150">DELETE TEMP ONCE HISTORY WORKS-->
-<!--                        esttesttesttestt-->
-<!--                        e-->
-<!--                        s-->
-<!--                        t-->
 
-<!--                        t-->
-<!--                        e-->
-<!--                        s-->
-<!--                        t-->
-
-<!--                        t-->
-<!--                        e-->
-<!--                        st-->
-<!--                        t-->
-<!--                        esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest</Text>-->
                 </ScrollPane>
 
 

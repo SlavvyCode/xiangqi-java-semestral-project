@@ -27,7 +27,7 @@
 
 
 <?import impl.org.controlsfx.spreadsheet.HorizontalHeader?>
-<BorderPane  fx:id="MainMenuScene" fx:controller="cz.cvut.fel.strobad1.XiangQi.controller.MainMenuController"
+<BorderPane  fx:id="MainMenuScene" fx:controller="cz.cvut.fel.strobad1.xiangqi.controller.MainMenuController"
              maxHeight="-Infinity" maxWidth="-Infinity"
              minHeight="-Infinity" minWidth="-Infinity"
              prefHeight="600.0"
