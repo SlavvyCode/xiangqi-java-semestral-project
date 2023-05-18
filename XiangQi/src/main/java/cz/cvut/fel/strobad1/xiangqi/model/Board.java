@@ -95,6 +95,8 @@ public class Board implements Cloneable {
 
         newBoard.movePerformedThisTurn = this.movePerformedThisTurn;
 
+        newBoard.setRedTurn(this.isRedTurn);
+
         // clone the pieceList using a loop
         ArrayList<Piece> newPieceList = newBoard.getPieceList();
 

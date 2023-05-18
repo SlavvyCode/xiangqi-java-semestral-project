@@ -562,7 +562,7 @@ public class GameController {
             }
 
 
-            int viewingBoardTurn = Integer.valueOf(match.getMoveHistory().indexOf(match.getViewingBoard()));
+            int viewingBoardTurn = match.getMoveHistory().indexOf(match.getViewingBoard());
             viewingBoardTurn = viewingBoardTurn / 2;
             turnDisplay.setText("viewing turn " + viewingBoardTurn);
 
