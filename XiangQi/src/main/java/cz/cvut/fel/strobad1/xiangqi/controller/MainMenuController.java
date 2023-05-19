@@ -50,8 +50,7 @@ public class MainMenuController{
 
     @FXML
     public void exit(ActionEvent event) throws IOException {
-
-        Platform.exit();
+        System.exit(0);
 
     }
 
