@@ -50,7 +50,7 @@
         <VBox spacing="20" alignment="TOP_CENTER" prefWidth="150" styleClass="sideBar">
 
 
-            <Button onAction="#pauseClock">
+            <Button onAction="#pauseOrResumeClock">
                 Pause
             </Button>
 

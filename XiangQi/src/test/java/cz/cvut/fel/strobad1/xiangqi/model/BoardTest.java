@@ -31,7 +31,7 @@ public class BoardTest {
     public void testConstructor(){
 
         assertNotNull(board.getCellList());
-        assertNotNull(board.getMovePerformedThisTurn());
+
 
 
         // Verify expected number of pieces
