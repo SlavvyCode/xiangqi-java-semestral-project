@@ -8,7 +8,11 @@ import javafx.stage.Stage;
 
 import javafx.scene.Scene;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static javafx.application.Application.launch;
@@ -37,6 +41,11 @@ public class Main extends Application {
 
 
         Logger logger = Logger.getLogger(Main.class.getName());
+
+        String fileName = "src/main/resources/logging.properties"; // your file name
+        InputStream inputStream = new FileInputStream(fileName); // get input stream from file name
+        LogManager logManager = LogManager.getLogManager(); // get the singleton instance of LogManager
+        logManager.readConfiguration(inputStream); // read the configuration from the input stream
 
         logger.info("Main Menu loaded.");
     }

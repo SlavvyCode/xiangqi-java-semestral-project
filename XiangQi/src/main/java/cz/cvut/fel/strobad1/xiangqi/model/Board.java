@@ -88,6 +88,13 @@ public class Board implements Cloneable {
 
     }
 
+
+    /**
+     * Clones the board for purposes of viewing history.
+     *
+     * @return cloned board
+     * @throws CloneNotSupportedException
+     */
     @Override
     public Board clone() throws CloneNotSupportedException {
         // create a new Board object
@@ -174,10 +181,19 @@ public class Board implements Cloneable {
 
     }
 
+
+    /**
+     * Gets a string of the move that happened this turn
+     * @return
+     */
     public String getMovePerformedThisTurn() {
         return movePerformedThisTurn;
     }
 
+    /**
+     * sets the move performed - used for cloning
+     * @param movePerformedThisTurn
+     */
     public void setMovePerformedThisTurn(String movePerformedThisTurn) {
 
         this.movePerformedThisTurn = movePerformedThisTurn;
@@ -222,6 +238,12 @@ public class Board implements Cloneable {
         this.pieceList = pieceList;
     }
 
+
+    /**
+     * Returrns an arraylist of all pieces that are checking the red general
+     * - used for checking legal moves
+     * @return Checking pieces
+     */
     public ArrayList<Piece> getPiecesCheckingRedGeneral() {
 
         General redGeneral = (General) getRedGeneral();
@@ -237,7 +259,11 @@ public class Board implements Cloneable {
         }
         return checkingPieces;
     }
-
+    /**
+     * Returrns an arraylist of all pieces that are checking the black general
+     * - used for checking legal moves
+     * @return Checking pieces
+     */
     public ArrayList<Piece> getPiecesCheckingBlackGeneral() {
         ArrayList<Piece> checkingPieces = new ArrayList<>();
         Cell generalLocation = this.getFirstCellWithPiece(getBlackGeneral());
@@ -309,11 +335,12 @@ public class Board implements Cloneable {
 
     }
 
+
+
     /**
+     * Checks if the flying general rule was allowed to happen
      * @return true if the generals can "see" each other
      */
-
-
     public boolean flyingGeneralCheck() {
         General redGeneral = (General) getRedGeneral();
         General blackGeneral = (General) getBlackGeneral();
@@ -387,6 +414,11 @@ public class Board implements Cloneable {
     }
 
 
+    /**
+     * find the coordinates of a cell
+     * @param randomValidCell
+     * @return coordinates
+     */
     public int[] findCellCoords(Cell randomValidCell) {
 
 
