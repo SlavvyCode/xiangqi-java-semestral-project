@@ -31,6 +31,12 @@ public class SaveManager {
     private Scene scene;
     private Parent root;
 
+
+    /**
+     * lets the user save their game during playtime.
+     * @param matchHistoryString
+     * @param matchToSave
+     */
     public void saveGame(String matchHistoryString, Match matchToSave) {
         this.matchHistoryString = matchHistoryString;
         this.matchToSave = matchToSave;
@@ -38,6 +44,9 @@ public class SaveManager {
 
     }
 
+    /**
+     * lets the user save their game to a file of their choosing.
+     */
     private void chooseFileToSave() {
 
 
@@ -53,9 +62,7 @@ public class SaveManager {
         // Set the extension filters of the file chooser
         fileChooser.getExtensionFilters().addAll(
 
-                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-//                new FileChooser.ExtensionFilter("xiangqi save files", "*.xiangqi"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
         );
 
         // Show the file save dialog and get the selected file
@@ -110,6 +117,11 @@ public class SaveManager {
 
     }
 
+
+    /**
+     * saves the important values of the saved match it should load into own variables.
+     *
+     */
     public void prepareMatchForLoading() {
 
 
@@ -165,11 +177,9 @@ public class SaveManager {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        } else {
-            // Throw an error if the file is null
-
+        } else
+        {
             logger.severe("File wasn't selected");
-            throw new IllegalArgumentException("No file selected");
         }
         return;
     }

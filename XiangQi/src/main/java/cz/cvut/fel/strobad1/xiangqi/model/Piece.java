@@ -38,6 +38,8 @@ public abstract class Piece implements Cloneable {
 
     /**
      * returns an arraylist of all the piece's valid moves.
+     * (even considering the general's location)
+     * @return valid moves
      */
     public ArrayList<Cell> getValidMoves() {
 
@@ -84,7 +86,8 @@ public abstract class Piece implements Cloneable {
 
     /**
      * gets the moves that are theoretically available while disregarding leaving your general unguarded
-     *
+     * generally used to figure out theoretical positions pieces can move to in the future
+     * also used to look for valid moves for some pieces which move in a simple manner
      * @return
      */
     public abstract ArrayList<Cell> getMoveList();
@@ -114,9 +117,20 @@ public abstract class Piece implements Cloneable {
 
 
 
+    /**
+     * altered implementation of clone for the piece
+     * used in copying boards for viewing past turns.
+     * @return cloned piece
+     */
     public abstract Piece clone(Board board) ;
 
 
+    /**
+     * Used to move a piece and set whose turn it is on the current board.
+     * @param newRow row where we move the piece
+     * @param newCol column where we move the piece
+     * @return true if piece was moved successfully
+     */
     public boolean moveIfValid(int newRow, int newCol){
 
         if((board.isRedTurn() && this.color.equals("red")) || (!board.isRedTurn() && this.color.equals("black"))){
@@ -140,6 +154,12 @@ public abstract class Piece implements Cloneable {
 
     }
 
+
+    /**
+     * saves a move to this board in a form of string as the board's attribute.
+     * @param newRow the row the piece was moved to
+     * @param newCol the column the piece was moved to
+     */
     private void saveMoveToHistory(int newRow, int newCol) {
         int oldRow=this.getRow();
         int oldCol=this.getCol();
@@ -163,6 +183,13 @@ public abstract class Piece implements Cloneable {
         board.setMovePerformedThisTurn(movePerformed);
     }
 
+
+    /**
+     * Checks validity of the move where the piece should move
+     * @param destRow the destination row where the piece should move
+     * @param destCol the destination column where the piece should move
+     * @return true if move was successful.
+     */
     protected boolean checkValidityAndAddMove(int destRow, int destCol) {
         Cell currentCell = board.getCell(this.getRow(),this.getCol());
         Cell destCell = board.getCell(destRow, destCol);
