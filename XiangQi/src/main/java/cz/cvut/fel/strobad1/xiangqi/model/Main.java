@@ -42,12 +42,13 @@ public class Main extends Application {
 
         Logger logger = Logger.getLogger(Main.class.getName());
 
-        String fileName = "src/main/resources/logging.properties"; // your file name
-        InputStream inputStream = new FileInputStream(fileName); // get input stream from file name
-        LogManager logManager = LogManager.getLogManager(); // get the singleton instance of LogManager
-        logManager.readConfiguration(inputStream); // read the configuration from the input stream
-
+//        String fileName = "src/main/resources/logging.properties";
+//        InputStream inputStream = new FileInputStream(fileName);
+//        LogManager logManager = LogManager.getLogManager();
+//        logManager.readConfiguration(inputStream);
         logger.info("Main Menu loaded.");
+
+
     }
 
 
