@@ -30,6 +30,11 @@ public class ChessClock extends Thread {
     Logger logger = Logger.getLogger(ChessClock.class.getName());
 
 
+    /**
+     * constructor for starting a new game
+     * @param maximumTimeForBoth
+     * @param match
+     */
     public ChessClock(long maximumTimeForBoth, Match match) {
         this.maximumTimeForBoth = maximumTimeForBoth;
         this.match = match;
@@ -48,7 +53,12 @@ public class ChessClock extends Thread {
         start();
     }
 
-    //Constructor for loading from a save.
+    /**
+     *Constructor for loading from a save.
+     * @param remainingRedTime
+     * @param remainingBlackTime
+     * @param match
+     */
     public ChessClock(long remainingRedTime,long remainingBlackTime, Match match) {
         this.maximumRedTime = maximumRedTime;
         this.match = match;
@@ -74,6 +84,11 @@ public class ChessClock extends Thread {
     public long getBlackRemainingTime() {
         return maximumBlackTime - blackElapsedTime;
     }
+
+
+    /**
+     * main clock loop that makes the thread sleep each second
+     */
 
     @Override
     public void run() {
@@ -103,7 +118,9 @@ public class ChessClock extends Thread {
     }
 
 
-
+    /**
+     * switches the turn for time tracking purposes
+     */
     public void switchTurn() {
         if (match.getGameBoard().isRedTurn()) {
             redStartTime = System.currentTimeMillis() - redElapsedTime - totalPauseTime;
@@ -112,14 +129,11 @@ public class ChessClock extends Thread {
         }
     }
 
-    public void startCountdown() {
-        if (match.getGameBoard().isRedTurn()) {
-            redStartTime = System.currentTimeMillis() - redElapsedTime - totalPauseTime;
-        } else {
-            blackStartTime = System.currentTimeMillis() - blackElapsedTime - totalPauseTime;
-        }
-    }
 
+
+    /**
+     * pauses the countdown
+     */
     public void pauseCountdown() {
         if (!isPaused) {
             isPaused = true;
