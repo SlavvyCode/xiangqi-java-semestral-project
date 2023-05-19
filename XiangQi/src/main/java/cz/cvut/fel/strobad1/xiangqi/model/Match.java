@@ -302,11 +302,9 @@ public class Match {
         if (redWins) {
 
             logger.info("Red wins.");
-            System.out.println("RED PLAYER WINS!!!");
         } else {
 
             logger.info("Black wins.");
-            System.out.println("BLACK PLAYER WINS!!!");
         }
 
 
@@ -419,7 +417,6 @@ public class Match {
         Piece randomPiece;
 
 
-        System.out.println(gameBoard);
 
         ArrayList<Piece> playingSidePieces;
 

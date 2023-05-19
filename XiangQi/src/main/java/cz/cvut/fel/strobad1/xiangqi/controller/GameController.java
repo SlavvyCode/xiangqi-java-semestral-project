@@ -202,10 +202,10 @@ public class GameController {
                 int oldRowNumber = Integer.parseInt(moveString.substring(1, 2));
                 int newRowNumber = Integer.parseInt(moveString.substring(3, 4));
 
-                System.out.println("Old Row: " + oldRowNumber);
-                System.out.println("Old Col: " + oldColNumber);
-                System.out.println("New Row: " + newRowNumber);
-                System.out.println("New Col: " + newColNumber);
+//                System.out.println("Old Row: " + oldRowNumber);
+//                System.out.println("Old Col: " + oldColNumber);
+//                System.out.println("New Row: " + newRowNumber);
+//                System.out.println("New Col: " + newColNumber);
 
 
                 Piece pieceToMove = board.getCell(oldRowNumber, oldColNumber).getPieceOnCell();
@@ -276,8 +276,8 @@ public class GameController {
                     return;
                 }
 
-                System.out.println(board.isRedTurn());
-                System.out.println(match.getAiColor());
+//                System.out.println(board.isRedTurn());
+//                System.out.println(match.getAiColor());
 
                 match.randomAIMove();
 
