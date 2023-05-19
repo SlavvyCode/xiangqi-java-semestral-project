@@ -156,10 +156,9 @@ public class GameController {
         clock.play();
 
 
-        // Create a Timeline that updates the time every second
         Timeline updater = new Timeline(new KeyFrame(Duration.ZERO, e ->
                 updateEverything()
-        ), new KeyFrame(Duration.millis(100)));
+        ), new KeyFrame(Duration.millis(50)));
         // Set the cycle count to indefinite, so it repeats forever
         updater.setCycleCount(Animation.INDEFINITE);
         // Start the animation
@@ -168,7 +167,7 @@ public class GameController {
 
         Timeline aiTimeline = new Timeline(new KeyFrame(Duration.ZERO, e ->
                 aiMove()
-        ), new KeyFrame(Duration.seconds(2)));
+        ), new KeyFrame(Duration.seconds(4)));
 
 
         // Set the cycle count to indefinite, so it repeats forever
