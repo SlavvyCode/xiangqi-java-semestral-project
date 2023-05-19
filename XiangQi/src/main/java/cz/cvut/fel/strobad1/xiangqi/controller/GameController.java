@@ -306,25 +306,25 @@ public class GameController {
      * updates the clock visually
      */
     private void updateClock() {
-        // Get the current time and format it as hh:mm:ss
 
         String redTime = null;
         String blackTime = null;
 
 
         if (gameTime.getBlackRemainingTime() > 0 && gameTime.getRedRemainingTime() > 0) {
-//                redTime = LocalTime.ofSecondOfDay(gameTime.getRedRemainingTime() / 1000)
-//                        .format(formatter);
-//                blackTime = LocalTime.ofSecondOfDay(gameTime.getBlackRemainingTime() / 1000)
-//                        .format(formatter);
+
             // Calculate minutes and seconds
             int redMinutes = (int) (gameTime.getRedRemainingTime() / 1000 / 60);
+
+            //get seconds by taking the remainder when dividing by 60
             int redSeconds = (int) ((gameTime.getRedRemainingTime() / 1000) % 60);
 
             int blackMinutes = (int) (gameTime.getBlackRemainingTime() / 1000 / 60);
+
+            //get seconds by taking the remainder when dividing by 60
             int blackSeconds = (int) ((gameTime.getBlackRemainingTime() / 1000) % 60);
 
-// Format minutes and seconds as "mm:ss"
+            // Format minutes and seconds as "mm:ss"
             redTime = String.format("%02d:%02d", redMinutes, redSeconds);
             blackTime = String.format("%02d:%02d", blackMinutes, blackSeconds);
 
