@@ -66,7 +66,12 @@ public class GameController {
     private int blackTimeToLoad;
 
 
-
+    /**
+     * Constructor for a new game
+     *
+     * @param match
+     * @param timeSettingMin
+     */
     public GameController(Match match, int timeSettingMin) {
         // Set the match field with the constructor parameter
         this.match = match;
@@ -74,27 +79,26 @@ public class GameController {
     }
 
 
+    /**
+     * Constructor for loading a game from a save file
+     *
+     * @param match           the match instance passed by the loadGameController
+     * @param redTimeToLoad   the remaining time red has
+     * @param blackTimeToLoad the remaining time black has
+     * @param movesToLoad     the array of moves that the match has to go through and see if are legal
+     */
     public GameController(Match match, int redTimeToLoad, int blackTimeToLoad, ArrayList<String> movesToLoad) {
         // Set the match field with the constructor parameter
         this.match = match;
-        this.redTimeToLoad = redTimeToLoad;;
+        this.redTimeToLoad = redTimeToLoad;
+        ;
         this.blackTimeToLoad = blackTimeToLoad;
         this.movesToLoad = movesToLoad;
-        startedViaLoad =true;
+        startedViaLoad = true;
     }
 
     @FXML
     public void initialize() throws IOException, CloneNotSupportedException {
-
-
-        //RED STARTS
-
-        //start game method, switches sides of players
-        //set default positions
-
-
-//        NEEDED TO START GAME:
-
 
         match.startGame();
         // Get a logger for the current class
@@ -107,16 +111,15 @@ public class GameController {
 
         logger.info("Board created.");
 
-        if(!startedViaLoad){
+        if (!startedViaLoad) {
             logger.info(timeSettingMin + "is time in mins");
             gameTime = new ChessClock(timeSettingMin * 60 * 1000, match);
 
-        }
-        else{
+        } else {
 
             logger.info(redTimeToLoad + " is red's time");
             logger.info(blackTimeToLoad + " is black's time");
-            gameTime = new ChessClock(redTimeToLoad,blackTimeToLoad,match);
+            gameTime = new ChessClock(redTimeToLoad, blackTimeToLoad, match);
         }
 
 
@@ -136,20 +139,18 @@ public class GameController {
         matchHistoryString = new StringBuilder();
 
 
-
         bindBoardSizeToCenter();
-
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("mm:ss");
 
 
         // Create a Timeline that updates the time every second
-        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> updateClock() ),
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> updateClock()),
                 new KeyFrame(Duration.millis(500)));
 
 
-        // Set the cycle count to indefinite, so the animation repeats forever
+        // Set the cycle count to indefinite, so it repeats forever
         clock.setCycleCount(Animation.INDEFINITE);
         // Start the animation
         clock.play();
@@ -157,20 +158,22 @@ public class GameController {
 
         // Create a Timeline that updates the time every second
         Timeline updater = new Timeline(new KeyFrame(Duration.ZERO, e ->
-            updateEverything()
+                updateEverything()
         ), new KeyFrame(Duration.millis(100)));
-        // Set the cycle count to indefinite, so the animation repeats forever
+        // Set the cycle count to indefinite, so it repeats forever
         updater.setCycleCount(Animation.INDEFINITE);
         // Start the animation
         updater.play();
 
 
         Timeline aiTimeline = new Timeline(new KeyFrame(Duration.ZERO, e ->
-            aiMove()
+                aiMove()
         ), new KeyFrame(Duration.seconds(2)));
-        // Set the cycle count to indefinite, so the animation repeats forever
+
+
+        // Set the cycle count to indefinite, so it repeats forever
         aiTimeline.setCycleCount(Animation.INDEFINITE);
-// Start the animation
+        // Start the animation
         aiTimeline.play();
 
 
@@ -186,7 +189,6 @@ public class GameController {
                 throw new LoadException("FILE LOAD FAILED");
 
             }
-
 
 
             for (String moveString : movesToLoad) {
@@ -214,14 +216,12 @@ public class GameController {
                 //moves piece
                 if (pieceToMove.moveIfValid(newRowNumber, newColNumber)) {
                     match.startTurn();
-                }
-                else
-                {
+                } else {
 
                     logger.severe("failed to load file, invalid move included");
                     //exit to menu
 
-                   throw new LoadException("FILE LOAD FAILED");
+                    throw new LoadException("FILE LOAD FAILED");
                 }
 
             }
@@ -231,6 +231,10 @@ public class GameController {
         updateBoard();
     }
 
+
+    /**
+     * Binds the playing board visuals to be in the center of the window and scale well.
+     */
     private void bindBoardSizeToCenter() {
         // create a stackpane to wrap the gridpane
         StackPane stackpane = new StackPane(boardGrid);
@@ -259,20 +263,22 @@ public class GameController {
         gameScene.setCenter(stackpane);
     }
 
+    /**
+     * checks for an AI move and its execution
+     */
     private void aiMove() {
 
         Board board = match.getGameBoard();
         if (match.getAiColor() != null) {
             try {
 
-                if((!board.isRedTurn() && match.getAiColor().equals("red"))
+                if ((!board.isRedTurn() && match.getAiColor().equals("red"))
                         ||
-                    board.isRedTurn() && match.getAiColor().equals("black"))
-                {
+                        board.isRedTurn() && match.getAiColor().equals("black")) {
                     return;
                 }
 
-                if(match.getGameClock().isPaused()){
+                if (match.getGameClock().isPaused()) {
                     return;
                 }
 
@@ -296,6 +302,9 @@ public class GameController {
         }
     }
 
+    /**
+     * updates the clock visually
+     */
     private void updateClock() {
         // Get the current time and format it as hh:mm:ss
 
@@ -328,294 +337,329 @@ public class GameController {
         clockDisplay.setText("red time: " + redTime + "\nblack time: " + blackTime);
     }
 
+    /**
+     * updates the board visually by going through each cell
+     */
     public void updateBoard() {
 
-            Cell[][] cellList = match.getViewingBoard().getCellList();
+        Cell[][] cellList = match.getViewingBoard().getCellList();
 
-            boardGrid.getChildren().clear();
+        boardGrid.getChildren().clear();
 
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-
-
-                    StackPane cellPane = new StackPane();
-
-                    boardGrid.add(cellPane, j, i);
-
-                    Piece pieceOnCell = cellList[i][j].getPieceOnCell();
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 9; j++) {
 
 
-                    pieceAdding(pieceOnCell, cellPane);
+                StackPane cellPane = new StackPane();
+
+                boardGrid.add(cellPane, j, i);
+
+                Piece pieceOnCell = cellList[i][j].getPieceOnCell();
+
+
+                pieceAdding(pieceOnCell, cellPane);
+
+            }
+        }
+    }
+
+    /**
+     * sets the proper piece to be on the cell visually.
+     * also lets the user move the pieces.
+     *
+     * @param pieceOnCell - the piece on the cell.
+     * @param stackPane   - the cell's space to put an image on.
+     */
+    private void pieceAdding(Piece pieceOnCell, StackPane stackPane) {
+
+        Board board = match.getViewingBoard();
+
+        if (pieceOnCell != null) {
+            // Create an ImageView for the piece
+            ImageView pieceImageView = new ImageView();
+
+            // Set the image source according to the piece type and color
+            String color = pieceOnCell.getColor().equals("red") ? "Red" : "Black";
+            String pieceType = pieceOnCell.getClass().getSimpleName();
+            String imagePath = "/images/Pieces/Western/" + color + "-Western_Xiangqi_" + pieceType + "_(Trad).png";
+            pieceImageView.setImage((new Image(getClass().getResource(imagePath).toExternalForm())));
+
+            // Bind the StackPane's size to the Scene's size
+            pieceImageView.fitWidthProperty().bind(boardGrid.widthProperty().multiply(0.1));
+            pieceImageView.fitHeightProperty().bind(boardGrid.heightProperty().multiply(0.091));
+
+            // Add the ImageView to the StackPane
+            stackPane.setAlignment(Pos.CENTER);
+            stackPane.getChildren().add(pieceImageView);
+
+
+            double originalX = pieceImageView.getTranslateX();
+            double originalY = pieceImageView.getTranslateY();
+
+            // Add an event handler for mouse press on the image
+            pieceImageView.setOnMousePressed(event -> {
+
+
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
+                    return;
+                }
+                // Get the initial mouse coordinates
+                startX = event.getSceneX();
+                startY = event.getSceneY();
+                // Bring the piece to the front
+                pieceImageView.toFront();
+            });
+
+            // Add an event handler for mouse drag on the image
+            pieceImageView.setOnMouseDragged(event -> {
+
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                    return;
+                }
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
+                    return;
+                }
+                // Get the current mouse coordinates
+                double mouseX = event.getSceneX();
+                double mouseY = event.getSceneY();
+                // Calculate the new position of the piece
+                double newTranslateX = pieceImageView.getTranslateX() + mouseX - startX;
+                double newTranslateY = pieceImageView.getTranslateY() + mouseY - startY;
+                // Move the piece to the new position
+                pieceImageView.setTranslateX(newTranslateX);
+                pieceImageView.setTranslateY(newTranslateY);
+                // Update the initial mouse coordinates
+                startX = mouseX;
+                startY = mouseY;
+            });
+
+            // Add an event handler for mouse release on the image
+            pieceImageView.setOnMouseReleased(event -> {
+                // Get the current mouse coordinates
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                    return;
+                }
+                if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
+                    return;
+                }
+                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                    return;
+                }
+
+
+                double mouseX = event.getSceneX();
+                double mouseY = event.getSceneY();
+                // Loop through the children nodes of the GridPane
+                double closestDistance = Double.MAX_VALUE;
+                Node closestNode = null;
+                for (Node node : boardGrid.getChildren()) {
+                    // Check if the node contains the mouse coordinates
+                    if (node.contains(node.sceneToLocal(mouseX, mouseY))) {
+                        double distance = Math.sqrt(Math.pow(node.getBoundsInParent().getMinX() - mouseX, 2) + Math.pow(node.getBoundsInParent().getMinY() - mouseY, 2));
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closestNode = node;
+                        }
+                    }
+                }
+
+                if (closestNode != null) {
+                    logger.info("User tried placing piece at " + GridPane.getRowIndex(closestNode) +
+                            " and " + GridPane.getColumnIndex(closestNode));
+
+                    // Get the row and column indices of the closest node
+                    int row = GridPane.getRowIndex(closestNode);
+                    int col = GridPane.getColumnIndex(closestNode);
+
+                    // Check if the cell is empty
+                    // Move the piece to the empty cell
+
+                    if (pieceOnCell.moveIfValid(row, col)) {
+                        // Remove the piece from the old cell
+
+                        try {
+                            match.startTurn();
+
+                        } catch (IOException e) {
+
+                            logger.severe("An IO error occurred: " + e.getMessage());
+                            throw new RuntimeException(e);
+                        } catch (CloneNotSupportedException e) {
+                            logger.severe("A cloning error occurred: " + e.getMessage());
+                            throw new RuntimeException(e);
+                        }
+
+                        stackPane.getChildren().clear();
+                    } else {
+                        pieceImageView.setTranslateX(originalX);
+                        pieceImageView.setTranslateY(originalY);
+                    }
 
                 }
-            }
-        }
 
-        private void pieceAdding (Piece pieceOnCell, StackPane stackPane){
-
-            Board board = match.getViewingBoard();
-
-            if (pieceOnCell != null) {
-                // Create an ImageView for the piece
-                ImageView pieceImageView = new ImageView();
-
-                // Set the image source according to the piece type and color
-                String color = pieceOnCell.getColor().equals("red") ? "Red" : "Black";
-                String pieceType = pieceOnCell.getClass().getSimpleName();
-                String imagePath = "/images/Pieces/Western/" + color + "-Western_Xiangqi_" + pieceType + "_(Trad).png";
-                pieceImageView.setImage((new Image(getClass().getResource(imagePath).toExternalForm())));
-
-                // Bind the StackPane's size to the Scene's size
-                pieceImageView.fitWidthProperty().bind(boardGrid.widthProperty().multiply(0.1));
-                pieceImageView.fitHeightProperty().bind(boardGrid.heightProperty().multiply(0.091));
-
-                // Add the ImageView to the StackPane
-                stackPane.setAlignment(Pos.CENTER);
-                stackPane.getChildren().add(pieceImageView);
+                updateBoard();
+            });
 
 
-                double originalX = pieceImageView.getTranslateX();
-                double originalY = pieceImageView.getTranslateY();
-
-                // Add an event handler for mouse press on the image
-                pieceImageView.setOnMousePressed(event -> {
-
-
-                    if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
-                        return;
-                    }
-                    // Get the initial mouse coordinates
-                    startX = event.getSceneX();
-                    startY = event.getSceneY();
-                    // Bring the piece to the front
-                    pieceImageView.toFront();
-                });
-
-                // Add an event handler for mouse drag on the image
-                pieceImageView.setOnMouseDragged(event -> {
-
-                    if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                            (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
-                        return;
-                    }
-                    if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
-                        return;
-                    }
-                    // Get the current mouse coordinates
-                    double mouseX = event.getSceneX();
-                    double mouseY = event.getSceneY();
-                    // Calculate the new position of the piece
-                    double newTranslateX = pieceImageView.getTranslateX() + mouseX - startX;
-                    double newTranslateY = pieceImageView.getTranslateY() + mouseY - startY;
-                    // Move the piece to the new position
-                    pieceImageView.setTranslateX(newTranslateX);
-                    pieceImageView.setTranslateY(newTranslateY);
-                    // Update the initial mouse coordinates
-                    startX = mouseX;
-                    startY = mouseY;
-                });
-
-                // Add an event handler for mouse release on the image
-                pieceImageView.setOnMouseReleased(event -> {
-                    // Get the current mouse coordinates
-                    if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                            (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
-                        return;
-                    }
-                    if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
-                        return;
-                    }
-                    if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                            (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
-                        return;
-                    }
-
-
-                    double mouseX = event.getSceneX();
-                    double mouseY = event.getSceneY();
-                    // Loop through the children nodes of the GridPane
-                    double closestDistance = Double.MAX_VALUE;
-                    Node closestNode = null;
-                    for (Node node : boardGrid.getChildren()) {
-                        // Check if the node contains the mouse coordinates
-                        if (node.contains(node.sceneToLocal(mouseX, mouseY))) {
-                            double distance = Math.sqrt(Math.pow(node.getBoundsInParent().getMinX() - mouseX, 2) + Math.pow(node.getBoundsInParent().getMinY() - mouseY, 2));
-                            if (distance < closestDistance) {
-                                closestDistance = distance;
-                                closestNode = node;
-                            }
-                        }
-                    }
-
-                    if (closestNode != null) {
-                        logger.info("User tried placing piece at " + GridPane.getRowIndex(closestNode) +
-                                " and " + GridPane.getColumnIndex(closestNode));
-
-                        // Get the row and column indices of the closest node
-                        int row = GridPane.getRowIndex(closestNode);
-                        int col = GridPane.getColumnIndex(closestNode);
-
-                        // Check if the cell is empty
-                        // Move the piece to the empty cell
-
-                        if (pieceOnCell.moveIfValid(row, col)) {
-                            // Remove the piece from the old cell
-
-                            try {
-                                match.startTurn();
-
-                            } catch (IOException e) {
-
-                                logger.severe("An IO error occurred: " + e.getMessage());
-                                throw new RuntimeException(e);
-                            } catch (CloneNotSupportedException e) {
-                                logger.severe("A cloning error occurred: " + e.getMessage());
-                                throw new RuntimeException(e);
-                            }
-
-                            stackPane.getChildren().clear();
-                        } else {
-                            pieceImageView.setTranslateX(originalX);
-                            pieceImageView.setTranslateY(originalY);
-                        }
-
-                    }
-
-                    updateBoard();
-                });
-
-
-            } else {
-                stackPane.getChildren().clear();
-
-            }
-        }
-
-        public void viewOlderBoard () {
-
-            match.getViewingBoard1TurnBack();
-            updateBoard();
-        }
-
-        public void viewNewerBoard () {
-            match.getViewingBoard1TurnAhead();
-            updateBoard();
-        }
-
-        public void pauseClock () {
-
-            if (match.getVictor() != null) {
-                return;
-            }
-
-            if (!gameTime.isPaused()) {
-                gameTime.pauseCountdown();
-                return;
-            }
-            gameTime.resumeCountdown();
-        }
-
-        public void resign (ActionEvent actionEvent){
-            Board board = match.getGameBoard();
-
-            match.gameOver();
-
-            if (board.isRedTurn()) {
-                match.setBlackWins(true);
-            } else {
-                match.setRedWins(true);
-            }
-        }
-
-        public void updateEverything () {
-            updateInfoDisplay();
-            updateHistory();
+        } else {
+            stackPane.getChildren().clear();
 
         }
+    }
 
-        public void updateInfoDisplay () {
-            Board board = match.getGameBoard();
+    /**
+     * lets the user see a previous turn's board
+     */
+    public void viewOlderBoard() {
+        match.getViewingBoard1TurnBack();
+        updateBoard();
+    }
 
+    /**
+     * lets the user see the next turn's board
+     */
+    public void viewNewerBoard() {
+        match.getViewingBoard1TurnAhead();
+        updateBoard();
+    }
 
-            if (match.getVictor() != null && match.getVictor().equals("red")) {
-                infoDisplay.setText("Game over!\n Red wins!");
-            } else if (match.getVictor() != null && match.getVictor().equals("black")) {
+    /**
+     * Pauses or resumes the game clock if the game hasn't ended yet.
+     */
+    public void pauseOrResumeClock() {
 
-                infoDisplay.setText("Game over!\n Black wins!");
-            } else if (gameTime.isPaused()) {
-                infoDisplay.setText("P A U S E D");
-            } else if (board.isRedTurn()) {
-
-
-                infoDisplay.setText("Red's turn to play");
-            } else {
-                infoDisplay.setText("Black's turn to play");
-            }
-
-
-            int viewingBoardTurn = match.getMoveHistory().indexOf(match.getViewingBoard());
-            viewingBoardTurn = viewingBoardTurn / 2;
-            turnDisplay.setText("viewing turn " + viewingBoardTurn);
-
+        if (match.getVictor() != null) {
+            return;
         }
 
-        @FXML
-        public void exitAndSwitchToMainMenu (ActionEvent event) throws IOException {
+        if (!gameTime.isPaused()) {
+            gameTime.pauseCountdown();
+            return;
+        }
+        gameTime.resumeCountdown();
+    }
+
+    /**
+     * causes the game to end, giving the win to the opposing player who hasn't pressed the button
+     * @param actionEvent
+     */
+    public void resign(ActionEvent actionEvent) {
+        Board board = match.getGameBoard();
+
+        match.gameOver();
+
+        if (board.isRedTurn()) {
+            match.setBlackWins(true);
+        } else {
+            match.setRedWins(true);
+        }
+    }
 
 
-            pauseClock();
+    /**
+     * compound updating function for updating the visuals of the move history and Information about the gamestate
+     */
+    public void updateEverything() {
+        updateInfoDisplay();
+        updateHistory();
 
-            root = FXMLLoader.load(getClass().getResource("/scenes/MainMenu.fxml"));
+    }
+
+    /**
+     * updates the visual information about the gamestate
+     */
+    public void updateInfoDisplay() {
+        Board board = match.getGameBoard();
 
 
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        if (match.getVictor() != null && match.getVictor().equals("red")) {
+            infoDisplay.setText("Game over!\n Red wins!");
+        } else if (match.getVictor() != null && match.getVictor().equals("black")) {
+
+            infoDisplay.setText("Game over!\n Black wins!");
+        } else if (gameTime.isPaused()) {
+            infoDisplay.setText("P A U S E D");
+        } else if (board.isRedTurn()) {
+
+
+            infoDisplay.setText("Red's turn to play");
+        } else {
+            infoDisplay.setText("Black's turn to play");
         }
 
-        public void saveOngoingMatch () throws IOException {
 
-            if ((match.getVictor() != null)) {
-                return;
-            }
-            SaveManager saveManager = match.getSaveManager();
-            saveManager.saveGame(matchHistoryString.toString(), match);
+        int viewingBoardTurn = match.getMoveHistory().indexOf(match.getViewingBoard());
+        viewingBoardTurn = viewingBoardTurn / 2;
+        turnDisplay.setText("viewing turn " + viewingBoardTurn);
+
+    }
+
+    /**
+     * Button that lets the user exit to the main menu without saving.
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    public void exitAndSwitchToMainMenu(ActionEvent event) throws IOException {
+        pauseOrResumeClock();
+        root = FXMLLoader.load(getClass().getResource("/scenes/MainMenu.fxml"));
+
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    /**
+     * lets the user save the ongoing match
+     * @throws IOException
+     */
+    public void saveOngoingMatch() throws IOException {
+
+        if ((match.getVictor() != null)) {
+            return;
         }
+        SaveManager saveManager = match.getSaveManager();
+        saveManager.saveGame(matchHistoryString.toString(), match);
+    }
 
 
     /**
      * Updates history in the right bottom corner.
-     *
      */
-    public void updateHistory () {
-            ArrayList<Board> moveHistory = match.getMoveHistory();
+    public void updateHistory() {
+        ArrayList<Board> moveHistory = match.getMoveHistory();
 
-            int i = moveHistory.size() - 1;
+        int i = moveHistory.size() - 1;
 
-            if (moveHistory.size() <= 2 || lastWrittenIndex == i) {
-                return;
-            }
-
-            String movePerformed = moveHistory.get(i).getMovePerformedThisTurn();
-
-            if (!moveHistory.get(i).isRedTurn()) {
-
-                realTurnNum = (i / 2);
-                matchHistoryString.append(realTurnNum + ". " + movePerformed + " ");
-
-            } else {
-                matchHistoryString.append(movePerformed);
-                matchHistoryString.append(System.lineSeparator());
-            }
-
-            lastWrittenIndex = i;
-
-            moveHistoryDisplay.setText(matchHistoryString.toString());
-
+        if (moveHistory.size() <= 2 || lastWrittenIndex == i) {
+            return;
         }
 
+        String movePerformed = moveHistory.get(i).getMovePerformedThisTurn();
+
+        if (!moveHistory.get(i).isRedTurn()) {
+
+            realTurnNum = (i / 2);
+            matchHistoryString.append(realTurnNum + ". " + movePerformed + " ");
+
+        } else {
+            matchHistoryString.append(movePerformed);
+            matchHistoryString.append(System.lineSeparator());
+        }
+
+        lastWrittenIndex = i;
+
+        moveHistoryDisplay.setText(matchHistoryString.toString());
+
     }
+
+}
 
 
 
