@@ -268,7 +268,7 @@ public class GameController {
     private void aiMove() {
 
         Board board = match.getGameBoard();
-        if (match.getAiColor() != null) {
+        if (match.isPlayingAgainstAI()) {
             try {
 
                 if ((!board.isRedTurn() && match.getAiColor().equals(colorEnum.RED))

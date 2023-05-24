@@ -10,6 +10,27 @@ import java.util.logging.Logger;
 public class Match {
 
 
+
+    private Player redPlayer;
+
+    public Player getRedPlayer() {
+        return redPlayer;
+    }
+
+    public void setRedPlayer(Player redPlayer) {
+        this.redPlayer = redPlayer;
+    }
+
+    public Player getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public void setBlackPlayer(Player blackPlayer) {
+        this.blackPlayer = blackPlayer;
+    }
+
+    private Player blackPlayer;
+
     int viewingBoardIndex;
     Logger logger = Logger.getLogger(Match.class.getName());
     Board viewingBoard;

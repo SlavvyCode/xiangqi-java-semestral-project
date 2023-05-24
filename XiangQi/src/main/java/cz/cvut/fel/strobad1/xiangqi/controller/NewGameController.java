@@ -1,6 +1,7 @@
 package cz.cvut.fel.strobad1.xiangqi.controller;
 
 import cz.cvut.fel.strobad1.xiangqi.model.Match;
+import cz.cvut.fel.strobad1.xiangqi.model.Player;
 import cz.cvut.fel.strobad1.xiangqi.model.colorEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +48,8 @@ public class NewGameController implements Initializable {
         GameController gameController = new GameController(match,timeSettingMin);
 
 
-
+        Player redPlayer = null;
+        Player blackPlayer = null;
 
         if (opponentSelectionChoiceIndex == 0) {
             match.setPlayingAgainstAI(true);
@@ -58,10 +60,28 @@ public class NewGameController implements Initializable {
 
         if(aiColorSelectionString.equals("Red")){
             match.setAiColor(colorEnum.RED);
+
+
+
+            redPlayer = new Player(match,true,true);
+            blackPlayer = new Player(match,false,false);
+
         }
         else if(aiColorSelectionString.equals("Black")){
             match.setAiColor(colorEnum.BLACK);
+
+
+
+            redPlayer = new Player(match,true,false);
+            blackPlayer = new Player(match,false,true);
+
         }
+
+
+
+        match.setRedPlayer(redPlayer);
+        match.setBlackPlayer(blackPlayer);
+
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/scenes/XiangQiBoard.fxml"));
