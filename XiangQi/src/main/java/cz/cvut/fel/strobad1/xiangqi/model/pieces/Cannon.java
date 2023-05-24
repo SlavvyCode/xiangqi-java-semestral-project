@@ -22,8 +22,8 @@ public class Cannon extends Piece {
             {-10,0},{0,-10},{0,10},{10,0}
     };
 
-    public Cannon(int row, int col, String color, Board board) {
-        super(row, col, color, board);
+    public Cannon(int row, int col, colorEnum colorEnum, Board board) {
+        super(row, col, colorEnum, board);
     }
 
 
@@ -39,7 +39,7 @@ public class Cannon extends Piece {
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
 
@@ -117,7 +117,7 @@ public class Cannon extends Piece {
                 destCol += direction[1];
 
                 // Check if the destination is within the board
-                if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+                if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                     break;
                 }
 
@@ -178,7 +178,7 @@ public class Cannon extends Piece {
 
         int amountOfCheckingPieces;
 
-        if(this.color.equals("red")){
+        if(this.color.equals(colorEnum.RED)){
             amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
         }
         else

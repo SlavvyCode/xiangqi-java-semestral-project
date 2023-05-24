@@ -21,8 +21,8 @@ public class Chariot extends Piece {
     };
 
 
-    public Chariot(int row, int col, String color, Board board) {
-        super(row, col, color, board);
+    public Chariot(int row, int col, colorEnum colorEnum, Board board) {
+        super(row, col, colorEnum, board);
     }
 
 
@@ -40,7 +40,7 @@ public class Chariot extends Piece {
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
 
@@ -104,7 +104,7 @@ public class Chariot extends Piece {
 //                destCol += direction[1];
 //
 //                // Check if destination is within the board
-//                if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+//                if (destRow < 0 || destRow >= numberOfRows || destCol < 0 || destCol >= numberOfCols) {
 //                    break;
 //                }
 //
@@ -162,7 +162,7 @@ public class Chariot extends Piece {
 
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 break;
             }
 

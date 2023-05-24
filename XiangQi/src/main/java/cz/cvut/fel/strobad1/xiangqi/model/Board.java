@@ -39,7 +39,12 @@ public class Board implements Cloneable {
     private ArrayList<Piece> pieceList;
     private boolean isRedTurn;
     private String movePerformedThisTurn;
-    private Cell[][] cellList = new Cell[10][9];
+
+
+    public static final int numberOfRows = 10;
+    public static final int numberOfCols = 9;
+
+    private Cell[][] cellList = new Cell[numberOfRows][numberOfCols];
 
 
 
@@ -49,8 +54,8 @@ public class Board implements Cloneable {
 
 
         //creates cells
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
 
 
 
@@ -58,17 +63,17 @@ public class Board implements Cloneable {
                 if (i < 5) {
                     //finding palace on RedSide
                     if (i < 3 && (j > 2 && j < 6)) {
-                        cellList[i][j] = new Cell("red", null, true);
+                        cellList[i][j] = new Cell(colorEnum.RED, null, true);
                     } else {
-                        cellList[i][j] = new Cell("red", null, false);
+                        cellList[i][j] = new Cell(colorEnum.RED, null, false);
                     }
                 } else {
                     //check for palace on BLACKSide
 
                     if (i > 6 && (j > 2 && j < 6)) {
-                        cellList[i][j] = new Cell("black", null, true);
+                        cellList[i][j] = new Cell(colorEnum.BLACK, null, true);
                     } else {
-                        cellList[i][j] = new Cell("black", null, false);
+                        cellList[i][j] = new Cell(colorEnum.BLACK, null, false);
                     }
 
                 }
@@ -138,40 +143,40 @@ public class Board implements Cloneable {
 
         // Set up the red pieces
         // Red pieces
-        pieceList.add(new Chariot(0, 0, "red", this));
-        pieceList.add(new Elephant(0, 1, "red", this));
-        pieceList.add(new Horse(0, 2, "red", this));
-        pieceList.add(new Advisor(0, 3, "red", this));
-        pieceList.add(new General(0, 4, "red", this));
-        pieceList.add(new Advisor(0, 5, "red", this));
-        pieceList.add(new Elephant(0, 6, "red", this));
-        pieceList.add(new Horse(0, 7, "red", this));
-        pieceList.add(new Chariot(0, 8, "red", this));
-        pieceList.add(new Cannon(2, 1, "red", this));
-        pieceList.add(new Cannon(2, 7, "red", this));
-        pieceList.add(new Soldier(3, 0, "red", this));
-        pieceList.add(new Soldier(3, 2, "red", this));
-        pieceList.add(new Soldier(3, 4, "red", this));
-        pieceList.add(new Soldier(3, 6, "red", this));
-        pieceList.add(new Soldier(3, 8, "red", this));
+        pieceList.add(new Chariot(0, 0, colorEnum.RED, this));
+        pieceList.add(new Elephant(0, 1, colorEnum.RED, this));
+        pieceList.add(new Horse(0, 2, colorEnum.RED, this));
+        pieceList.add(new Advisor(0, 3, colorEnum.RED, this));
+        pieceList.add(new General(0, 4, colorEnum.RED, this));
+        pieceList.add(new Advisor(0, 5, colorEnum.RED, this));
+        pieceList.add(new Elephant(0, 6, colorEnum.RED, this));
+        pieceList.add(new Horse(0, 7, colorEnum.RED, this));
+        pieceList.add(new Chariot(0, 8, colorEnum.RED, this));
+        pieceList.add(new Cannon(2, 1, colorEnum.RED, this));
+        pieceList.add(new Cannon(2, 7, colorEnum.RED, this));
+        pieceList.add(new Soldier(3, 0, colorEnum.RED, this));
+        pieceList.add(new Soldier(3, 2, colorEnum.RED, this));
+        pieceList.add(new Soldier(3, 4, colorEnum.RED, this));
+        pieceList.add(new Soldier(3, 6, colorEnum.RED, this));
+        pieceList.add(new Soldier(3, 8, colorEnum.RED, this));
 
         // Black pieces
-        pieceList.add(new Chariot(9, 0, "black", this));
-        pieceList.add(new Elephant(9, 1, "black", this));
-        pieceList.add(new Horse(9, 2, "black", this));
-        pieceList.add(new Advisor(9, 3, "black", this));
-        pieceList.add(new General(9, 4, "black", this));
-        pieceList.add(new Advisor(9, 5, "black", this));
-        pieceList.add(new Elephant(9, 6, "black", this));
-        pieceList.add(new Horse(9, 7, "black", this));
-        pieceList.add(new Chariot(9, 8, "black", this));
-        pieceList.add(new Cannon(7, 1, "black", this));
-        pieceList.add(new Cannon(7, 7, "black", this));
-        pieceList.add(new Soldier(6, 0, "black", this));
-        pieceList.add(new Soldier(6, 2, "black", this));
-        pieceList.add(new Soldier(6, 4, "black", this));
-        pieceList.add(new Soldier(6, 6, "black", this));
-        pieceList.add(new Soldier(6, 8, "black", this));
+        pieceList.add(new Chariot(9, 0, colorEnum.BLACK, this));
+        pieceList.add(new Elephant(9, 1, colorEnum.BLACK, this));
+        pieceList.add(new Horse(9, 2, colorEnum.BLACK, this));
+        pieceList.add(new Advisor(9, 3, colorEnum.BLACK, this));
+        pieceList.add(new General(9, 4, colorEnum.BLACK, this));
+        pieceList.add(new Advisor(9, 5, colorEnum.BLACK, this));
+        pieceList.add(new Elephant(9, 6, colorEnum.BLACK, this));
+        pieceList.add(new Horse(9, 7, colorEnum.BLACK, this));
+        pieceList.add(new Chariot(9, 8, colorEnum.BLACK, this));
+        pieceList.add(new Cannon(7, 1, colorEnum.BLACK, this));
+        pieceList.add(new Cannon(7, 7, colorEnum.BLACK, this));
+        pieceList.add(new Soldier(6, 0, colorEnum.BLACK, this));
+        pieceList.add(new Soldier(6, 2, colorEnum.BLACK, this));
+        pieceList.add(new Soldier(6, 4, colorEnum.BLACK, this));
+        pieceList.add(new Soldier(6, 6, colorEnum.BLACK, this));
+        pieceList.add(new Soldier(6, 8, colorEnum.BLACK, this));
         //5 pawns soldiers
         //2 cannons
         //2 horses
@@ -207,8 +212,8 @@ public class Board implements Cloneable {
      */
     public Cell getFirstCellWithPiece(Piece pieceToFind) {
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int j = 0; j < numberOfCols; j++) {
                 if (getCell(i, j).getPieceOnCell() == pieceToFind) {
                     return getCell(i, j);
                 }
@@ -253,7 +258,7 @@ public class Board implements Cloneable {
         Cell generalLocation = getCell(redGeneral.getRow(), redGeneral.getCol());
 
         for (Piece enemyPiece : this.getPieceList()) {
-            if (enemyPiece.getColor().equals("black") && enemyPiece.getMoveList().contains(generalLocation)) {
+            if (enemyPiece.getColor().equals(colorEnum.BLACK) && enemyPiece.getMoveList().contains(generalLocation)) {
                 checkingPieces.add(enemyPiece);
             }
         }
@@ -269,7 +274,7 @@ public class Board implements Cloneable {
         Cell generalLocation = this.getFirstCellWithPiece(getBlackGeneral());
 
         for (Piece enemyPiece : this.getPieceList()) {
-            if (enemyPiece.getColor().equals("red") && enemyPiece.getMoveList().contains(generalLocation)) {
+            if (enemyPiece.getColor().equals(colorEnum.RED) && enemyPiece.getMoveList().contains(generalLocation)) {
                 checkingPieces.add(enemyPiece);
             }
         }
@@ -291,7 +296,7 @@ public class Board implements Cloneable {
 //    public String toString() {
 //
 //        String output = "";
-//        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < numberOfRows; i++) {
 //            for (int j = 0; j < 9; j++) {
 //
 //                Piece piece = getCell(i, j).getPieceOnCell();
@@ -319,7 +324,7 @@ public class Board implements Cloneable {
 
         Board board = (Board) boardToCompare;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < 9; j++) {
 
 
@@ -383,7 +388,7 @@ public class Board implements Cloneable {
         General redGeneral = null;
 
         for (Piece piece : getPieceList()) {
-            if (piece instanceof General && piece.getColor() == "red") {
+            if (piece instanceof General && piece.getColor().equals(colorEnum.RED)) {
                 redGeneral = (General) piece;
             }
         }
@@ -403,7 +408,7 @@ public class Board implements Cloneable {
         General blackGeneral = null;
 
         for (Piece piece : getPieceList()) {
-            if (piece instanceof General && piece.getColor().equals("black")) {
+            if (piece instanceof General && piece.getColor().equals(colorEnum.BLACK)) {
                 blackGeneral = (General) piece;
             }
         }
@@ -422,7 +427,7 @@ public class Board implements Cloneable {
     public int[] findCellCoords(Cell randomValidCell) {
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < 9; j++) {
                 if (randomValidCell == (cellList[i][j])) {
                     int[] coords = new int[2];

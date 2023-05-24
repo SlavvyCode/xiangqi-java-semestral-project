@@ -271,9 +271,9 @@ public class GameController {
         if (match.getAiColor() != null) {
             try {
 
-                if ((!board.isRedTurn() && match.getAiColor().equals("red"))
+                if ((!board.isRedTurn() && match.getAiColor().equals(colorEnum.RED))
                         ||
-                        board.isRedTurn() && match.getAiColor().equals("black")) {
+                        board.isRedTurn() && match.getAiColor().equals(colorEnum.BLACK)) {
                     return;
                 }
 
@@ -345,8 +345,8 @@ public class GameController {
 
         boardGrid.getChildren().clear();
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < match.getGameBoard().numberOfRows; i++) {
+            for (int j = 0; j < match.getGameBoard().numberOfCols; j++) {
 
 
                 StackPane cellPane = new StackPane();
@@ -378,7 +378,7 @@ public class GameController {
             ImageView pieceImageView = new ImageView();
 
             // Set the image source according to the piece type and color
-            String color = pieceOnCell.getColor().equals("red") ? "Red" : "Black";
+            String color = pieceOnCell.getColor().equals(colorEnum.RED) ? "Red" : "Black";
             String pieceType = pieceOnCell.getClass().getSimpleName();
             String imagePath = "/images/Pieces/Western/" + color + "-Western_Xiangqi_" + pieceType + "_(Trad).png";
             pieceImageView.setImage((new Image(getClass().getResource(imagePath).toExternalForm())));
@@ -412,8 +412,8 @@ public class GameController {
             // Add an event handler for mouse drag on the image
             pieceImageView.setOnMouseDragged(event -> {
 
-                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                if ((pieceOnCell.getColor().equals(colorEnum.BLACK) && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals(colorEnum.RED) && !board.isRedTurn())) {
                     return;
                 }
                 if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
@@ -436,15 +436,15 @@ public class GameController {
             // Add an event handler for mouse release on the image
             pieceImageView.setOnMouseReleased(event -> {
                 // Get the current mouse coordinates
-                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                if ((pieceOnCell.getColor().equals(colorEnum.BLACK) && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals(colorEnum.RED) && !board.isRedTurn())) {
                     return;
                 }
                 if (gameTime.isPaused() || match.getViewingPast() || (match.getVictor() != null)) {
                     return;
                 }
-                if ((pieceOnCell.getColor().equals("black") && board.isRedTurn()) ||
-                        (pieceOnCell.getColor().equals("red") && !board.isRedTurn())) {
+                if ((pieceOnCell.getColor().equals(colorEnum.BLACK) && board.isRedTurn()) ||
+                        (pieceOnCell.getColor().equals(colorEnum.RED) && !board.isRedTurn())) {
                     return;
                 }
 
@@ -574,9 +574,9 @@ public class GameController {
         Board board = match.getGameBoard();
 
 
-        if (match.getVictor() != null && match.getVictor().equals("red")) {
+        if (match.getVictor() != null && match.getVictor().equals(colorEnum.RED)) {
             infoDisplay.setText("Game over!\n Red wins!");
-        } else if (match.getVictor() != null && match.getVictor().equals("black")) {
+        } else if (match.getVictor() != null && match.getVictor().equals(colorEnum.BLACK)) {
 
             infoDisplay.setText("Game over!\n Black wins!");
         } else if (gameTime.isPaused()) {

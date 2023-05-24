@@ -7,11 +7,13 @@ public class Player {
     boolean isRed;
     boolean isAI;
 
-    enum aiDifficulty{
-        Low,
-        Medium,
-        High
-    };
+
+//    CAN BE IMPLEMENTED TO EXPAND THE PROJECT
+//    enum aiDifficulty{
+//        Low,
+//        Medium,
+//        High
+//    };
 
 
 }

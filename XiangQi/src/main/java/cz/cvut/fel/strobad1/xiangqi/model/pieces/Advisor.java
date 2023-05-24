@@ -18,8 +18,8 @@ public class Advisor extends Piece {
         return offsets;
     }
 
-    public Advisor(int row, int col, String color, Board board) {
-        super(row, col, color, board);
+    public Advisor(int row, int col, colorEnum colorEnum, Board board) {
+        super(row, col, colorEnum, board);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Advisor extends Piece {
             int destCol = col + offset[1];
 
 
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= 9) {
                 continue;
             }
 

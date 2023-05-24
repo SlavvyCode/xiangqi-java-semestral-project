@@ -6,28 +6,23 @@ import java.util.logging.Logger;
 
 public abstract class Piece implements Cloneable {
 
-    protected final String color;
+//    protected final String color;
     //location of figure
     protected int row;
     protected int col;
     protected Board board;
 
 
-    public enum colorEnum{
-        RED,
-        BLACK
-    }
 
-    private colorEnum color2 = colorEnum.RED;
+    protected final colorEnum color;
     private Logger logger = Logger.getLogger(Piece.class.getName());
 
-    public Piece(int row, int col, String color, Board board,Piece.colorEnum colorEnum2) {
+    public Piece(int row, int col,colorEnum colorEnum, Board board) {
         this.row = row;
         this.col = col;
-        this.color = color;
+        this.color = colorEnum;
         this.board = board;
 
-        this.color2 = colorEnum2;
 
         this.board.updateCell(row, col, this);
 
@@ -115,9 +110,11 @@ public abstract class Piece implements Cloneable {
         this.col = newCol;
     }
 
-    public String getColor() {
+
+    public colorEnum getColor() {
         return color;
     }
+
     public int getRow() {
         return row;
     }
@@ -143,7 +140,7 @@ public abstract class Piece implements Cloneable {
      */
     public boolean moveIfValid(int newRow, int newCol){
 
-        if((board.isRedTurn() && this.color.equals("red")) || (!board.isRedTurn() && this.color.equals("black"))){
+        if((board.isRedTurn() && this.color.equals(colorEnum.RED)) || (!board.isRedTurn() && this.color.equals(colorEnum.BLACK))){
 
             if (isValidMove(newRow, newCol)) {
                 saveMoveToHistory(newRow, newCol);
@@ -218,7 +215,7 @@ public abstract class Piece implements Cloneable {
 
         int amountOfCheckingPieces;
 
-        if(this.color.equals("red")){
+        if(this.color.equals(colorEnum.RED)){
             amountOfCheckingPieces = board.getPiecesCheckingRedGeneral().size();
         }
         else

@@ -28,7 +28,7 @@ public class PieceTest {
     @Test
     public void testAdvisorValidMoves() {
         // Create an Advisor piece at position (3, 3) with color 'red'
-        Advisor advisor = new Advisor(1, 4, "red", board);
+        Advisor advisor = new Advisor(1, 4, colorEnum.RED, board);
 
         // Get the valid moves for the Advisor piece
         ArrayList<Cell> validMoves = advisor.getValidMoves();
@@ -49,7 +49,7 @@ public class PieceTest {
     @Test
     public void testGeneralValidMoves() {
         // Create a General piece at position (1, 4) with color 'red'
-        General general = new General(1, 4, "red", board);
+        General general = new General(1, 4, colorEnum.RED, board);
         ArrayList<Cell> validMoves = general.getValidMoves();
         // Assert the expected valid moves for the General piece
 
@@ -63,7 +63,7 @@ public class PieceTest {
     @Test
     public void testSoldierValidMoves() {
         // Create a Soldier piece at position (4, 6) with color 'black'
-        Soldier soldier = new Soldier(4, 6, "black", board);
+        Soldier soldier = new Soldier(4, 6, colorEnum.BLACK, board);
         ArrayList<Cell> validMoves = soldier.getValidMoves();
 
         // Assert the expected valid moves for the Soldier piece
@@ -76,7 +76,7 @@ public class PieceTest {
     @Test
     public void testChariotValidMoves() {
         // Create a Chariot piece at position (0, 0) with color 'red'
-        Chariot chariot = new Chariot(0, 0, "red", board);
+        Chariot chariot = new Chariot(0, 0, colorEnum.RED, board);
         ArrayList<Cell> validMoves = chariot.getValidMoves();
         // Assert the expected valid moves for the Chariot piece
         assertEquals(2, validMoves.size());
@@ -87,7 +87,7 @@ public class PieceTest {
     @Test
     public void testHorseValidMoves() {
         // Create a Horse piece at position (5, 5) with color 'black'
-        Horse horse = new Horse(5, 5, "black", board);
+        Horse horse = new Horse(5, 5, colorEnum.BLACK, board);
         ArrayList<Cell> validMoves = horse.getValidMoves();
         // Assert the expected valid moves for the Horse piece
         assertEquals(8, validMoves.size());
@@ -99,7 +99,7 @@ public class PieceTest {
     public void testElephantValidMoves() {
         // Create an Elephant piece at position (2, 2) with color 'red'
 
-        Elephant elephant = new Elephant(2, 2, "red", board);
+        Elephant elephant = new Elephant(2, 2, colorEnum.RED, board);
         ArrayList<Cell> validMoves = elephant.getValidMoves();
         // Assert the expected valid moves for the Elephant piece
         assertEquals(2, validMoves.size());
@@ -111,7 +111,7 @@ public class PieceTest {
     public void testCannonValidMoves() {
         // Create a Cannon piece at position (2, 7) with color 'black'
         System.out.println(board);
-        Cannon cannon = new Cannon(2, 7, "black", board);
+        Cannon cannon = new Cannon(2, 7, colorEnum.BLACK, board);
         ArrayList<Cell> validMoves = cannon.getValidMoves();
         System.out.println(board);
         // Assert the expected valid moves for the Cannon piece
@@ -130,7 +130,7 @@ public class PieceTest {
         board.setUpPieces();
 
         // Set up the initial position with an Advisor in the palace
-        Piece advisor = new Advisor(2, 3, "red", board);
+        Piece advisor = new Advisor(2, 3, colorEnum.RED, board);
         board.updateCell(2, 3, advisor);
 
         // Attempt to move the Advisor out of the palace

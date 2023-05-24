@@ -4,15 +4,15 @@ public class Cell {
 
     private Piece pieceOnCell;
 
-    private String sideColor;
+    private colorEnum sideColor;
     private boolean isPalace;
-    public Cell(String sideColor,Piece pieceOnCell,boolean isPalace) {
+    public Cell(colorEnum sideColor,Piece pieceOnCell,boolean isPalace) {
         this.pieceOnCell = pieceOnCell;
         this.sideColor = sideColor;
         this.isPalace = isPalace;
     }
 
-    public String getSideColor() {
+    public colorEnum getSideColor() {
         return sideColor;
     }
 

@@ -14,7 +14,7 @@ public class Match {
     Logger logger = Logger.getLogger(Match.class.getName());
     Board viewingBoard;
     ChessClock gameClock;
-    private String aiColor = "black";
+    private colorEnum aiColor = colorEnum.BLACK;
     private boolean playingAgainstAI = false;
     private boolean redWins = false;
     private boolean blackWins = false;
@@ -25,11 +25,11 @@ public class Match {
     private boolean aiOpponent;
     private SaveManager saveManager;
 
-    public String getAiColor() {
+    public colorEnum getAiColor() {
         return aiColor;
     }
 
-    public void setAiColor(String aiColor) {
+    public void setAiColor(colorEnum aiColor) {
         this.aiColor = aiColor;
     }
 
@@ -197,16 +197,16 @@ public class Match {
         Board twoTurnsAgoBoard = moveHistory.get(moveHistory.size() - 3);
 
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < gameBoard.numberOfRows; i++) {
+            for (int j = 0; j < gameBoard.numberOfCols; j++) {
                 //if the pieces aren't in the same place == have not been repeated
                 if (lastTurnBoard.getCell(i, j).getPieceOnCell() != gameBoard.getCell(i, j).getPieceOnCell()) {
                     return false;
                 }
             }
         }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < gameBoard.numberOfRows; i++) {
+            for (int j = 0; j < gameBoard.numberOfCols; j++) {
                 //if the pieces aren't in the same place == have not been repeated
                 if (twoTurnsAgoBoard.getCell(i, j).getPieceOnCell() != gameBoard.getCell(i, j).getPieceOnCell()) {
                     return false;
@@ -221,12 +221,12 @@ public class Match {
 
     }
 
-    public String getVictor() {
+    public colorEnum getVictor() {
         if (redWins) {
-            return "red";
+            return colorEnum.RED;
         }
         if (blackWins) {
-            return "black";
+            return colorEnum.BLACK;
         }
         return null;
     }
@@ -266,7 +266,7 @@ public class Match {
 
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
-                if (allyPiece.color.equals("red")) {
+                if (allyPiece.color.equals(colorEnum.RED)) {
                     //Get Valid moves checks for being able to move next turn.
                     totalPossibleMoves.addAll(allyPiece.getValidMoves());
                     if (totalPossibleMoves.size() > 0) {
@@ -285,7 +285,7 @@ public class Match {
 
             ArrayList<Cell> totalPossibleMoves = new ArrayList<>();
             for (Piece allyPiece : gameBoard.getPieceList()) {
-                if (allyPiece.color.equals("red")) {
+                if (allyPiece.color.equals(colorEnum.RED)) {
                     //Get Valid moves checks for being able to move next turn.
                     totalPossibleMoves.addAll(allyPiece.getValidMoves());
                     if (totalPossibleMoves.size() > 0) {
@@ -473,7 +473,7 @@ public class Match {
 
         for (Piece pieceInList : gameBoard.getPieceList()) {
 
-            if (pieceInList.color.equals("red")) {
+            if (pieceInList.color.equals(colorEnum.RED)) {
                 redPieces.add(pieceInList);
             } else {
                 blackPieces.add(pieceInList);
@@ -493,7 +493,7 @@ public class Match {
 
         for (Piece pieceInList : gameBoard.getPieceList()) {
 
-            if (pieceInList.color.equals("red")) {
+            if (pieceInList.color.equals(colorEnum.RED)) {
                 redPieces.add(pieceInList);
             } else {
                 blackPieces.add(pieceInList);

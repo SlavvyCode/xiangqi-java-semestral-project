@@ -1,6 +1,7 @@
 package cz.cvut.fel.strobad1.xiangqi.controller;
 
 import cz.cvut.fel.strobad1.xiangqi.model.Match;
+import cz.cvut.fel.strobad1.xiangqi.model.colorEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,10 +57,10 @@ public class NewGameController implements Initializable {
 
 
         if(aiColorSelectionString.equals("Red")){
-            match.setAiColor("red");
+            match.setAiColor(colorEnum.RED);
         }
         else if(aiColorSelectionString.equals("Black")){
-            match.setAiColor("black");
+            match.setAiColor(colorEnum.BLACK);
         }
 
         FXMLLoader loader = new FXMLLoader();

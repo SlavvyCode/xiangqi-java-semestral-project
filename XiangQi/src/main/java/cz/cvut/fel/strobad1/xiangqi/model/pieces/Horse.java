@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class Horse extends Piece {
 
     private final int[][] offsets = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
-    public Horse(int row, int col, String color,Board board) {
+    public Horse(int row, int col, colorEnum colorEnum,Board board) {
 
-        super(row, col, color,board);
+        super(row, col, colorEnum,board);
     }
 
 
@@ -34,7 +34,7 @@ public class Horse extends Piece {
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
             //Takes CURRENT JUMP OFFSET and discards the decimal point leftover (0.5)
@@ -72,7 +72,7 @@ public class Horse extends Piece {
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
             //Takes CURRENT JUMP OFFSET and discards the decimal point leftover (0.5)

@@ -10,8 +10,8 @@ public class Soldier extends Piece{
 
 
 
-    public Soldier(int row, int col, String color, Board board) {
-        super(row, col, color, board);
+    public Soldier(int row, int col, colorEnum colorEnum, Board board) {
+        super(row, col, colorEnum, board);
     }
 
 
@@ -29,7 +29,7 @@ public class Soldier extends Piece{
             int destCol = col + offset[1];
 
             // Check if destination is within the board
-            if (destRow < 0 || destRow >= 10 || destCol < 0 || destCol >= 9) {
+            if (destRow < 0 || destRow >= Board.numberOfRows || destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
 
@@ -47,7 +47,7 @@ public class Soldier extends Piece{
     @Override
     public int[][] getOffsets() {
         int[][] offsets;
-        if (color.equals("red")) {
+        if (color.equals(colorEnum.RED)) {
             if (row >= 5) {
                 // Soldier has crossed the river, can move horizontally as well
                 offsets = new int[][]{{1, 0}, {0, 1},{0,-1}};

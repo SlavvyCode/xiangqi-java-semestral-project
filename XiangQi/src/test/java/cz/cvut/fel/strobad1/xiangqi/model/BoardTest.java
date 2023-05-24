@@ -39,7 +39,7 @@ public class BoardTest {
 
         // Verify expected number of pieces
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Board.numberOfRows; i++) {
 
             assertEquals(9, board.getCellList()[i].length);
         }
@@ -59,7 +59,7 @@ public class BoardTest {
         Cell redGeneralCell = board.getFirstCellWithPiece(board.getRedGeneral());
         assertNotNull(redGeneralCell);
 
-        assertEquals("red", redGeneralCell.getSideColor());
+        assertEquals(colorEnum.RED, redGeneralCell.getSideColor());
         assertTrue(redGeneralCell.getIsPalace());
 
 
@@ -82,7 +82,7 @@ public class BoardTest {
 
         for (Piece piece: pieceList) {
 
-            if (piece.getColor().equals("red")){
+            if (piece.getColor().equals(colorEnum.RED)){
 
                 if (piece.getClass() == Advisor.class){
 

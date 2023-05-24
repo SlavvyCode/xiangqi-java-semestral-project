@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Elephant extends Piece {
 
     private int[][] offsets = {{+2,+2},{+2,-2},{-2,+2},{-2,-2}};
-    public Elephant(int row, int col, String color, Board board) {
-        super(row, col, color, board);
+    public Elephant(int row, int col, colorEnum colorEnum, Board board) {
+        super(row, col, colorEnum, board);
     }
 
     @Override
@@ -24,15 +24,15 @@ public class Elephant extends Piece {
 
 
             //elephant only moves up to the river and back.
-            if (this.color.equals("red") && (destRow < 0 || destRow >= 5)){
+            if (this.color.equals(colorEnum.RED) && (destRow < 0 || destRow >= 5)){
                 continue;
-            } else if (this.color.equals("black") && (destRow < 5 || destRow >= 10)) {
+            } else if (this.color.equals(colorEnum.BLACK) && (destRow < 5 || destRow >= Board.numberOfRows)) {
                 continue;
             }
 
 
             //within board's columns
-            if (destCol < 0 || destCol >= 9) {
+            if (destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
 
@@ -41,7 +41,7 @@ public class Elephant extends Piece {
             int blockingCol = col + offset[1] / 2;
 
 
-//            if (blockingRow < 0 || blockingRow >= 10 || blockingCol < 0 || blockingCol >= 9) {
+//            if (blockingRow < 0 || blockingRow >= numberOfRows || blockingCol < 0 || blockingCol >= numberOfCols) {
 //                System.err.println("wait wtf how ");
 //            }
 
@@ -76,15 +76,15 @@ public class Elephant extends Piece {
 
 
             //elephant only moves up to the river and back.
-            if (this.color.equals("red") && (destRow < 0 || destRow >= 5)){
+            if (this.color.equals(colorEnum.RED) && (destRow < 0 || destRow >= 5)){
                 continue;
-            } else if (this.color.equals("black") && (destRow < 5 || destRow >= 10)) {
+            } else if (this.color.equals(colorEnum.BLACK) && (destRow < 5 || destRow >= Board.numberOfRows)) {
                 continue;
             }
 
 
             //within board's columns
-            if (destCol < 0 || destCol >= 9) {
+            if (destCol < 0 || destCol >= Board.numberOfCols) {
                 continue;
             }
 
