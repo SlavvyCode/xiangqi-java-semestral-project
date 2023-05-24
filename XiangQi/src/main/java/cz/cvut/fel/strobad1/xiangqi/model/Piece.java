@@ -12,13 +12,23 @@ public abstract class Piece implements Cloneable {
     protected int col;
     protected Board board;
 
+
+    public enum colorEnum{
+        RED,
+        BLACK
+    }
+
+    private colorEnum color2 = colorEnum.RED;
     private Logger logger = Logger.getLogger(Piece.class.getName());
 
-    public Piece(int row, int col, String color, Board board) {
+    public Piece(int row, int col, String color, Board board,Piece.colorEnum colorEnum2) {
         this.row = row;
         this.col = col;
         this.color = color;
         this.board = board;
+
+        this.color2 = colorEnum2;
+
         this.board.updateCell(row, col, this);
 
 

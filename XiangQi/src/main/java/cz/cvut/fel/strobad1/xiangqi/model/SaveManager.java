@@ -175,6 +175,7 @@ public class SaveManager {
 
 
             } catch (FileNotFoundException e) {
+                logger.severe("File wasn't found");
                 e.printStackTrace();
             }
         } else
