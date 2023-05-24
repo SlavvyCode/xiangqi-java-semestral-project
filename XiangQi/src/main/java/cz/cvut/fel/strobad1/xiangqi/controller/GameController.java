@@ -267,6 +267,10 @@ public class GameController {
      */
     private void aiMove() {
 
+        if (match.getGameClock().isPaused()) {
+            return;
+        }
+
         Board board = match.getGameBoard();
         if (match.isPlayingAgainstAI()) {
             try {
@@ -277,16 +281,16 @@ public class GameController {
                     return;
                 }
 
-                if (match.getGameClock().isPaused()) {
-                    return;
+                Player redPlayer = match.getRedPlayer();
+                Player blackPlayer = match.getBlackPlayer();
+
+
+                if(redPlayer.isAI() && board.isRedTurn()){
+                    redPlayer.randomAIMove();
                 }
-
-//                System.out.println(board.isRedTurn());
-//                System.out.println(match.getAiColor());
-
-                match.randomAIMove();
-
-                board = match.getGameBoard();
+                else if(blackPlayer.isAI() && !board.isRedTurn()){
+                    blackPlayer.randomAIMove();
+                }
 
                 updateBoard();
 

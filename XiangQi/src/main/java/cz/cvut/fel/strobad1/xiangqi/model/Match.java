@@ -430,65 +430,11 @@ public class Match {
         this.playingAgainstAI = playingAgainstAI;
     }
 
-    public void randomAIMove() throws IOException, CloneNotSupportedException {
-
-
-        Random random = new Random();
-
-        Piece randomPiece;
-
-
-
-        ArrayList<Piece> playingSidePieces;
-
-        if (gameBoard.isRedTurn()) {
-            playingSidePieces = getRedPieces();
-        } else {
-            playingSidePieces = getBlackPieces();
-        }
-
-        while (true) {
-            int pieceIndexToTry = random.nextInt(playingSidePieces.size());
-
-            randomPiece = playingSidePieces.get(pieceIndexToTry);
-
-            if (randomPiece.getValidMoves().size() == 0) {
-                continue;
-            }
-            break;
-        }
-
-
-        ArrayList<Cell> validMoves = randomPiece.getValidMoves();
-        int randomValidMoveIndex = random.nextInt(validMoves.size());
-
-        Cell randomValidCell = validMoves.get(randomValidMoveIndex);
-
-        Cell[][] cellList = gameBoard.getCellList();
-
-
-        int[] cellCoords = gameBoard.findCellCoords(randomValidCell);
-
-
-        if (randomPiece.moveIfValid(cellCoords[0], cellCoords[1])) {
-            logger.info("AI is moving " + randomPiece.color + " "
-                    + randomPiece.getClass().getSimpleName() +
-                    " to " + cellCoords[0] + " " + cellCoords[1] + ".");
-            startTurn();
-            return;
-        }
-
-
-        logger.severe("AI couldn't find its move!");
-        throw new NullPointerException();
-    }
-
-
     /**
      * Gets all the red pieces on the board.
      * @return red pieces
      */
-    private ArrayList<Piece> getRedPieces() {
+    public ArrayList<Piece> getRedPieces() {
         ArrayList<Piece> redPieces = new ArrayList<Piece>();
         ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
@@ -508,7 +454,7 @@ public class Match {
      * Gets all the black pieces on the board.
      * @return black pieces
      */
-    private ArrayList<Piece> getBlackPieces() {
+    public ArrayList<Piece> getBlackPieces() {
         ArrayList<Piece> redPieces = new ArrayList<Piece>();
         ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 

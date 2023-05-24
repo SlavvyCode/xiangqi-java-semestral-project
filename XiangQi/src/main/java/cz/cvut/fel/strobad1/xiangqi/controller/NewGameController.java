@@ -53,29 +53,37 @@ public class NewGameController implements Initializable {
 
         if (opponentSelectionChoiceIndex == 0) {
             match.setPlayingAgainstAI(true);
-        } else {
+
+
+            if(aiColorSelectionString.equals("Red")){
+                match.setAiColor(colorEnum.RED);
+
+
+
+                redPlayer = new Player(match,true,true);
+                blackPlayer = new Player(match,false,false);
+
+            }
+            else if(aiColorSelectionString.equals("Black")){
+                match.setAiColor(colorEnum.BLACK);
+
+
+
+                redPlayer = new Player(match,true,false);
+                blackPlayer = new Player(match,false,true);
+
+            }
+        }
+        else
+        {
             match.setPlayingAgainstAI(false);
-        }
-
-
-        if(aiColorSelectionString.equals("Red")){
-            match.setAiColor(colorEnum.RED);
-
-
-
-            redPlayer = new Player(match,true,true);
-            blackPlayer = new Player(match,false,false);
-
-        }
-        else if(aiColorSelectionString.equals("Black")){
-            match.setAiColor(colorEnum.BLACK);
-
 
 
             redPlayer = new Player(match,true,false);
-            blackPlayer = new Player(match,false,true);
-
+            blackPlayer = new Player(match,false,false);
         }
+
+
 
 
 
