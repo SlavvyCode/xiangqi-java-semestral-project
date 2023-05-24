@@ -59,7 +59,7 @@ public class Board implements Cloneable {
 
 
 
-
+///
                 if (i < 5) {
                     //finding palace on RedSide
                     if (i < 3 && (j > 2 && j < 6)) {
