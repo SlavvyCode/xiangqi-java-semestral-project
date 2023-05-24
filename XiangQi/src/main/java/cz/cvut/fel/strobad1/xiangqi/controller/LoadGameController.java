@@ -1,6 +1,7 @@
 package cz.cvut.fel.strobad1.xiangqi.controller;
 
 import cz.cvut.fel.strobad1.xiangqi.model.Match;
+import cz.cvut.fel.strobad1.xiangqi.model.Player;
 import cz.cvut.fel.strobad1.xiangqi.model.SaveManager;
 import cz.cvut.fel.strobad1.xiangqi.model.colorEnum;
 import javafx.event.ActionEvent;
@@ -15,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoadGameController implements Initializable {
@@ -50,23 +50,43 @@ public class LoadGameController implements Initializable {
     public void loadGameAndSwitchToGameScreen(ActionEvent event) throws IOException, CloneNotSupportedException {
 
 
+        if(saveManager.isInvalidFile()){
+            return;
+        }
+
         Match match = new Match();
+
+        Player redPlayer = null;
+        Player blackPlayer = null;
 
         if (opponentSelectionChoiceIndex == 0) {
             match.setPlayingAgainstAI(true);
-        } else {
+
+            if(aiColorSelectionString.equals("Red")){
+                match.setAiColor(colorEnum.RED);
+
+                redPlayer = new Player(match,true,true);
+                blackPlayer = new Player(match,false,false);
+
+            }
+            else if(aiColorSelectionString.equals("Black")){
+                match.setAiColor(colorEnum.BLACK);
+
+                redPlayer = new Player(match,true,false);
+                blackPlayer = new Player(match,false,true);
+
+            }
+        }
+        else
+        {
             match.setPlayingAgainstAI(false);
+
+            redPlayer = new Player(match,true,false);
+            blackPlayer = new Player(match,false,false);
         }
 
-
-        if (aiColorSelectionString.equals("Red")) {
-            match.setAiColor(colorEnum.RED);
-        } else if (aiColorSelectionString.equals("Black")) {
-            match.setAiColor(colorEnum.BLACK);
-        }
-
-
-
+        match.setRedPlayer(redPlayer);
+        match.setBlackPlayer(blackPlayer);
 
 
         FXMLLoader loader = new FXMLLoader();
@@ -121,7 +141,7 @@ public class LoadGameController implements Initializable {
         aiColorSelectionString = (String) aiColorSelection.getSelectionModel().getSelectedItem();
     }
 
-    public void selectSaveGame(ActionEvent actionEvent) {
+    public void selectSaveGameToLoad(ActionEvent actionEvent) {
         saveManager.prepareMatchForLoading();
     }
 

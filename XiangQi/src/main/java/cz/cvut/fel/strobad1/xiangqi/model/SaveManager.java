@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -25,6 +26,13 @@ public class SaveManager {
     ArrayList<String> movesToLoad;
     int redTimeToLoad;
     int blackTimeToLoad;
+
+
+    public boolean isInvalidFile() {
+        return invalidFile;
+    }
+
+    private boolean invalidFile = false;
     private Match matchToSave;
     private Match matchToLoad;
     private Stage stage;
@@ -174,17 +182,49 @@ public class SaveManager {
                 logger.info("FILE INFO: Move history: " + movesToLoad);
 
 
+                invalidFile = false;
+
+                if(redTimeToLoad<=0 || blackTimeToLoad <=0 || movesToLoad.size()<=0){
+                    invalidFile=true;
+                    logger.severe("invalid game parameters in savefile");
+                    fileErrorAlert();
+                }
             } catch (FileNotFoundException e) {
+
+                fileErrorAlert();
                 logger.severe("File wasn't found");
                 e.printStackTrace();
             }
         } else
         {
+
+            fileErrorAlert();
+
             logger.severe("File wasn't selected");
         }
         return;
     }
 
+    private void fileErrorAlert() {
+
+
+        invalidFile = true;
+
+        // create a new alert object with the type of information
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+// set the title of the alert
+        alert.setTitle("Save file error!");
+
+// set the header text to null
+        alert.setHeaderText(null);
+
+// set the content text to "file not selected"
+        alert.setContentText("Error with file. Check if the formatting is right and if the file is selected.\n Try loading another file.");
+
+// show the alert and wait for the user's response
+        alert.showAndWait();
+    }
 
 
     public ArrayList<String> getMovesToLoad() {

@@ -37,7 +37,7 @@
         <VBox alignment="CENTER" spacing="10">
 
 
-            <Button fx:id="selectButton" text="Select save game" onAction="#selectSaveGame"/>
+            <Button fx:id="selectButton" text="Select save game" onAction="#selectSaveGameToLoad"/>
 
             <CheckBox fx:id="againstAIcheckbox" text="Against AI?" onAction="#setIfGameAgainstAI"/>
 
