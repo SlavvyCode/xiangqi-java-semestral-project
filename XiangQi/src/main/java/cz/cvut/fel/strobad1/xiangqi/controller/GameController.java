@@ -44,6 +44,10 @@ public class GameController {
     // Define the initial position of the piece
     double startX = 0;
     double startY = 0;
+
+
+    String redTime = null;
+    String blackTime = null;
     ChessClock gameTime;
     StringBuilder matchHistoryString;
     @FXML
@@ -304,8 +308,6 @@ public class GameController {
      */
     private void updateClock() {
 
-        String redTime = null;
-        String blackTime = null;
 
 
         if (gameTime.getBlackRemainingTime() > 0 && gameTime.getRedRemainingTime() > 0) {
