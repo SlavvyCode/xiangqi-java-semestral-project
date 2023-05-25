@@ -167,7 +167,7 @@ public abstract class Piece implements Cloneable {
      * @param newRow the row the piece was moved to
      * @param newCol the column the piece was moved to
      */
-    private void saveMoveToHistory(int newRow, int newCol) {
+    public void saveMoveToHistory(int newRow, int newCol) {
         int oldRow=this.getRow();
         int oldCol=this.getCol();
 

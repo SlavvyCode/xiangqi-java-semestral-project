@@ -5,10 +5,9 @@ import java.util.logging.Logger;
 
 public class SingletonLogger {
 
-    // private static variable of the same class that is the only instance of the class
+    //making sure only 1 instance
     private static final SingletonLogger instance = new SingletonLogger();
 
-    // private static variable of type Logger that is the logger object for this class
     private static final Logger logger = Logger.getLogger(SingletonLogger.class.getName());
 
     // private constructor to avoid client applications using the constructor

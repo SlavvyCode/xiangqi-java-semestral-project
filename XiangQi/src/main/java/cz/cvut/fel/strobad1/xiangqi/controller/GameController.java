@@ -212,16 +212,10 @@ public class GameController {
                 Piece pieceToMove = board.getCell(oldRowNumber, oldColNumber).getPieceOnCell();
 
 
-                //moves piece
-                if (pieceToMove.moveIfValid(newRowNumber, newColNumber)) {
-                    match.startTurn();
-                } else {
+                pieceToMove.saveMoveToHistory(newRowNumber, newColNumber);
+                pieceToMove.move(newRowNumber,newColNumber);
 
-                    logger.severe("failed to load file, invalid move included");
-                    //exit to menu
-
-                    throw new LoadException("FILE LOAD FAILED");
-                }
+                board.setRedTurn(!board.isRedTurn());
 
             }
 
@@ -534,7 +528,7 @@ public class GameController {
      */
     public void pauseOrResumeClock() {
 
-        if (match.getVictor() != null) {
+        if (match.getVictor() != null || match.isGameDraw()) {
             return;
         }
 
@@ -583,7 +577,13 @@ public class GameController {
         } else if (match.getVictor() != null && match.getVictor().equals(colorEnum.BLACK)) {
 
             infoDisplay.setText("Game over!\n Black wins!");
-        } else if (gameTime.isPaused()) {
+        }
+        else if(match.isGameDraw()){
+
+            infoDisplay.setText("Game over!\n Draw!");
+        }
+
+        else if (gameTime.isPaused()) {
             infoDisplay.setText("P A U S E D");
         } else if (board.isRedTurn()) {
 
