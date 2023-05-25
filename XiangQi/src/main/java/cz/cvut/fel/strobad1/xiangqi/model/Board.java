@@ -35,7 +35,7 @@ public class Board implements Cloneable {
     // RED STARTS
 
 
-    Logger logger = Logger.getLogger(Board.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
     private ArrayList<Piece> pieceList;
     private boolean isRedTurn;
     private String movePerformedThisTurn;

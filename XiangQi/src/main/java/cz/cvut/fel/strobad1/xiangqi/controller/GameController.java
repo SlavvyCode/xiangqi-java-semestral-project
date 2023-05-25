@@ -33,7 +33,8 @@ public class GameController {
     private static Match match;
     int realTurnNum;
     int timeSettingMin;
-    Logger logger = Logger.getLogger(Match.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
+
     @FXML
     Text clockDisplay;
     @FXML
@@ -101,8 +102,7 @@ public class GameController {
     public void initialize() throws IOException, CloneNotSupportedException {
 
         match.startGame();
-        // Get a logger for the current class
-        Logger logger = Logger.getLogger(GameController.class.getName());
+        Logger logger = SingletonLogger.getInstance().getLogger();
 
         // Log an info message
 

@@ -22,7 +22,7 @@ public class SaveManager {
 
     String matchHistoryString;
     // Get a logger for the current class
-    Logger logger = Logger.getLogger(SaveManager.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
     ArrayList<String> movesToLoad;
     int redTimeToLoad;
     int blackTimeToLoad;

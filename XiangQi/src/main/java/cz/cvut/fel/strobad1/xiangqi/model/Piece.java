@@ -15,7 +15,7 @@ public abstract class Piece implements Cloneable {
 
 
     protected final colorEnum color;
-    private Logger logger = Logger.getLogger(Piece.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
 
     public Piece(int row, int col,colorEnum colorEnum, Board board) {
         this.row = row;

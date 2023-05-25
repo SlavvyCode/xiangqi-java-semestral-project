@@ -45,7 +45,7 @@ public class Player {
 
     public void randomAIMove() throws IOException, CloneNotSupportedException {
 
-        Logger logger = Logger.getLogger(Player.class.getName());
+        Logger logger = SingletonLogger.getInstance().getLogger();
 
         Random random = new Random();
 

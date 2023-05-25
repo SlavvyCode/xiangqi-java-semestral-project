@@ -27,7 +27,7 @@ public class ChessClock extends Thread {
     private long pauseStartTime;
 
 
-    Logger logger = Logger.getLogger(ChessClock.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
 
 
     /**

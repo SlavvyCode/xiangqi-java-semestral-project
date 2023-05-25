@@ -56,7 +56,7 @@ public class Main extends Application {
         // Show the stage.
         stage.show();
 
-        Logger logger = Logger.getLogger(Main.class.getName());
+        Logger logger = SingletonLogger.getInstance().getLogger();
 
 
         logger.info("Main Menu loaded.");

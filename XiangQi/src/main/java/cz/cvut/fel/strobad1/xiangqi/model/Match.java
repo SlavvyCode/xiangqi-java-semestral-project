@@ -32,7 +32,7 @@ public class Match {
     private Player blackPlayer;
 
     int viewingBoardIndex;
-    Logger logger = Logger.getLogger(Match.class.getName());
+    Logger logger = SingletonLogger.getInstance().getLogger();
     Board viewingBoard;
     ChessClock gameClock;
     private colorEnum aiColor = colorEnum.BLACK;
