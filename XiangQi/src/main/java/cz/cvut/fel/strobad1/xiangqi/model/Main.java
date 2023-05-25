@@ -5,7 +5,6 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.stage.Stage;
 
-
 import javafx.scene.Scene;
 
 import java.io.FileInputStream;
@@ -15,10 +14,28 @@ import java.util.Enumeration;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static javafx.application.Application.launch;
-
-
 public class Main extends Application {
+    private static Main instance;
+
+
+
+    public Main() throws Exception{
+        if (instance!=null){
+            throw new Exception("Main already exists");
+        }
+    }
+    // public static method that returns the instance
+    public static Main Instance() throws Exception {
+        // use synchronization or double-checked locking for thread-safety
+        if (instance == null) {
+            synchronized (Main.class) {
+                if (instance == null) {
+                    instance = new Main();
+                }
+            }
+        }
+        return instance;
+    }
 
     public void start(Stage stage) throws Exception {
         // Set the stage's title and minimum size.
@@ -39,28 +56,17 @@ public class Main extends Application {
         // Show the stage.
         stage.show();
 
-
         Logger logger = Logger.getLogger(Main.class.getName());
 
-//        String fileName = "src/main/resources/logging.properties";
-//        InputStream inputStream = new FileInputStream(fileName);
-//        LogManager logManager = LogManager.getLogManager();
-//        logManager.readConfiguration(inputStream);
+
         logger.info("Main Menu loaded.");
 
-
+        // assign instance to this object
+        instance = this;
     }
-
 
     public static void main(String[] args) throws IOException {
         launch(args);
     }
 
 }
-
-
-
-
-
-
-
