@@ -60,7 +60,7 @@ public class ChessClock extends Thread {
      * @param match
      */
     public ChessClock(long remainingRedTime,long remainingBlackTime, Match match) {
-        this.maximumRedTime = maximumRedTime;
+
         this.match = match;
         matchStartTime = System.currentTimeMillis();
 
@@ -68,8 +68,8 @@ public class ChessClock extends Thread {
         blackStartTime = matchStartTime;
 
 
-        maximumRedTime = remainingRedTime;
-        maximumBlackTime = remainingBlackTime;
+        maximumRedTime = remainingRedTime *1000;
+        maximumBlackTime = remainingBlackTime*1000;
         start();
     }
 
